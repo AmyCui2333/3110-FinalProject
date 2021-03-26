@@ -1,0 +1,9 @@
+#require "ounit2";;
+#require "yojson";;
+#require "ANSITerminal";;
+#require "camlimages";;
+#require "graphics";;
+#load "adventure.cmo";;
+#load "command.cmo";;
+#load "state.cmo";;
+
