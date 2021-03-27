@@ -8,7 +8,7 @@
 type t
 
 (** The type of obstacle ids. *)
-type obs_id = string
+type obs_id = int
 
 (** The type of coordinates of obstacles/tiles *)
 type xy = int * int
