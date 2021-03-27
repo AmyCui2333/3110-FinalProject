@@ -1,7 +1,6 @@
 open Yojson.Basic.Util
 
-type obs_id = string
-
+type obs_id = int
 type xy = int * int
 
 type coordinate = {

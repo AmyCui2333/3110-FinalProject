@@ -1,34 +1,62 @@
 ### Starting build.
 # Target: gui.mli.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:mli, file:gui.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules gui.mli > gui.mli.depends
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules gui.mli > gui.mli.depends # cached
 # Target: gui.cmi, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:mli, file:gui.mli, interf, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o gui.cmi gui.mli
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o gui.cmi gui.mli # cached
 # Target: gui.ml.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:ml, file:gui.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules gui.ml > gui.ml.depends
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules gui.ml > gui.ml.depends # cached
 # Target: graphic_image.ml.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:ml, file:graphic_image.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules graphic_image.ml > graphic_image.ml.depends
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules graphic_image.ml > graphic_image.ml.depends # cached
 # Target: graphic_image.cmo, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:graphic_image.cmo, file:graphic_image.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o graphic_image.cmo graphic_image.ml
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o graphic_image.cmo graphic_image.ml # cached
 # Target: gui.cmo, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:gui.cmo, file:gui.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o gui.cmo gui.ml
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o gui.cmo gui.ml # cached
 # Target: command.mli.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:mli, file:command.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules command.mli > command.mli.depends
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules command.mli > command.mli.depends # cached
 # Target: command.cmi, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:mli, file:command.mli, interf, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o command.cmi command.mli
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o command.cmi command.mli # cached
 # Target: command.ml.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:ml, file:command.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules command.ml > command.ml.depends
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules command.ml > command.ml.depends # cached
 # Target: command.cmo, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:command.cmo, file:command.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o command.cmo command.ml
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o command.cmo command.ml # cached
 # Target: state.mli.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:mli, file:state.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules state.mli > state.mli.depends
-+ ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules state.mli > state.mli.depends
-File "state.mli", line 2, characters 0-5:
-2 | type t
-    ^^^^^
-Alert deprecated: ISO-Latin1 characters in identifiers
-File "state.mli", line 2, characters 0-5:
-2 | type t
-    ^^^^^
-Error: Syntax error
-Command exited with code 2.
-# Compilation unsuccessful.
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules state.mli > state.mli.depends # cached
+# Target: background.mli.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:mli, file:background.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules background.mli > background.mli.depends # cached
+# Target: background.cmi, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:mli, file:background.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o background.cmi background.mli # cached
+# Target: state.cmi, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:mli, file:state.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o state.cmi state.mli # cached
+# Target: state.ml.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:ml, file:state.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules state.ml > state.ml.depends
+# Target: state.cmo, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:state.cmo, file:state.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o state.cmo state.ml
+# Target: main.mli.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:mli, file:main.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules main.mli > main.mli.depends # cached
+# Target: main.cmi, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:mli, file:main.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o main.cmi main.mli # cached
+# Target: main.ml.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:ml, file:main.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules main.ml > main.ml.depends # cached
+# Target: main.cmo, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:main.cmo, file:main.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o main.cmo main.ml # cached
+# Target: author.mli.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:mli, file:author.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules author.mli > author.mli.depends # cached
+# Target: author.cmi, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:mli, file:author.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o author.cmi author.mli # cached
+# Target: author.ml.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:ml, file:author.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules author.ml > author.ml.depends # cached
+# Target: author.cmo, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:author.cmo, file:author.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o author.cmo author.ml # cached
+# Target: player.mli.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:mli, file:player.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules player.mli > player.mli.depends # cached
+# Target: player.cmi, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:mli, file:player.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o player.cmi player.mli # cached
+# Target: player.ml.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:ml, file:player.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules player.ml > player.ml.depends
+# Target: player.cmo, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:player.cmo, file:player.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o player.cmo player.ml
+# Target: background.ml.depends, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), extension:ml, file:background.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules background.ml > background.ml.depends
+# Target: background.cmo, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:background.cmo, file:background.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o background.cmo background.ml
+# Compilation successful.
