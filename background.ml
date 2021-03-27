@@ -21,10 +21,10 @@ type t = {
   start_tile : int * int;
 }
 
-let xy_of_json j =
+let coord_of_json j =
   {
-    x = j |> member "x" |> to_string |> int_of_string;
-    y = j |> member "y" |> to_string |> int_of_string;
+    x = j |> member "x" |> to_string |> int_of_string |> (fun x -> x*50);
+    y = j |> member "y" |> to_string |> int_of_string |> (fun x -> x*50);
   }
 
 let obs_of_json j : obstacle =
