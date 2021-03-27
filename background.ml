@@ -49,6 +49,14 @@ let rec ids_of_obs obs = List.map (fun obs -> obs.id) obs
 
 let start_tile t = t.start_tile
 
-let obs_ids bkg =
-  let id_lst = ids_of_obs bkg.obs_list in
-  lst_to_set id_lst
+let obs_ids bkg = ids_of_obs bkg.obs_list
+
+let obs_n_xy bkg n =
+  let obs_n_lst =
+    List.filter (fun obs -> obs.obs_type = n) bkg.obs_list
+  in
+  List.map (fun obs -> obs.coordinate) obs_n_lst
+
+let obs_one_xy bkg = obs_n_xy bkg 1
+
+let obs_two_xy bkg = obs_n_xy bkg 2
