@@ -1,12 +1,20 @@
 open Graphics
-open Images 
+open Images
 open Graphic_image
 
-let () = Graphics.open_graph " 1500x1500";;
+let () = Graphics.open_graph " 1500x1500"
 
-let img = Png.load "C1_front.png" [];;
-let g = Graphic_image.of_image img;;
+let img = Png.load "C1_front.png" []
 
-Graphics.draw_image g 0 0;;
+let g = Graphic_image.of_image img
+
+;;
+Graphics.draw_image g 0 0
 
 (* Unix.sleep 10;; *)
+
+let draw_background = failwith "todo"
+
+let draw_player = failwith "todo"
+
+let draw_bomb = failwith "todo"
