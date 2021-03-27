@@ -1,6 +1,6 @@
 open Graphics
 open Images 
-(* open Graphic_image *)
+open Graphic_image
 
 let () = Graphics.open_graph " 1500x1500";;
 

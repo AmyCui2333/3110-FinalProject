@@ -3,7 +3,10 @@
 #require "ANSITerminal";;
 #require "camlimages.core";;
 #require "graphics";;
-#load "adventure.cmo";;
-#load "command.cmo";;
+#load "background.cmo";;
 #load "state.cmo";;
+#load "player.cmo";;
+#load "command.cmo";;
+#load "gui.cmo";;
+#load "main.cmo";;
 

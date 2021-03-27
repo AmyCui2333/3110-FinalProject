@@ -23,7 +23,7 @@ val start_tile : t -> xy
 
 (** [obs_ids a] is a set-like list of all of the obstacle identifiers in
     background [a]. *)
-val obs_ids : t -> obs_id list
+val obs_ids : t -> xy list
 
 (** [obs_one_xy a] is a set-like list of all of the type one obstacle
     identifiers in background [a]. *)

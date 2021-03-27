@@ -59,4 +59,17 @@ ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -packa
 ocamlfind ocamldep -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -modules background.ml > background.ml.depends
 # Target: background.cmo, tags: { package(ANSITerminal), package(camlimages.all_formats), package(graphics), package(ounit2), package(yojson), byte, compile, extension:cmo, extension:ml, file:background.cmo, file:background.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o background.cmo background.ml
-# Compilation successful.
++ ocamlfind ocamlc -c -package ounit2 -package yojson -package ANSITerminal -package graphics -package camlimages.all_formats -o background.cmo background.ml
+File "background.ml", line 1:
+Error: The implementation background.ml
+       does not match the interface background.cmi:
+       The value `obs_two_xy' is required but not provided
+       File "background.mli", line 34, characters 0-29: Expected declaration
+       The value `obs_one_xy' is required but not provided
+       File "background.mli", line 30, characters 0-29: Expected declaration
+       The value `obs_ids' is required but not provided
+       File "background.mli", line 26, characters 0-30: Expected declaration
+       The value `start_tile' is required but not provided
+       File "background.mli", line 22, characters 0-24: Expected declaration
+Command exited with code 2.
+# Compilation unsuccessful.
