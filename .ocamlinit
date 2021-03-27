@@ -1,7 +1,7 @@
 #require "ounit2";;
 #require "yojson";;
 #require "ANSITerminal";;
-#require "camlimages";;
+#require "camlimages.core";;
 #require "graphics";;
 #load "adventure.cmo";;
 #load "command.cmo";;
