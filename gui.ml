@@ -68,8 +68,10 @@ let get_image x y w h = image_of (Graphics.get_image x y w h)
    description bkg (start_room adv)) with Sys_error s -> print_endline
    "\n\nFile doesn't exit, try a new file"; Stdlib.exit 0 *)
 
+let draw_canvas () = Graphics.open_graph " 800x800"
+
 let draw_bkg () =
-  let () = Graphics.open_graph " 800x800" in
+  (* let () = Graphics.open_graph " 800x800" in *)
   let img = Png.load "tile80.png" [] in
   let g = of_image img in
   for i = 0 to 9 do
@@ -78,32 +80,24 @@ let draw_bkg () =
     done
   done
 
-let draw_plr f =
-  let bkg = read_bkg f in
-  let p_xy = start_tile bkg in
-  let img = Png.load "p1_fontile.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g (fst p_xy) (snd p_xy)
+(* let draw_plr f = let bkg = read_bkg f in let p_xy = start_tile bkg in
+   let img = Png.load "p1_fontile.png" [] in let g = of_image img in
+   Graphics.draw_image g (fst p_xy) (snd p_xy) *)
 
-let draw_obs1 ob =
-  let img = Png.load "ob1_80.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g (fst ob) (snd ob)
+(* let draw_obs1 ob = let img = Png.load "ob1_80.png" [] in let g =
+   of_image img in Graphics.draw_image g (fst ob) (snd ob) *)
 
-let draw_obs2 ob =
-  let img = Png.load "ob3_80.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g (fst ob) (snd ob)
+(* let draw_obs2 ob = let img = Png.load "ob3_80.png" [] in let g =
+   of_image img in Graphics.draw_image g (fst ob) (snd ob)
 
-let draw_all_obs1 f =
-  let bkg = read_bkg f in
-  let obs1_lst = obs_one_xy bkg in
-  List.map draw_obs1 obs1_lst
+   let draw_all_obs1 bkg = (* let bkg = read_bkg f in *) let obs1_lst =
+   obs_one_xy bkg in List.iter draw_obs1 obs1_lst
 
-let draw_all_obs1 f =
-  let bkg = read_bkg f in
-  let obs1_lst = obs_one_xy bkg in
-  List.map draw_obs1 obs1_lst
+   let draw_all_obs2 bkg = (* let bkg = read_bkg f in *) let obs2_lst =
+   obs_two_xy bkg in List.iter draw_obs2 obs2_lst
+
+   let draw_obs f = let bkg = read_bkg f in draw_all_obs1 bkg;
+   draw_all_obs2 bkg *)
 
 (* type obs = { mutable x : int; mutable y : int; }
 

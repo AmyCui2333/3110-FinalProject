@@ -7,12 +7,15 @@ let read_bkg f = from_json (Yojson.Basic.from_file f)
 
 let play_game f =
   print_endline "\n\nWelcome to CS3110 MS";
+  draw_canvas ();
   draw_bkg ()
+
+(* draw_obs f *)
 
 (** [main ()] prompts for the game to play, then starts it. *)
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ]
-    "\n\nWelcome to the 3110 Text Adventure Game engine.\n";
+    "\n\nWelcome to the 3110 Game engine.\n";
   print_endline
     "Please enter the name of the game file you want to load.\n";
   print_string "> ";

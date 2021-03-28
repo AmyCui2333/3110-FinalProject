@@ -13,4 +13,8 @@
 
 (* val draw_bomb : State.t -> unit *)
 
+val draw_canvas : unit -> unit
+
 val draw_bkg : unit -> unit
+
+(* val draw_obs : string -> unit *)
