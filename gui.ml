@@ -5,6 +5,8 @@ open Images
 
 (* open Images.Png *)
 open Background
+open Player
+open State
 
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
@@ -80,13 +82,6 @@ let draw_bkg () =
     done
   done
 
-let draw_plr f =
-  let bkg = read_bkg f in
-  let p_xy = start_tile_one bkg in
-  let img = Png.load "p1_fontile.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g (fst p_xy) (snd p_xy)
-
 let draw_obs1 ob =
   let img = Png.load "ob1_80.png" [] in
   let g = of_image img in
@@ -109,6 +104,18 @@ let draw_obs f =
   let bkg = read_bkg f in
   draw_all_obs1 bkg;
   draw_all_obs2 bkg
+
+let get_p1_xy f =
+  let bkg = read_bkg f in
+  let st = init_state bkg (start_tile_one bkg) (start_tile_two bkg) in
+  let player_1 = player_one st in
+  curr_pos player_1
+
+let draw_plr f p_xy =
+  let img = Png.load "p1_fontile.png" [] in
+  let g = of_image img in
+  let p1_xy = get_p1_xy f in
+  Graphics.draw_image g (fst p1_xy) (snd p1_xy)
 
 (* type obs = { mutable x : int; mutable y : int; }
 

@@ -18,3 +18,5 @@ val draw_canvas : unit -> unit
 val draw_bkg : unit -> unit
 
 val draw_obs : string -> unit
+
+val draw_plr : string -> unit
