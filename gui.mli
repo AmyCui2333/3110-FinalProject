@@ -12,3 +12,5 @@
    animation of bombing*)
 
 (* val draw_bomb : State.t -> unit *)
+
+val draw_bkg : unit -> unit

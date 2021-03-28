@@ -5,6 +5,6 @@ PKG ANSITerminal
 PKG graphics
 PKG camlimages.all_formats
 PKG camlimages
-
+PKG camlimages.png
 
 

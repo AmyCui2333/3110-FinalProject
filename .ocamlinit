@@ -3,6 +3,7 @@
 #require "ANSITerminal";;
 (* #require "camlimages.all";; *)
 #require "camlimages";;
+#require "camlimages.png";;
 #require "graphics";;
 #load "background.cmo";;
 #load "state.cmo";;
