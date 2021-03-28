@@ -25,3 +25,9 @@
 
    (** [obs_two_xy a] is a set-like list of all of the type two obstacle
    identifiers in background [a]. *) val obs_two_xy : t -> xy list
+
+   (** [obs_on_x x] is a list of all obstacles on row x. *) 
+   val obs_on_x : int -> int list
+
+   (** [obs_on_y y] is a list of all obstacles on column y. *) 
+   val obs_on_y : int -> int list

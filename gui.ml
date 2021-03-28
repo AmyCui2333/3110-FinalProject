@@ -1,5 +1,6 @@
 open Graphics
 open Images
+open Png
 
 
 (* open Images.Png *)

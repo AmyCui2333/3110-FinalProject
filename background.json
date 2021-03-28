@@ -1,0 +1,32 @@
+{
+  "obstacle_list": [
+    {
+      "id": 1,
+      "coordinates": {
+        "x": 0,
+        "y": 80
+      },
+      "type": 1
+    },
+    {
+      "id": 1,
+      "coordinates": {
+        "x": 80,
+        "y": 80
+      },
+      "type": 1
+    },
+    {
+      "id": 1,
+      "coordinates": {
+        "x": 160,
+        "y": 80
+      },
+      "type": 2
+    }
+  ],
+  "start_tile": {
+    "x": 240,
+    "y": 240
+  }
+}
