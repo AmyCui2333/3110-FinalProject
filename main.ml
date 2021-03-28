@@ -13,7 +13,8 @@ let play_game f =
   draw_bkg ();
   print_endline "tiles";
   draw_obs f;
-  draw_plr f
+  draw_plr (init_p1_xy f);
+  input f
 
 (** [main ()] prompts for the game to play, then starts it. *)
 let main () =

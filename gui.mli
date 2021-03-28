@@ -19,4 +19,10 @@ val draw_bkg : unit -> unit
 
 val draw_obs : string -> unit
 
-val draw_plr : string -> unit
+val init_p1_xy : string -> int * int
+
+val draw_plr : int * int -> unit
+
+val move : string -> unit
+
+val input : string -> unit

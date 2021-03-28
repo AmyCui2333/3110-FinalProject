@@ -1,4 +1,4 @@
-(* open Background *)
+open Background
 
 type player_id = string
 
@@ -23,16 +23,16 @@ let lives p = p.lives
 
 let kill p = { p with lives = p.lives - 1 }
 
-(* let no_collision_down p *)
+(* let no_collision_down p obs_on_x *)
 
 let move_up p =
-  { p with curr_pos = (fst (curr_pos p) + 20, snd (curr_pos p)) }
+  { p with curr_pos = (fst (curr_pos p), snd (curr_pos p) + 20) }
 
 let move_down p =
-  { p with curr_pos = (fst (curr_pos p) - 20, snd (curr_pos p)) }
-
-let move_left p =
   { p with curr_pos = (fst (curr_pos p), snd (curr_pos p) - 20) }
 
+let move_left p =
+  { p with curr_pos = (fst (curr_pos p) - 20, snd (curr_pos p)) }
+
 let move_right p =
-  { p with curr_pos = (fst (curr_pos p), snd (curr_pos p) + 20) }
+  { p with curr_pos = (fst (curr_pos p) + 20, snd (curr_pos p)) }

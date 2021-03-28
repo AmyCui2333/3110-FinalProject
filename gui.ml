@@ -105,17 +105,50 @@ let draw_obs f =
   draw_all_obs1 bkg;
   draw_all_obs2 bkg
 
-let get_p1_xy f =
+let init_p1_xy f =
   let bkg = read_bkg f in
   let st = init_state bkg (start_tile_one bkg) (start_tile_two bkg) in
   let player_1 = player_one st in
   curr_pos player_1
 
-let draw_plr f =
+(* let draw_plr1 p = let img = Png.load "p1_fontile.png" [] in let g =
+   of_image img in let p1_xy = init_p1_xy p in Graphics.draw_image g
+   (fst p1_xy) (snd p1_xy) *)
+
+let draw_plr p1_xy =
   let img = Png.load "p1_fontile.png" [] in
   let g = of_image img in
-  let p1_xy = get_p1_xy f in
   Graphics.draw_image g (fst p1_xy) (snd p1_xy)
+
+let rec move f =
+  let bkg = read_bkg f in
+  let st = init_state bkg (start_tile_one bkg) (start_tile_two bkg) in
+  let p = player_one st in
+  match read_key () with
+  | 'w' ->
+      remember_mode false;
+      draw_plr (curr_pos (move_up p))
+  | 's' ->
+      remember_mode false;
+      draw_plr (curr_pos (move_down p))
+  | 'd' ->
+      remember_mode false;
+      draw_plr (curr_pos (move_right p))
+  | 'a' ->
+      remember_mode false;
+      draw_plr (curr_pos (move_left p))
+  | _ -> move f
+
+let input f =
+  try
+    while true do
+      let st = wait_next_event [ Button_down; Key_pressed ] in
+      auto_synchronize true;
+      if st.button then raise Exit;
+      if st.keypressed then print_endline "p";
+      move f
+    done
+  with Exit -> ()
 
 (* type obs = { mutable x : int; mutable y : int; }
 
