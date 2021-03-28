@@ -119,34 +119,34 @@ let player1 = {
   y = 0
 }
 
-let no_collision_up p (ob : obs) = p.y != ob.y
+let no_collision_up p (ob : obs) = p.x = ob.x && p.y + 80 != ob.y
 
-let no_collision_down p (ob : obs) = p.y - 80 != ob.y
+let no_collision_down p (ob : obs) = p.x = ob.x && p.y - 80 != ob.y
 
-let no_collision_right p (ob : obs) = p.x + 80 != ob.x 
+let no_collision_right p (ob : obs) = p.y = ob.y && p.x + 80 != ob.x 
 
-let no_collision_up p (ob : obs) = p.x - 80 != ob.x 
+let no_collision_left p (ob : obs) = p.y = ob.y && p.x - 80 != ob.x 
 let player_moveup p (ob : obs) =
-  if p.x mod 80 = 0 && no_collision_up p ob then
+  if no_collision_up p ob then
   p.y <- p.y + 20;
   p
 let player_movedown p ob=
-  if p.x mod 80 = 0 then
+  if no_collision_down p ob then
     p.y <- p.y - 20;
     p
 
 let player_moveright p ob=
-  if p.y mod 80 = 0 then
+  if no_collision_right p ob then
     p.x <- p.x + 20;
     p
 
 let player_moveleft p ob=
-  if p.y mod 80 = 0 then
+  if no_collision_left p ob then
   p.x <- p.x - 20;
   p
 
   let draw_player p = 
-    let img = Png.load "p1_ontile.png"[] in
+    let img = Png.load "p1_fontile.png"[] in
     let g = of_image img in
     Graphics.draw_image g p.x p.y
     

@@ -17,12 +17,12 @@ open Yojson.Basic.Util
    |> int_of_string |> fun x -> x * 50); }
 
    let obs_of_json j : obstacle = { id = j |> member "id" |> to_int;
-   coordinate = j |> member "coordinates" |> xy_of_json |> coord_to_xy;
+   coordinate = j |> member "coordinates" |> coord_of_json |> coord_to_xy;
    obs_type = j |> member "type" |> to_int; } 
    
    let from_json json =
    { obs_list = json |> member "obstacle_list" |> to_list |> List.map
-   obs_of_json; start_tile = json |> member "start_tile" |> xy_of_json
+   obs_of_json; start_tile = json |> member "start_tile" |> coord_of_json
    |> coord_to_xy; }
 
    let lst_to_set lst = lst |> List.sort_uniq Stdlib.compare
