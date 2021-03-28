@@ -1,4 +1,4 @@
-MODULES=gui command state main author player background
+MODULES=gui command state main author player background graphic_image
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
