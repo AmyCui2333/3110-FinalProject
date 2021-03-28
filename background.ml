@@ -19,7 +19,8 @@ type obstacle = {
 
 type t = {
   obs_list : obstacle list;
-  start_tile : int * int;
+  start_pos1 : int * int;
+  start_pos2 : int * int;
 }
 
 let coord_of_json j =
@@ -40,15 +41,19 @@ let from_json json =
   {
     obs_list =
       json |> member "obstacle_list" |> to_list |> List.map obs_of_json;
-    start_tile =
-      json |> member "start_tile" |> coord_of_json |> coord_to_xy;
+    start_pos1 =
+      json |> member "start_1" |> coord_of_json |> coord_to_xy;
+    start_pos2 =
+      json |> member "start_2" |> coord_of_json |> coord_to_xy;
   }
 
 let lst_to_set lst = lst |> List.sort_uniq Stdlib.compare
 
 let rec ids_of_obs obs = List.map (fun obs -> obs.id) obs
 
-let start_tile t = t.start_tile
+let start_tile_one t = t.start_pos1
+
+let start_tile_two t = t.start_pos2
 
 let obs_ids bkg = ids_of_obs bkg.obs_list
 

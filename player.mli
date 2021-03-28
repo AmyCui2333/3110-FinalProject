@@ -11,6 +11,9 @@ type player_id = string
 (** The type of coordinates of player *)
 type xy = int * int
 
+(* Initialize a player *)
+val build_player : player_id -> xy -> t
+
 (** [start_tile] is the identifier of the starting tile in the game. *)
 val curr_pos : t -> xy
 

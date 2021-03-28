@@ -1,11 +1,13 @@
 open Background
+open Player
 
 type t = {
-  current : xy;
-  obs : obs_id list;
+  player_one : Player.t;
+  player_two : Player.t;
+  bkg : Background.t;
 }
 
-let start_state bkg =
-  let start = start_tile bkg in
-  let obs_list = obs_ids bkg in
-  { current = start; obs = obs_list }
+let init_state bkg pos1 pos2 =
+  let player_one = Player.build_player "one" pos1 in
+  let player_two = Player.build_player "two" pos2 in
+  { player_one; player_two; bkg }

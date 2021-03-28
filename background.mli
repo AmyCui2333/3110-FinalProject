@@ -17,9 +17,13 @@ type xy = int * int
     is a valid JSON background representation. *)
 val from_json : Yojson.Basic.t -> t
 
-(** [start_tile a] is the identifier of the starting tile in adventure
-    [a]. *)
-val start_tile : t -> xy
+(** [start_tile_one bkg] is the identifier of the starting tile of
+    player one in background [bkg]. *)
+val start_tile_one : t -> xy
+
+(** [start_tile_two bkg] is the identifier of the starting tile of
+    player two in background [bkg]. *)
+val start_tile_two : t -> xy
 
 (** [obs_ids a] is a set-like list of all of the obstacle identifiers in
     background [a]. *)
