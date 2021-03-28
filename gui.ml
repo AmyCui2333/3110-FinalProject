@@ -111,7 +111,7 @@ let get_p1_xy f =
   let player_1 = player_one st in
   curr_pos player_1
 
-let draw_plr f p_xy =
+let draw_plr f =
   let img = Png.load "p1_fontile.png" [] in
   let g = of_image img in
   let p1_xy = get_p1_xy f in
