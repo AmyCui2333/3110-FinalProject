@@ -80,24 +80,35 @@ let draw_bkg () =
     done
   done
 
-(* let draw_plr f = let bkg = read_bkg f in let p_xy = start_tile bkg in
-   let img = Png.load "p1_fontile.png" [] in let g = of_image img in
-   Graphics.draw_image g (fst p_xy) (snd p_xy) *)
+let draw_plr f =
+  let bkg = read_bkg f in
+  let p_xy = start_tile_one bkg in
+  let img = Png.load "p1_fontile.png" [] in
+  let g = of_image img in
+  Graphics.draw_image g (fst p_xy) (snd p_xy)
 
-(* let draw_obs1 ob = let img = Png.load "ob1_80.png" [] in let g =
-   of_image img in Graphics.draw_image g (fst ob) (snd ob) *)
+let draw_obs1 ob =
+  let img = Png.load "ob1_80.png" [] in
+  let g = of_image img in
+  Graphics.draw_image g (fst ob) (snd ob)
 
-(* let draw_obs2 ob = let img = Png.load "ob3_80.png" [] in let g =
-   of_image img in Graphics.draw_image g (fst ob) (snd ob)
+let draw_obs2 ob =
+  let img = Png.load "ob3_80.png" [] in
+  let g = of_image img in
+  Graphics.draw_image g (fst ob) (snd ob)
 
-   let draw_all_obs1 bkg = (* let bkg = read_bkg f in *) let obs1_lst =
-   obs_one_xy bkg in List.iter draw_obs1 obs1_lst
+let draw_all_obs1 bkg =
+  let obs1_lst = obs_one_xy bkg in
+  List.iter draw_obs1 obs1_lst
 
-   let draw_all_obs2 bkg = (* let bkg = read_bkg f in *) let obs2_lst =
-   obs_two_xy bkg in List.iter draw_obs2 obs2_lst
+let draw_all_obs2 bkg =
+  let obs2_lst = obs_two_xy bkg in
+  List.iter draw_obs2 obs2_lst
 
-   let draw_obs f = let bkg = read_bkg f in draw_all_obs1 bkg;
-   draw_all_obs2 bkg *)
+let draw_obs f =
+  let bkg = read_bkg f in
+  draw_all_obs1 bkg;
+  draw_all_obs2 bkg
 
 (* type obs = { mutable x : int; mutable y : int; }
 
