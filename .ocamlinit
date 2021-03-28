@@ -1,6 +1,6 @@
 #require "ounit2";;
 #require "yojson";;
-#require "ANSITerminal";;s
+#require "ANSITerminal";;
 (* #require "camlimages.all";; *)
 #require "camlimages";;
 #require "camlimages.png";;
