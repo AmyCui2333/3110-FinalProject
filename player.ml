@@ -1,3 +1,5 @@
+(* open Background *)
+
 type player_id = string
 
 type xy = int * int
@@ -21,10 +23,16 @@ let lives p = p.lives
 
 let kill p = { p with lives = p.lives - 1 }
 
-(* let move_up : t -> t
+(* let no_collision_down p *)
 
-   let move_down : t -> t
+let move_up p =
+  { p with curr_pos = (fst (curr_pos p) + 20, snd (curr_pos p)) }
 
-   let move_left : t -> t
+let move_down p =
+  { p with curr_pos = (fst (curr_pos p) - 20, snd (curr_pos p)) }
 
-   let move_right : t -> t *)
+let move_left p =
+  { p with curr_pos = (fst (curr_pos p), snd (curr_pos p) - 20) }
+
+let move_right p =
+  { p with curr_pos = (fst (curr_pos p), snd (curr_pos p) + 20) }
