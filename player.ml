@@ -23,8 +23,6 @@ let lives p = p.lives
 
 let kill p = { p with lives = p.lives - 1 }
 
-(* let no_collision_down p obs_on_x *)
-
 let move_up p =
   { p with curr_pos = (fst (curr_pos p), snd (curr_pos p) + 20) }
 
@@ -36,3 +34,8 @@ let move_left p =
 
 let move_right p =
   { p with curr_pos = (fst (curr_pos p) + 20, snd (curr_pos p)) }
+
+let no_collision_up bkg p =
+  if fst (curr_pos p) |> obs_on_x bkg |> List.mem (snd (curr_pos p) + 80)
+  then move_up p
+  else p

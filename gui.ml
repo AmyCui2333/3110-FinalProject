@@ -123,11 +123,13 @@ let draw_plr p1_xy =
 let rec move f =
   let bkg = read_bkg f in
   let st = init_state bkg (start_tile_one bkg) (start_tile_two bkg) in
+  (** TODO change the line above because every time when move is called the state
+  is always the init_state*)
   let p = player_one st in
   match read_key () with
   | 'w' ->
       remember_mode false;
-      draw_plr (curr_pos (move_up p))
+      draw_plr (curr_pos (no_collision_up bkg p))
   | 's' ->
       remember_mode false;
       draw_plr (curr_pos (move_down p))

@@ -46,3 +46,5 @@ val move_left : t -> t
 (** [move_right p] moves the player to the right by one unit if there is
     nothing blocking the player*)
 val move_right : t -> t
+
+val no_collision_up : Background.t -> t -> t
