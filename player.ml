@@ -35,7 +35,26 @@ let move_left p =
 let move_right p =
   { p with curr_pos = (fst (curr_pos p) + 20, snd (curr_pos p)) }
 
-let no_collision_up bkg p =
-  if fst (curr_pos p) |> obs_on_x bkg |> List.mem (snd (curr_pos p) + 80)
-  then move_up p
-  else p
+let no_collisiony bkg p op move =
+  if
+    fst (curr_pos p)
+    |> obs_on_x bkg
+    |> List.mem (op (snd (curr_pos p)) 80)
+  then p
+  else move p
+
+let no_collisionx bkg p op move =
+  if
+    snd (curr_pos p)
+    |> obs_on_y bkg
+    |> List.mem (op (fst (curr_pos p)) 80)
+  then p
+  else move p
+
+let no_collision_up bkg p = no_collisiony bkg p ( + ) move_up
+
+let no_collision_down bkg p = no_collisiony bkg p ( - ) move_down
+
+let no_collision_left bkg p = no_collisionx bkg p ( - ) move_left
+
+let no_collision_right bkg p = no_collisionx bkg p ( + ) move_right

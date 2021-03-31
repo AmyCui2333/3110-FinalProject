@@ -17,12 +17,14 @@ val draw_canvas : unit -> unit
 
 val draw_bkg : unit -> unit
 
-val draw_obs : string -> unit
+val draw_obs : Background.t -> unit
 
 val init_p1_xy : string -> int * int
 
 val draw_plr : int * int -> unit
 
-val move : string -> unit
+val draw_state : State.t -> unit
 
-val input : string -> unit
+val move : State.t -> unit
+
+val input : State.t -> unit

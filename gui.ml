@@ -92,22 +92,21 @@ let draw_obs2 ob =
   let g = of_image img in
   Graphics.draw_image g (fst ob) (snd ob)
 
-let draw_all_obs1 bkg =
-  let obs1_lst = obs_one_xy bkg in
-  List.iter draw_obs1 obs1_lst
+let draw_all_obs bkg obs_num draw =
+  let obs_lst = obs_num bkg in
+  List.iter draw obs_lst
 
-let draw_all_obs2 bkg =
-  let obs2_lst = obs_two_xy bkg in
-  List.iter draw_obs2 obs2_lst
+let draw_all_obs1 bkg = draw_all_obs bkg obs_one_xy draw_obs1
 
-let draw_obs f =
-  let bkg = read_bkg f in
+let draw_all_obs2 bkg = draw_all_obs bkg obs_two_xy draw_obs2
+
+let draw_obs bkg =
   draw_all_obs1 bkg;
   draw_all_obs2 bkg
 
 let init_p1_xy f =
   let bkg = read_bkg f in
-  let st = init_state bkg (start_tile_one bkg) (start_tile_two bkg) in
+  let st = init_state bkg (start_tile_one bkg) in
   let player_1 = player_one st in
   curr_pos player_1
 
@@ -120,11 +119,12 @@ let draw_plr p1_xy =
   let g = of_image img in
   Graphics.draw_image g (fst p1_xy) (snd p1_xy)
 
-let rec move f =
-  let bkg = read_bkg f in
-  let st = init_state bkg (start_tile_one bkg) (start_tile_two bkg) in
-  (** TODO change the line above because every time when move is called the state
-  is always the init_state*)
+let draw_state st =
+  draw_obs (get_bkg st);
+  draw_plr (curr_pos (player_one st))
+
+let rec move st =
+  let bkg = get_bkg st in
   let p = player_one st in
   match read_key () with
   | 'w' ->
@@ -139,7 +139,7 @@ let rec move f =
   | 'a' ->
       remember_mode false;
       draw_plr (curr_pos (move_left p))
-  | _ -> move f
+  | _ -> move st
 
 let input f =
   try

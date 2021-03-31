@@ -78,7 +78,7 @@ let obs_on_x bkg x =
   List.map (fun obs -> get_y obs.coordinate) xobs_lst
 
 let obs_on_y bkg y =
-  let xobs_lst =
+  let yobs_lst =
     List.filter (fun obs -> get_y obs.coordinate = y) bkg.obs_list
   in
-  List.map (fun obs -> get_x obs.coordinate) xobs_lst
+  List.map (fun obs -> get_x obs.coordinate) yobs_lst
