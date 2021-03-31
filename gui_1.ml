@@ -133,7 +133,7 @@ type player = {
 let player1 = { x = 0; y = 0 }
 
 let draw_player p =
-  let img = Png.load "p1_fontile.png" [] in
+  let img = Png.load "lama_test.png" [] in
   let g = of_image img in
   Graphics.draw_image g p.x p.y
 

@@ -28,3 +28,5 @@ val draw_state : State.t -> unit
 val move : State.t -> unit
 
 val input : State.t -> unit
+
+val draw_move : State.t -> int * int -> unit

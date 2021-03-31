@@ -1,25 +1,31 @@
 open Background
 open Gui
 open State
+open Player
 
 (** [play_game f] starts the adventure in file [f]. *)
 
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
-let rec move_state st =
-  draw_state st;
+let rec move_state st pos =
+  draw_move st pos;
   let n = take_input st in
-  match n with Legal new_st -> move_state new_st | Exit -> ()
+  match n with
+  | Legal new_st -> move_state new_st (curr_pos (player_one st))
+  | Exit -> ()
 
 let play_game f =
   print_endline "\n\nWelcome to CS3110 MS";
   draw_canvas ();
   print_endline "canvas";
   draw_bkg ();
+  let bkg = read_bkg f in
+  let player1 = start_tile_one bkg in
+  draw_state (init_state bkg player1);
   print_endline "tiles";
   let bkg = read_bkg f in
   let player1 = start_tile_one bkg in
-  move_state (init_state bkg player1)
+  move_state (init_state bkg player1) player1
 
 (** [main ()] prompts for the game to play, then starts it. *)
 let main () =
