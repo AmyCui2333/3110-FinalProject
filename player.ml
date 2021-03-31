@@ -40,6 +40,7 @@ let no_collisiony bkg p op move =
     fst (curr_pos p)
     |> obs_on_x bkg
     |> List.mem (op (snd (curr_pos p)) 80)
+    || fst (curr_pos p) mod 80 <> 0
   then p
   else move p
 
@@ -48,6 +49,7 @@ let no_collisionx bkg p op move =
     snd (curr_pos p)
     |> obs_on_y bkg
     |> List.mem (op (fst (curr_pos p)) 80)
+    || snd (curr_pos p) mod 80 <> 0
   then p
   else move p
 
