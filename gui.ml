@@ -73,7 +73,7 @@ let draw_canvas () = Graphics.open_graph " 800x800"
 
 let draw_bkg () =
   (* let () = Graphics.open_graph " 800x800" in *)
-  let img = Png.load "white.png" [] in
+  let img = Png.load "tile_green.png" [] in
   let g = of_image img in
   for i = 0 to 9 do
     for k = 0 to 9 do
@@ -82,12 +82,12 @@ let draw_bkg () =
   done
 
 let draw_obs1 ob =
-  let img = Png.load "ob1_80.png" [] in
+  let img = Png.load "bush_80.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst ob) (snd ob)
 
 let draw_obs2 ob =
-  let img = Png.load "ob3_80.png" [] in
+  let img = Png.load "stone_80.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst ob) (snd ob)
 
@@ -114,7 +114,7 @@ let init_p1_xy f =
    (fst p1_xy) (snd p1_xy) *)
 
 let draw_plr p1_xy =
-  let img = Png.load "p1_f.png" [] in
+  let img = Png.load "p1_16.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst p1_xy) (snd p1_xy)
 
@@ -123,7 +123,7 @@ let draw_state st =
   draw_plr (curr_pos (player_one st))
 
 let draw_move st pos =
-  let img = Png.load "white.png" [] in
+  let img = Png.load "tile_green.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst pos) (snd pos);
   draw_plr (curr_pos (player_one st))
