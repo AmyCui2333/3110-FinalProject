@@ -27,6 +27,11 @@ finalcheck:
 zip:
 	zip adventure.zip *.ml* *.json *.sh _tags .merlin .ocamlformat .ocamlinit LICENSE Makefile	
 	
+docs: build
+	mkdir -p _docs
+	ocamlfind ocamldoc -I _build -package yojson,ANSITerminal \
+		-html -stars -d _docs $(MLIS)
+
 clean:
 	ocamlbuild -clean
 
