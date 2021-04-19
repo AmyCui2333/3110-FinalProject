@@ -21,12 +21,14 @@ val draw_obs : Background.t -> unit
 
 val init_p1_xy : string -> int * int
 
-val draw_plr : int * int -> unit
+val draw_plr1 : int * int -> unit
+
+val draw_plr2 : int * int -> unit
 
 val draw_state : State.t -> unit
 
-val move : State.t -> unit
+(* val move : State.t -> unit *)
 
-val input : State.t -> unit
+(* val input : State.t -> unit *)
 
-val draw_move : State.t -> int * int -> unit
+val draw_move : State.t -> int * int -> int * int -> unit

@@ -105,57 +105,57 @@ let draw_obs bkg =
 
 let init_p1_xy f =
   let bkg = read_bkg f in
-  let st = init_state bkg (start_tile_one bkg) in
+  let st = init_state bkg (start_tile_one bkg) (start_tile_two bkg) in
   let player_1 = player_one st in
   curr_pos player_1
+
+(*change *)
+let init_p2_xy f =
+  let bkg = read_bkg f in
+  let st = init_state bkg (start_tile_two bkg) (start_tile_two bkg) in
+  let player_2 = player_two st in
+  curr_pos player_2
+
+(*change *)
 
 (* let draw_plr1 p = let img = Png.load "p1_fontile.png" [] in let g =
    of_image img in let p1_xy = init_p1_xy p in Graphics.draw_image g
    (fst p1_xy) (snd p1_xy) *)
 
-let draw_plr p1_xy =
+let draw_plr1 p1_xy =
   let img = Png.load "p1_16.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst p1_xy) (snd p1_xy)
 
+let draw_plr2 p2_xy =
+  let img = Png.load "p1_16.png" [] in
+  let g = of_image img in
+  Graphics.draw_image g (fst p2_xy) (snd p2_xy)
+
 let draw_state st =
   draw_obs (get_bkg st);
-  draw_plr (curr_pos (player_one st))
+  draw_plr1 (curr_pos (player_one st));
+  draw_plr2 (curr_pos (player_two st))
 
-let draw_move st pos =
+let draw_move st pos1 pos2 =
   let img = Png.load "tile_green.png" [] in
   let g = of_image img in
-  Graphics.draw_image g (fst pos) (snd pos);
-  draw_plr (curr_pos (player_one st))
+  Graphics.draw_image g (fst pos1) (snd pos1);
+  draw_plr1 (curr_pos (player_one st));
+  Graphics.draw_image g (fst pos2) (snd pos2);
+  draw_plr2 (curr_pos (player_two st))
 
-let rec move st =
-  let bkg = get_bkg st in
-  let p = player_one st in
-  match read_key () with
-  | 'w' ->
-      remember_mode false;
-      draw_plr (curr_pos (no_collision_up bkg p))
-  | 's' ->
-      remember_mode false;
-      draw_plr (curr_pos (move_down p))
-  | 'd' ->
-      remember_mode false;
-      draw_plr (curr_pos (move_right p))
-  | 'a' ->
-      remember_mode false;
-      draw_plr (curr_pos (move_left p))
-  | _ -> move st
+(* let rec move st = let bkg = get_bkg st in let p = player_one st in
+   match read_key () with | 'w' -> remember_mode false; draw_plr1
+   (curr_pos (no_collision_up bkg p)) | 's' -> remember_mode false;
+   draw_plr1 (curr_pos (move_down p)) | 'd' -> remember_mode false;
+   draw_plr1 (curr_pos (move_right p)) | 'a' -> remember_mode false;
+   draw_plr1 (curr_pos (move_left p)) | _ -> move st *)
 
-let input f =
-  try
-    while true do
-      let st = wait_next_event [ Button_down; Key_pressed ] in
-      auto_synchronize true;
-      if st.button then raise Exit;
-      if st.keypressed then print_endline "p";
-      move f
-    done
-  with Exit -> ()
+(* let input f = try while true do let st = wait_next_event [
+   Button_down; Key_pressed ] in auto_synchronize true; if st.button
+   then raise Exit; if st.keypressed then print_endline "p"; move f done
+   with Exit -> () *)
 
 (* type obs = { mutable x : int; mutable y : int; }
 
