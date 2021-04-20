@@ -9,11 +9,15 @@ type t = {
   speed : int;
   curr_pos : xy;
   lives : int;
+  bomb_power : int;
 }
 
 let curr_pos t = t.curr_pos
 
-let build_player id curr_pos = { id; speed = 20; curr_pos; lives = 3 }
+let get_power t = t.bomb_power
+
+let build_player id curr_pos =
+  { id; speed = 20; curr_pos; lives = 3; bomb_power = 1 }
 
 let get_speed p = p.speed
 

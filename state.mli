@@ -30,3 +30,5 @@ val move_player_one : t -> Player.t -> t
 val move_player_two : t -> Player.t -> t
 
 val take_input : t -> input
+
+val change_bkg : t -> Background.t -> t

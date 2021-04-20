@@ -82,3 +82,9 @@ let obs_on_y bkg y =
     List.filter (fun obs -> get_y obs.coordinate = y) bkg.obs_list
   in
   List.map (fun obs -> get_x obs.coordinate) yobs_lst
+
+let clear_obstacles grids bkg =
+  let new_obs =
+    List.filter (fun x -> List.mem x.coordinate grids) bkg.obs_list
+  in
+  { bkg with obs_list = new_obs }

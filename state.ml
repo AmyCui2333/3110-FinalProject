@@ -68,3 +68,5 @@ let rec take_input st =
         (move_player_two st
            (no_collision_right st.bkg st.player_two st.player_one))
   | _ -> Exit
+
+let change_bkg st b = { st with bkg = b }

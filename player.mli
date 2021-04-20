@@ -14,6 +14,8 @@ type xy = int * int
 (* Initialize a player *)
 val build_player : player_id -> xy -> t
 
+val get_power : t -> int
+
 (** [start_tile] is the identifier of the starting tile in the game. *)
 val curr_pos : t -> xy
 

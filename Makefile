@@ -1,4 +1,4 @@
-MODULES=gui command state main author player background
+MODULES=gui command state main author player background bomb
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
@@ -25,7 +25,7 @@ finalcheck:
 	@bash check.sh final
 
 zip:
-	zip adventure.zip *.ml* *.json *.sh _tags .merlin .ocamlformat .ocamlinit LICENSE Makefile	
+	zip MS1.zip *.ml* *.json *.md *.png *.sh _tags .merlin .ocamlformat .ocamlinit Makefile	
 	
 docs: build
 	mkdir -p _docs

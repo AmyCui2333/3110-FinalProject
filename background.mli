@@ -42,3 +42,5 @@ val obs_on_x : t -> int -> int list
 
 (** [obs_on_y y] is a list of all obstacles on column y. *)
 val obs_on_y : t -> int -> int list
+
+val clear_obstacles : (int * int) list -> t -> t
