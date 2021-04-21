@@ -85,6 +85,8 @@ let obs_on_y bkg y =
 
 let clear_obstacles grids bkg =
   let new_obs =
-    List.filter (fun x -> List.mem x.coordinate grids) bkg.obs_list
+    List.filter
+      (fun x -> List.mem x.coordinate grids = false || x.obs_type = 2)
+      bkg.obs_list
   in
   { bkg with obs_list = new_obs }

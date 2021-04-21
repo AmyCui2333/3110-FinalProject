@@ -10,6 +10,7 @@ type t = {
   curr_pos : xy;
   lives : int;
   bomb_power : int;
+  bomb_limit : int;
 }
 
 let curr_pos t = t.curr_pos
@@ -17,9 +18,18 @@ let curr_pos t = t.curr_pos
 let get_power t = t.bomb_power
 
 let build_player id curr_pos =
-  { id; speed = 20; curr_pos; lives = 3; bomb_power = 1 }
+  {
+    id;
+    speed = 20;
+    curr_pos;
+    lives = 3;
+    bomb_power = 1;
+    bomb_limit = 1;
+  }
 
 let get_speed p = p.speed
+
+let get_bomb_limit p = p.bomb_limit
 
 let speed_up p s = { p with speed = p.speed + s }
 

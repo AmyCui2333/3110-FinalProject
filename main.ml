@@ -9,10 +9,17 @@ let read_bkg f = from_json (Yojson.Basic.from_file f)
 
 let rec move_state st pos1 =
   draw_move st pos1;
-  let n = take_input st in
-  match n with
-  | Legal new_st -> move_state new_st (curr_pos (player_one st))
-  | Exit -> ()
+  if some_explosion st then move_state (clear_exploding st) pos1
+  else
+    let n = take_input st in
+    match n with
+    | Legal new_st -> move_state new_st (curr_pos (player_one st))
+    | Make_bomb new_st ->
+        draw_bomb (curr_pos (player_one new_st));
+        Unix.sleep 1;
+        draw_move st pos1;
+        move_state new_st (curr_pos (player_one st))
+    | Exit -> ()
 
 (* let rec move_state st pos1 pos2 = draw_move st pos1 pos2; let n =
    take_input st in match n with | Legal new_st -> move_state new_st

@@ -4,6 +4,7 @@ type t
 
 type input =
   | Legal of t
+  | Make_bomb of t
   | Exit
 
 (**[init_state bkg pos1 pos2] is the starting state where the gamer is located 
@@ -36,3 +37,9 @@ val move_player_one : t -> Player.t -> t
 val take_input : t -> input
 
 val change_bkg : t -> Background.t -> t
+
+val add_bomb : Bomb.t -> t -> t
+
+val some_explosion : t -> bool
+
+val clear_exploding : t -> t

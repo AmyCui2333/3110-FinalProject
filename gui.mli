@@ -37,4 +37,10 @@ val draw_state : State.t -> unit
 
 val draw_move : State.t -> int * int -> unit
 
+val draw_bomb : int * int -> unit
+
+val draw_tile : int -> int -> unit
+
+val draw_tiles : (int * int) list -> unit
+
 (* val draw_move : State.t -> int * int -> int * int -> unit *)

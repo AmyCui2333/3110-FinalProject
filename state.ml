@@ -1,21 +1,24 @@
 open Background
 open Player
 open Graphics
+open Bomb
 
 type t = {
   player_one : Player.t;
   (* player_two : Player.t; *)
   bkg : Background.t;
+  bombs : Bomb.t list;
 }
 
 type input =
   | Legal of t
+  | Make_bomb of t
   | Exit
 
 let init_state bkg pos1 =
   let player_one = Player.build_player "one" pos1 in
   (* let player_two = Player.build_player "two" pos2 in *)
-  { player_one; bkg }
+  { player_one; bkg; bombs = [] }
 
 (* let init_state bkg pos1 pos2 = let player_one = Player.build_player
    "one" pos1 in let player_two = Player.build_player "two" pos2 in {
@@ -29,17 +32,29 @@ let player_one t = t.player_one
 
 let move_player_one st p = { st with player_one = p }
 
+let add_bomb b st = { st with bombs = b :: st.bombs }
+
 (* let move_player_two st p = { st with player_two = p } *)
+
+let change_bkg st b = { st with bkg = b }
+
+let rec some_explosion st =
+  match List.filter check_explode st.bombs with
+  | [] -> false
+  | _ -> true
+
+let clear_exploding st =
+  let exploding = List.filter check_explode st.bombs in
+  let left = List.filter (fun x -> check_explode x = false) st.bombs in
+  let new_bkg = explode st.bkg exploding in
+  change_bkg { st with bombs = left } new_bkg
 
 let rec take_input st =
   let input = wait_next_event [ Key_pressed ] in
-  let _ = print_endline "taking input" in
   match input.key with
   | 'w' ->
-      print_endline "w";
       Legal (move_player_one st (no_collision_up st.bkg st.player_one))
   | 's' ->
-      print_endline "s";
       Legal
         (move_player_one st (no_collision_down st.bkg st.player_one))
   | 'a' ->
@@ -48,6 +63,7 @@ let rec take_input st =
   | 'd' ->
       Legal
         (move_player_one st (no_collision_right st.bkg st.player_one))
+  | ' ' -> Make_bomb (add_bomb (make_bomb st.player_one) st)
   | _ -> Exit
 
 (* let rec take_input st = let input = wait_next_event [ Key_pressed ]
@@ -65,5 +81,3 @@ let rec take_input st =
    st.bkg st.player_two st.player_one)) | 'l' -> Legal (move_player_two
    st (no_collision_right st.bkg st.player_two st.player_one)) | _ ->
    Exit *)
-
-let change_bkg st b = { st with bkg = b }

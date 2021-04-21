@@ -6,6 +6,7 @@ open Images
 open Background
 open Player
 open State
+open Bomb
 
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
@@ -146,6 +147,33 @@ let draw_move st pos1 =
   let g = of_image img in
   Graphics.draw_image g (fst pos1) (snd pos1);
   draw_plr1 (curr_pos (player_one st))
+
+let draw_tile x y =
+  let img = Png.load "tile_green_40.png" [] in
+  let g = of_image img in
+  Graphics.draw_image g x y
+
+let rec draw_tiles (pos_lst : (int * int) list) =
+  match pos_lst with
+  | [] -> ()
+  | h :: t ->
+      draw_tile (fst h) (snd h);
+      draw_tiles t
+
+let rec clean_bombs res b_lst =
+  match b_lst with
+  | [] -> res
+  | h :: t ->
+      clean_bombs (List.append (get_pos h :: get_neighbours h) res) t
+
+let draw_explosions b_lst =
+  let pos_lst = clean_bombs [] b_lst in
+  draw_tiles pos_lst
+
+let draw_bomb pl =
+  let img = Png.load "bomb_40.png" [] in
+  let g = of_image img in
+  Graphics.draw_image g (fst pl) (snd pl)
 
 (* let draw_move st pos1 pos2 = let img = Png.load "tile_green_40.png"
    [] in let g = of_image img in Graphics.draw_image g (fst pos1) (snd
