@@ -58,7 +58,7 @@ let move_right p =
   }
 
 let no_collison_plry (op : int -> int -> int) (p1 : int * int) p2 =
-  if fst p1 = fst p2 then op (snd p1) 80 = snd p2 else false
+  if fst p1 = fst p2 then op (snd p1) tile_size = snd p2 else false
 
 let no_collison_plrx op p1 p2 =
   if snd p1 = snd p2 then op (fst p1) tile_size = fst p2 else false
