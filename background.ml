@@ -25,8 +25,8 @@ type t = {
 
 let coord_of_json j =
   {
-    x = (j |> member "x" |> to_int |> fun x -> x * 80);
-    y = (j |> member "y" |> to_int |> fun x -> x * 80);
+    x = (j |> member "x" |> to_int |> fun x -> x * 40);
+    y = (j |> member "y" |> to_int |> fun x -> x * 40);
   }
 
 let obs_of_json j : obstacle =
