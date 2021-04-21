@@ -55,10 +55,14 @@ val move_left : t -> t
     nothing blocking the player*)
 val move_right : t -> t
 
-val no_collision_up : Background.t -> t -> t -> t
+(* val no_collision_up : Background.t -> t -> t -> t *)
+val no_collision_up : Background.t -> t -> t
 
-val no_collision_down : Background.t -> t -> t -> t
+(* val no_collision_down : Background.t -> t -> t -> t *)
+val no_collision_down : Background.t -> t -> t
 
-val no_collision_left : Background.t -> t -> t -> t
+(* val no_collision_left : Background.t -> t -> t -> t *)
+val no_collision_left : Background.t -> t -> t
 
-val no_collision_right : Background.t -> t -> t -> t
+(* val no_collision_right : Background.t -> t -> t -> t *)
+val no_collision_right : Background.t -> t -> t

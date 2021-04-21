@@ -106,18 +106,20 @@ let draw_obs bkg =
   draw_all_obs1 bkg;
   draw_all_obs2 bkg
 
+(* let init_p1_xy f = let bkg = read_bkg f in let st = init_state bkg
+   (start_tile_one bkg) (start_tile_two bkg) in let player_1 =
+   player_one st in curr_pos player_1 *)
+
 let init_p1_xy f =
   let bkg = read_bkg f in
-  let st = init_state bkg (start_tile_one bkg) (start_tile_two bkg) in
+  let st = init_state bkg (start_tile_one bkg) in
   let player_1 = player_one st in
   curr_pos player_1
 
 (*change *)
-let init_p2_xy f =
-  let bkg = read_bkg f in
-  let st = init_state bkg (start_tile_two bkg) (start_tile_two bkg) in
-  let player_2 = player_two st in
-  curr_pos player_2
+(* let init_p2_xy f = let bkg = read_bkg f in let st = init_state bkg
+   (start_tile_two bkg) (start_tile_two bkg) in let player_2 =
+   player_two st in curr_pos player_2 *)
 
 (*change *)
 
@@ -130,23 +132,25 @@ let draw_plr1 p1_xy =
   let g = of_image img in
   Graphics.draw_image g (fst p1_xy) (snd p1_xy)
 
-let draw_plr2 p2_xy =
-  let img = Png.load "p1_40.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g (fst p2_xy) (snd p2_xy)
+(* let draw_plr2 p2_xy = let img = Png.load "p1_40.png" [] in let g =
+   of_image img in Graphics.draw_image g (fst p2_xy) (snd p2_xy) *)
 
 let draw_state st =
   draw_obs (get_bkg st);
-  draw_plr1 (curr_pos (player_one st));
-  draw_plr2 (curr_pos (player_two st))
+  draw_plr1 (curr_pos (player_one st))
 
-let draw_move st pos1 pos2 =
+(* draw_plr2 (curr_pos (player_two st)) *)
+
+let draw_move st pos1 =
   let img = Png.load "tile_green_40.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst pos1) (snd pos1);
-  draw_plr1 (curr_pos (player_one st));
-  Graphics.draw_image g (fst pos2) (snd pos2);
-  draw_plr2 (curr_pos (player_two st))
+  draw_plr1 (curr_pos (player_one st))
+
+(* let draw_move st pos1 pos2 = let img = Png.load "tile_green_40.png"
+   [] in let g = of_image img in Graphics.draw_image g (fst pos1) (snd
+   pos1); draw_plr1 (curr_pos (player_one st)); Graphics.draw_image g
+   (fst pos2) (snd pos2); draw_plr2 (curr_pos (player_two st)) *)
 
 (* let rec move st = let bkg = get_bkg st in let p = player_one st in
    match read_key () with | 'w' -> remember_mode false; draw_plr1
