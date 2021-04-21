@@ -11,6 +11,12 @@ type player_id = string
 (** The type of coordinates of player *)
 type xy = int * int
 
+val tile_size : int
+
+val tile_number : int
+
+val move_number : int
+
 (* Initialize a player *)
 val build_player : player_id -> xy -> t
 

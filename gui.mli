@@ -13,6 +13,10 @@
 
 (* val draw_bomb : State.t -> unit *)
 
+val tile_size : int
+
+val tile_number : int
+
 val draw_canvas : unit -> unit
 
 val draw_bkg : unit -> unit

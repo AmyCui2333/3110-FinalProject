@@ -68,26 +68,29 @@ let get_image x y w h = image_of (Graphics.get_image x y w h)
 (* let rec input f = try print_endline (let bkg = read_bkg f in
    description bkg (start_room adv)) with Sys_error s -> print_endline
    "\n\nFile doesn't exit, try a new file"; Stdlib.exit 0 *)
+let tile_size = 40
 
-let draw_canvas () = Graphics.open_graph " 800x800"
+let tile_number = 16
+
+let draw_canvas () = Graphics.open_graph " 640x640"
 
 let draw_bkg () =
   (* let () = Graphics.open_graph " 800x800" in *)
-  let img = Png.load "tile_green.png" [] in
+  let img = Png.load "tile_green_40.png" [] in
   let g = of_image img in
-  for i = 0 to 9 do
-    for k = 0 to 9 do
-      Graphics.draw_image g (80 * k) (80 * i)
+  for i = 0 to tile_number - 1 do
+    for k = 0 to tile_number - 1 do
+      Graphics.draw_image g (tile_size * k) (tile_size * i)
     done
   done
 
 let draw_obs1 ob =
-  let img = Png.load "bush_80.png" [] in
+  let img = Png.load "bush_40.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst ob) (snd ob)
 
 let draw_obs2 ob =
-  let img = Png.load "stone_80.png" [] in
+  let img = Png.load "stone_40.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst ob) (snd ob)
 
@@ -123,12 +126,12 @@ let init_p2_xy f =
    (fst p1_xy) (snd p1_xy) *)
 
 let draw_plr1 p1_xy =
-  let img = Png.load "p1_16.png" [] in
+  let img = Png.load "p1_40.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst p1_xy) (snd p1_xy)
 
 let draw_plr2 p2_xy =
-  let img = Png.load "p1_16.png" [] in
+  let img = Png.load "p1_40.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst p2_xy) (snd p2_xy)
 
@@ -138,7 +141,7 @@ let draw_state st =
   draw_plr2 (curr_pos (player_two st))
 
 let draw_move st pos1 pos2 =
-  let img = Png.load "tile_green.png" [] in
+  let img = Png.load "tile_green_40.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst pos1) (snd pos1);
   draw_plr1 (curr_pos (player_one st));
