@@ -28,8 +28,6 @@ val curr_pos : t -> xy
 (** [get_speed p] gets the current speed of player p. *)
 val get_speed : t -> int
 
-val get_bomb_limit : t -> int
-
 (** [speed_up p s] increases the speed of player p by s and returns the
     new player. *)
 val speed_up : t -> int -> t

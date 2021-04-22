@@ -4,13 +4,18 @@ type player_id = string
 
 type xy = int * int
 
+let tile_size = 40
+
+let tile_number = 16
+
+let move_number = 10
+
 type t = {
   id : player_id;
   speed : int;
   curr_pos : xy;
   lives : int;
   bomb_power : int;
-  bomb_limit : int;
 }
 
 let curr_pos t = t.curr_pos
@@ -18,30 +23,15 @@ let curr_pos t = t.curr_pos
 let get_power t = t.bomb_power
 
 let build_player id curr_pos =
-  {
-    id;
-    speed = 20;
-    curr_pos;
-    lives = 3;
-    bomb_power = 1;
-    bomb_limit = 1;
-  }
+  { id; speed = move_number; curr_pos; lives = 3; bomb_power = 1 }
 
 let get_speed p = p.speed
-
-let get_bomb_limit p = p.bomb_limit
 
 let speed_up p s = { p with speed = p.speed + s }
 
 let lives p = p.lives
 
 let kill p = { p with lives = p.lives - 1 }
-
-let tile_size = 40
-
-let tile_number = 16
-
-let move_number = 10
 
 let move_up p =
   {

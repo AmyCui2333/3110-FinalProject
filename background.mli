@@ -13,6 +13,12 @@ type obs_id = int
 (** The type of coordinates of obstacles/tiles *)
 type xy = int * int
 
+val tile_size : int
+
+val tile_number : int
+
+val move_number : int
+
 (** [from_json j] is the background that [j] represents. Requires: [j]
     is a valid JSON background representation. *)
 val from_json : Yojson.Basic.t -> t

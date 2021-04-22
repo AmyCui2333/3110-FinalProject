@@ -8,6 +8,7 @@ type t = {
   (* player_two : Player.t; *)
   bkg : Background.t;
   bombs : Bomb.t list;
+  bomb_limit : int;
 }
 
 type input =
@@ -18,7 +19,7 @@ type input =
 let init_state bkg pos1 =
   let player_one = Player.build_player "one" pos1 in
   (* let player_two = Player.build_player "two" pos2 in *)
-  { player_one; bkg; bombs = [] }
+  { player_one; bkg; bombs = []; bomb_limit = 1 }
 
 (* let init_state bkg pos1 pos2 = let player_one = Player.build_player
    "one" pos1 in let player_two = Player.build_player "two" pos2 in {
@@ -32,6 +33,11 @@ let player_one t = t.player_one
 
 let move_player_one st p = { st with player_one = p }
 
+let more_bomb b st =
+  match b with
+  | None -> false
+  | Some b -> List.length st.bombs < st.bomb_limit
+
 let add_bomb b st = { st with bombs = b :: st.bombs }
 
 (* let move_player_two st p = { st with player_two = p } *)
@@ -42,6 +48,8 @@ let rec some_explosion st =
   match List.filter check_explode st.bombs with
   | [] -> false
   | _ -> true
+
+let exploding st = List.filter check_explode st.bombs
 
 let clear_exploding st =
   let exploding = List.filter check_explode st.bombs in
@@ -63,8 +71,14 @@ let rec take_input st =
   | 'd' ->
       Legal
         (move_player_one st (no_collision_right st.bkg st.player_one))
-  | ' ' -> Make_bomb (add_bomb (make_bomb st.player_one) st)
-  | _ -> Exit
+  | ' ' ->
+      let new_b = make_bomb st.player_one in
+      if more_bomb (make_bomb st.player_one) st then
+        match new_b with
+        | None -> failwith "impossible"
+        | Some b -> Make_bomb (add_bomb b st)
+      else Legal st
+  | _ -> take_input st
 
 (* let rec take_input st = let input = wait_next_event [ Key_pressed ]
    in let _ = print_endline "taking input" in match input.key with | 'w'

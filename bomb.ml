@@ -8,15 +8,25 @@ type t = {
 }
 
 let make_bomb p =
-  { pos = curr_pos p; power = get_power p; start_time = Unix.time () }
+  if
+    fst (curr_pos p) mod tile_size = 0
+    && snd (curr_pos p) mod tile_size = 0
+  then
+    Some
+      {
+        pos = curr_pos p;
+        power = get_power p;
+        start_time = Unix.time ();
+      }
+  else None
 
 let get_neighbours b =
   let x, y = b.pos in
   [
-    (x + (b.power * 40), y);
-    (x - (b.power * 40), y);
-    (x, y + (b.power * 40));
-    (x, y - (b.power * 40));
+    (x + (b.power * tile_size), y);
+    (x - (b.power * tile_size), y);
+    (x, y + (b.power * tile_size));
+    (x, y - (b.power * tile_size));
   ]
 
 let check_explode b =

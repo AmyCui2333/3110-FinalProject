@@ -153,6 +153,11 @@ let draw_tile x y =
   let g = of_image img in
   Graphics.draw_image g x y
 
+let draw_explode x y =
+  let img = Png.load "tile_green_40.png" [] in
+  let g = of_image img in
+  Graphics.draw_image g x y
+
 let rec draw_tiles (pos_lst : (int * int) list) =
   match pos_lst with
   | [] -> ()
@@ -160,15 +165,28 @@ let rec draw_tiles (pos_lst : (int * int) list) =
       draw_tile (fst h) (snd h);
       draw_tiles t
 
+let rec draw_explodes (pos_lst : (int * int) list) =
+  match pos_lst with
+  | [] -> ()
+  | h :: t ->
+      draw_explode (fst h) (snd h);
+      draw_explodes t
+
 let rec clean_bombs res b_lst =
   match b_lst with
   | [] -> res
   | h :: t ->
       clean_bombs (List.append (get_pos h :: get_neighbours h) res) t
 
-let draw_explosions b_lst =
+let grids_to_clean pos_lst bkg =
+  List.filter (fun x -> List.mem x (obs_two_xy bkg) = false) pos_lst
+
+let draw_explosions b_lst bkg =
   let pos_lst = clean_bombs [] b_lst in
-  draw_tiles pos_lst
+  let grids = grids_to_clean pos_lst bkg in
+  draw_explodes grids;
+  Unix.sleepf 0.2;
+  draw_tiles grids
 
 let draw_bomb pl =
   let img = Png.load "bomb_40.png" [] in

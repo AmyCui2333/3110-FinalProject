@@ -1,5 +1,11 @@
 open Yojson.Basic.Util
 
+let tile_size = 40
+
+let tile_number = 16
+
+let move_number = 10
+
 type obs_id = int
 
 type xy = int * int
@@ -25,8 +31,8 @@ type t = {
 
 let coord_of_json j =
   {
-    x = (j |> member "x" |> to_int |> fun x -> x * 40);
-    y = (j |> member "y" |> to_int |> fun x -> x * 40);
+    x = (j |> member "x" |> to_int |> fun x -> x * tile_size);
+    y = (j |> member "y" |> to_int |> fun x -> x * tile_size);
   }
 
 let obs_of_json j : obstacle =

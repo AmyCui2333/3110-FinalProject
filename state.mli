@@ -43,3 +43,5 @@ val add_bomb : Bomb.t -> t -> t
 val some_explosion : t -> bool
 
 val clear_exploding : t -> t
+
+val exploding : t -> Bomb.t list

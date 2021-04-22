@@ -1,6 +1,6 @@
 type t
 
-val make_bomb : Player.t -> t
+val make_bomb : Player.t -> t option
 
 val get_neighbours : t -> (int * int) list
 
