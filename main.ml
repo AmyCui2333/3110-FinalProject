@@ -11,7 +11,7 @@ let rec move_state st pos1 =
   draw_move st pos1;
   match some_explosion st with
   | true ->
-      draw_explosions (exploding st);
+      draw_explosions (exploding st) (get_bkg st);
       move_state (clear_exploding st) pos1
   | false -> (
       let n = take_input st in
