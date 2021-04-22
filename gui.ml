@@ -154,7 +154,7 @@ let draw_tile x y =
   Graphics.draw_image g x y
 
 let draw_explode x y =
-  let img = Png.load "tile_green_40.png" [] in
+  let img = Png.load "bomb_explode_40.png" [] in
   let g = of_image img in
   Graphics.draw_image g x y
 
