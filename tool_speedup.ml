@@ -21,19 +21,28 @@ let rec show_tool1s b_lst bkg =
   | [] -> []
   | h :: t -> show_tool1 h bkg @ show_tool1s t bkg
 
-let new_speedup p =
+let new_speedup p xy =
   if
     fst (curr_pos p) mod tile_size = 0
     && snd (curr_pos p) mod tile_size = 0
   then
     Some
       {
-        pos = curr_pos p;
+        pos = xy;
         speed_factor = 2;
         start_time = Unix.time ();
         duration_time = 5.0;
       }
   else None
+
+let new_speedup_return p xy =
+  match new_speedup p xy with Some speedup -> [ speedup ] | None -> []
+
+let rec new_speedups p b_lst bkg =
+  let tool_xy_lst = show_tool1s b_lst bkg in
+  match tool_xy_lst with
+  | [] -> []
+  | h :: t -> new_speedup_return p h @ new_speedups p b_lst bkg
 
 let speedup t p = change_speed p (get_speed p * 2)
 
