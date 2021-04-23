@@ -2,13 +2,14 @@ open Background
 open Player
 open Graphics
 open Bomb
+open Tool_speedup
 
 type t = {
   player_one : Player.t;
   (* player_two : Player.t; *)
   bkg : Background.t;
   bombs : Bomb.t list;
-  bomb_limit : int;
+  bomb_limit : int; (* tool : Tool_speedup.t; *)
 }
 
 type input =

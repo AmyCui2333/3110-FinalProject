@@ -31,4 +31,9 @@ let check_end t =
 
 let speedback p = change_speed p (get_speed p / 2)
 
-let show bkg t = check_tool
+let show_tool1 b bkg =
+  let tool1_list = tool1_xy bkg in
+  let grids = get_neighbours b in
+  List.filter (fun x -> List.mem x grids) tool1_list
+
+let show bkg b = get_neighbours b

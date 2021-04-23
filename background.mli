@@ -52,3 +52,5 @@ val obs_on_y : t -> int -> int list
 val clear_obstacles : (int * int) list -> t -> t
 
 val obs_xy_tool1 : t -> ((int * int) * int) list
+
+val tool1_xy : t -> xy list

@@ -79,11 +79,19 @@ let obs_tool_xy bkg n =
   in
   List.map (fun obs -> (obs.coordinate, obs.tool)) obs_tool_list
 
+let tool_xy bkg n =
+  let obs_tool_list =
+    List.filter (fun obs -> obs.tool = n) bkg.obs_list
+  in
+  List.map (fun obs -> obs.coordinate) obs_tool_list
+
 let obs_one_xy bkg = obs_n_xy bkg 1
 
 let obs_two_xy bkg = obs_n_xy bkg 2
 
 let obs_xy_tool1 bkg = obs_tool_xy bkg 1
+
+let tool1_xy bkg = tool_xy bkg 1
 
 let get_x (coord : xy) = match coord with a, _ -> a
 
