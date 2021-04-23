@@ -51,3 +51,7 @@ val clear_exploding : t -> t
 (** [exploding st] returns the bombs to be exploded (when reaching the
     time of explosion)*)
 val exploding : t -> Bomb.t list
+
+val take_tool1 : t -> t
+
+val get_tool1_xys : t -> (int * int) list

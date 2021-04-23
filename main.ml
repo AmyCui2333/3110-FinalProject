@@ -33,6 +33,7 @@ and move_state2 st pos1 =
 
 let rec move_state st pos1 =
   draw_move st pos1;
+  clear_speedup st;
   match some_explosion st with
   | true ->
       draw_explosions (exploding st) (get_bkg st);

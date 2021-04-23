@@ -36,28 +36,16 @@ let lives p = p.lives
 let kill p = { p with lives = p.lives - 1 }
 
 let move_up p =
-  {
-    p with
-    curr_pos = (fst (curr_pos p), snd (curr_pos p) + move_number);
-  }
+  { p with curr_pos = (fst (curr_pos p), snd (curr_pos p) + p.speed) }
 
 let move_down p =
-  {
-    p with
-    curr_pos = (fst (curr_pos p), snd (curr_pos p) - move_number);
-  }
+  { p with curr_pos = (fst (curr_pos p), snd (curr_pos p) - p.speed) }
 
 let move_left p =
-  {
-    p with
-    curr_pos = (fst (curr_pos p) - move_number, snd (curr_pos p));
-  }
+  { p with curr_pos = (fst (curr_pos p) - p.speed, snd (curr_pos p)) }
 
 let move_right p =
-  {
-    p with
-    curr_pos = (fst (curr_pos p) + move_number, snd (curr_pos p));
-  }
+  { p with curr_pos = (fst (curr_pos p) + p.speed, snd (curr_pos p)) }
 
 (* let no_collison_plry (op : int -> int -> int) (p1 : int * int) p2 =
    if fst p1 = fst p2 then op (snd p1) tile_size = snd p2 else false
@@ -100,6 +88,22 @@ let no_collision_down bkg p = no_collisiony bkg p ( - ) move_down
 let no_collision_left bkg p = no_collisionx bkg p ( - ) move_left
 
 let no_collision_right bkg p = no_collisionx bkg p ( + ) move_right
+
+let tool_collision_right xy p = fst (curr_pos p) + tile_size > fst xy
+
+let tool_collision_left xy p = fst (curr_pos p) - fst xy < tile_size
+
+let tool_collision_up xy p = snd xy - snd (curr_pos p) < tile_size
+
+let tool_collision_down xy p = snd (curr_pos p) - snd xy < tile_size
+
+let rec tool_collision xy p =
+  (* print_endline "e"; *)
+  print_endline (string_of_bool (tool_collision xy p));
+  tool_collision_right xy p
+  || tool_collision_left xy p
+  || tool_collision_up xy p
+  || tool_collision_down xy p
 
 (* let no_collision_up bkg p p2 = no_collisiony bkg p p2 ( + ) move_up
 

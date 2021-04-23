@@ -69,3 +69,13 @@ val no_collision_left : Background.t -> t -> t
 
 (* val no_collision_right : Background.t -> t -> t -> t *)
 val no_collision_right : Background.t -> t -> t
+
+val tool_collision_right : int * int -> t -> bool
+
+val tool_collision_left : int * int -> t -> bool
+
+val tool_collision_up : int * int -> t -> bool
+
+val tool_collision_down : int * int -> t -> bool
+
+val tool_collision : int * int -> t -> bool

@@ -33,6 +33,8 @@ let player_one t = t.player_one
 
 (* let player_two t = t.player_two *)
 
+let get_tool1_xys st = List.map (fun x -> get_xy x) st.tool1
+
 let move_player_one st p = { st with player_one = p }
 
 let more_bomb b st =
@@ -43,9 +45,32 @@ let more_bomb b st =
 let add_bomb b st = { st with bombs = b :: st.bombs }
 
 (* let move_player_two st p = { st with player_two = p } *)
-let add_tool1 t st = { st with tool1 = t :: st.tool1 }
+let add_tool1 t_lst st = { st with tool1 = t_lst @ st.tool1 }
+
+let add_tool1s st = add_tool1 (new_speedups st.bombs st.bkg) st
 
 let change_bkg st b = { st with bkg = b }
+
+let change_plr st p = { st with player_one = p }
+
+let change_bkg_tool st b tool_lst =
+  let new_st = change_bkg st b in
+  { new_st with tool1 = tool_lst }
+
+(* let rec clear_tool1 st = match st.tool1 with | [] -> [] | h :: t ->
+   if tool_collision (get_xy h) st.player_one then clear_tool1 st else h
+   :: clear_tool1 st *)
+
+let rec take_tool1 st =
+  match st.tool1 with
+  | [] -> st
+  | h :: t ->
+      if tool_collision (get_xy h) st.player_one then
+        change_plr st (speedup_plr h st.player_one)
+        (* (clear_tool1 st) *)
+      else st
+
+(* let tool1_expire st = *)
 
 let rec some_explosion st =
   match List.filter check_explode st.bombs with
@@ -54,26 +79,42 @@ let rec some_explosion st =
 
 let exploding st = List.filter check_explode st.bombs
 
+(*clear the exploding bushes while add tools to st*)
 let clear_exploding st =
   let exploding = List.filter check_explode st.bombs in
   let left = List.filter (fun x -> check_explode x = false) st.bombs in
   let new_bkg = explode st.bkg exploding in
-  change_bkg { st with bombs = left } new_bkg
+  let tool1_xy_lst = show_tool1s exploding st.bkg in
+  let tool1_lst = new_speedups_fromxy tool1_xy_lst in
+  change_bkg_tool { st with bombs = left } new_bkg tool1_lst
+
+(* let clear_exploding st = let exploding = List.filter check_explode
+   st.bombs in let left = List.filter (fun x -> check_explode x = false)
+   st.bombs in let new_bkg = explode st.bkg exploding in let
+   tool1_xy_lst = show_tool1s exploding st.bkg in let tool1_lst =
+   new_speedups_fromxy tool1_xy_lst in change_bkg { st with bombs = left
+   } new_bkg *)
+
+(* let exploding_add_tool st = clear_graph st |> *)
 
 let rec take_input st =
   let input = wait_next_event [ Key_pressed ] in
   match input.key with
   | 'w' ->
       Legal (move_player_one st (no_collision_up st.bkg st.player_one))
+      (* |> take_tool1) *)
   | 's' ->
       Legal
         (move_player_one st (no_collision_down st.bkg st.player_one))
+      (* |> take_tool1) *)
   | 'a' ->
       Legal
         (move_player_one st (no_collision_left st.bkg st.player_one))
+      (* |> take_tool1) *)
   | 'd' ->
       Legal
         (move_player_one st (no_collision_right st.bkg st.player_one))
+      (* |> take_tool1) *)
   | ' ' ->
       let new_b = make_bomb st.player_one in
       if more_bomb (make_bomb st.player_one) st then
