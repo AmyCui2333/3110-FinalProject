@@ -43,6 +43,7 @@ let rec new_speedups_fromxy xy_lst =
   | [] -> []
   | h :: t -> [ new_speedup h ] @ new_speedups_fromxy t
 
+(*TODO: if mod40 : manully move ch*)
 let speedup_plr t p = change_speed p (get_speed p * t.speed_factor)
 
 let check_end t =

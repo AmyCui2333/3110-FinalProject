@@ -218,7 +218,7 @@ let clear_speedup st =
       print_endline "tool list not empty";
       let take_tool =
         List.filter
-          (fun x -> tool_collision x (player_one st))
+          (fun x -> tool_collision x (player_one st) = false)
           tool1_xy_lst
       in
       match take_tool with

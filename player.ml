@@ -99,7 +99,7 @@ let tool_collision_down xy p = snd (curr_pos p) - snd xy < tile_size
 
 let rec tool_collision xy p =
   (* print_endline "e"; *)
-  print_endline (string_of_bool (tool_collision xy p));
+  (* print_endline (string_of_bool (tool_collision xy p)); *)
   tool_collision_right xy p
   || tool_collision_left xy p
   || tool_collision_up xy p

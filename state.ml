@@ -53,6 +53,8 @@ let change_bkg st b = { st with bkg = b }
 
 let change_plr st p = { st with player_one = p }
 
+let change_plr_tool st p tool = { (change_plr st p) with tool1 = tool }
+
 let change_bkg_tool st b tool_lst =
   let new_st = change_bkg st b in
   { new_st with tool1 = tool_lst }
@@ -61,12 +63,15 @@ let change_bkg_tool st b tool_lst =
    if tool_collision (get_xy h) st.player_one then clear_tool1 st else h
    :: clear_tool1 st *)
 
+(*TODO: rn only work for one tool*)
 let rec take_tool1 st =
   match st.tool1 with
   | [] -> st
   | h :: t ->
       if tool_collision (get_xy h) st.player_one then
-        change_plr st (speedup_plr h st.player_one)
+        change_plr_tool st
+          (speedup_plr h st.player_one)
+          (List.filter (fun x -> get_xy x <> get_xy h) st.tool1)
         (* (clear_tool1 st) *)
       else st
 
@@ -83,6 +88,7 @@ let exploding st = List.filter check_explode st.bombs
 let clear_exploding st =
   let exploding = List.filter check_explode st.bombs in
   let left = List.filter (fun x -> check_explode x = false) st.bombs in
+  (* let tool1_xy_lst = show_tool1s exploding st.bkg in *)
   let new_bkg = explode st.bkg exploding in
   let tool1_xy_lst = show_tool1s exploding st.bkg in
   let tool1_lst = new_speedups_fromxy tool1_xy_lst in
@@ -101,20 +107,21 @@ let rec take_input st =
   let input = wait_next_event [ Key_pressed ] in
   match input.key with
   | 'w' ->
-      Legal (move_player_one st (no_collision_up st.bkg st.player_one))
-      (* |> take_tool1) *)
+      Legal
+        (move_player_one st (no_collision_up st.bkg st.player_one)
+        |> take_tool1)
   | 's' ->
       Legal
-        (move_player_one st (no_collision_down st.bkg st.player_one))
-      (* |> take_tool1) *)
+        (move_player_one st (no_collision_down st.bkg st.player_one)
+        |> take_tool1)
   | 'a' ->
       Legal
-        (move_player_one st (no_collision_left st.bkg st.player_one))
-      (* |> take_tool1) *)
+        (move_player_one st (no_collision_left st.bkg st.player_one)
+        |> take_tool1)
   | 'd' ->
       Legal
-        (move_player_one st (no_collision_right st.bkg st.player_one))
-      (* |> take_tool1) *)
+        (move_player_one st (no_collision_right st.bkg st.player_one)
+        |> take_tool1)
   | ' ' ->
       let new_b = make_bomb st.player_one in
       if more_bomb (make_bomb st.player_one) st then
