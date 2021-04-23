@@ -27,7 +27,9 @@ let build_player id curr_pos =
 
 let get_speed p = p.speed
 
-let speed_up p s = { p with speed = p.speed + s }
+(* let speed_up p s = { p with speed = p.speed + s } *)
+
+let change_speed p s = { p with speed = s }
 
 let lives p = p.lives
 

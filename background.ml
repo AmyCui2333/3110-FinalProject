@@ -21,6 +21,7 @@ type obstacle = {
   id : int;
   coordinate : int * int;
   obs_type : int;
+  tool : int;
 }
 
 type t = {
@@ -35,12 +36,15 @@ let coord_of_json j =
     y = (j |> member "y" |> to_int |> fun x -> x * tile_size);
   }
 
+let tool_member s k = match member s k with `Int i -> i | _ -> 0
+
 let obs_of_json j : obstacle =
   {
     id = j |> member "id" |> to_int;
     coordinate =
       j |> member "coordinates" |> coord_of_json |> coord_to_xy;
     obs_type = j |> member "type" |> to_int;
+    tool = j |> tool_member "tool";
   }
 
 let from_json json =
@@ -69,9 +73,17 @@ let obs_n_xy bkg n =
   in
   List.map (fun obs -> obs.coordinate) obs_n_lst
 
+let obs_tool_xy bkg n =
+  let obs_tool_list =
+    List.filter (fun obs -> obs.tool = n) bkg.obs_list
+  in
+  List.map (fun obs -> (obs.coordinate, obs.tool)) obs_tool_list
+
 let obs_one_xy bkg = obs_n_xy bkg 1
 
 let obs_two_xy bkg = obs_n_xy bkg 2
+
+let obs_xy_tool1 bkg = obs_tool_xy bkg 1
 
 let get_x (coord : xy) = match coord with a, _ -> a
 
@@ -88,6 +100,12 @@ let obs_on_y bkg y =
     List.filter (fun obs -> get_y obs.coordinate = y) bkg.obs_list
   in
   List.map (fun obs -> get_x obs.coordinate) yobs_lst
+
+let get_tool obs = obs.tool
+
+let check_tool grids bkg =
+  List.filter (fun x ->
+      List.mem x.coordinate grids = false || x.tool = 1)
 
 let clear_obstacles grids bkg =
   let new_obs =

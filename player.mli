@@ -30,7 +30,10 @@ val get_speed : t -> int
 
 (** [speed_up p s] increases the speed of player p by s and returns the
     new player. *)
-val speed_up : t -> int -> t
+
+(* val speed_up : t -> int -> t *)
+
+val change_speed : t -> int -> t
 
 (** [lives p] gets the current remaining lives of player p *)
 val lives : t -> int

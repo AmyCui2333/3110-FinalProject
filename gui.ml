@@ -193,6 +193,11 @@ let draw_bomb pl =
   let g = of_image img in
   Graphics.draw_image g (fst pl) (snd pl)
 
+let draw_speedup pos =
+  let img = Png.load "bomb_40.png" [] in
+  let g = of_image img in
+  Graphics.draw_image g (fst pos) (snd pos)
+
 (* let draw_move st pos1 pos2 = let img = Png.load "tile_green_40.png"
    [] in let g = of_image img in Graphics.draw_image g (fst pos1) (snd
    pos1); draw_plr1 (curr_pos (player_one st)); Graphics.draw_image g

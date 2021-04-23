@@ -36,12 +36,18 @@ val move_player_one : t -> Player.t -> t
 
 val take_input : t -> input
 
+(** [change_bkg st b] returns the state with bkg [b]*)
 val change_bkg : t -> Background.t -> t
 
+(** [add_bomb b st] adds one bomb into the st*)
 val add_bomb : Bomb.t -> t -> t
 
 val some_explosion : t -> bool
 
+(** [clear_explode st] updates the [st] with the new background after
+    explosion (if any) and the bombs left*)
 val clear_exploding : t -> t
 
+(** [exploding st] returns the bombs to be exploded (when reaching the
+    time of explosion)*)
 val exploding : t -> Bomb.t list

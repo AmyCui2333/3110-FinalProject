@@ -7,6 +7,27 @@ open Player
 
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
+let rec bomb_explode st pos1 =
+  match some_explosion st with
+  | true ->
+      draw_explosions (exploding st) (get_bkg st);
+      move_state2 (clear_exploding st) pos1
+  | false -> ()
+
+and move_state2 st pos1 =
+  bomb_explode st pos1;
+  draw_move st pos1;
+
+  let n = take_input st in
+  match n with
+  | Legal new_st -> move_state2 new_st (curr_pos (player_one st))
+  | Make_bomb new_st ->
+      draw_bomb (curr_pos (player_one new_st));
+      Unix.sleep 1;
+      draw_move st pos1;
+      move_state2 new_st (curr_pos (player_one st))
+  | Exit -> ()
+
 let rec move_state st pos1 =
   draw_move st pos1;
   match some_explosion st with
@@ -41,7 +62,7 @@ let play_game f =
   let bkg = read_bkg f in
   let player1 = start_tile_one bkg in
 
-  move_state (init_state bkg player1) player1
+  move_state2 (init_state bkg player1) player1
 
 (* let play_game f = print_endline "\n\nWelcome to CS3110 MS";
    draw_canvas (); print_endline "canvas"; draw_bkg (); let bkg =
