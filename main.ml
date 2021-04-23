@@ -2,6 +2,7 @@ open Background
 open Gui
 open State
 open Player
+open Tool_speedup
 
 (** [play_game f] starts the adventure in file [f]. *)
 
@@ -11,7 +12,9 @@ let rec bomb_explode st pos1 =
   match some_explosion st with
   | true ->
       draw_explosions (exploding st) (get_bkg st);
-      move_state2 (clear_exploding st) pos1
+      draw_speedups (show_tool1s (exploding st) (get_bkg st))
+  (* draw_speedups show_tool1 b bkg move_state2 (clear_exploding st)
+     pos1 *)
   | false -> ()
 
 and move_state2 st pos1 =
@@ -33,6 +36,7 @@ let rec move_state st pos1 =
   match some_explosion st with
   | true ->
       draw_explosions (exploding st) (get_bkg st);
+      draw_speedups (show_tool1s (exploding st) (get_bkg st));
       move_state (clear_exploding st) pos1
   | false -> (
       let n = take_input st in
@@ -62,7 +66,7 @@ let play_game f =
   let bkg = read_bkg f in
   let player1 = start_tile_one bkg in
 
-  move_state2 (init_state bkg player1) player1
+  move_state (init_state bkg player1) player1
 
 (* let play_game f = print_endline "\n\nWelcome to CS3110 MS";
    draw_canvas (); print_endline "canvas"; draw_bkg (); let bkg =

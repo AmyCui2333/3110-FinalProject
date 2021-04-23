@@ -9,7 +9,8 @@ type t = {
   (* player_two : Player.t; *)
   bkg : Background.t;
   bombs : Bomb.t list;
-  bomb_limit : int; (* tool : Tool_speedup.t; *)
+  bomb_limit : int;
+  tool1 : Tool_speedup.t list;
 }
 
 type input =
@@ -20,7 +21,7 @@ type input =
 let init_state bkg pos1 =
   let player_one = Player.build_player "one" pos1 in
   (* let player_two = Player.build_player "two" pos2 in *)
-  { player_one; bkg; bombs = []; bomb_limit = 1 }
+  { player_one; bkg; bombs = []; bomb_limit = 1; tool1 = [] }
 
 (* let init_state bkg pos1 pos2 = let player_one = Player.build_player
    "one" pos1 in let player_two = Player.build_player "two" pos2 in {
@@ -42,6 +43,7 @@ let more_bomb b st =
 let add_bomb b st = { st with bombs = b :: st.bombs }
 
 (* let move_player_two st p = { st with player_two = p } *)
+let add_tool1 t st = { st with tool1 = t :: st.tool1 }
 
 let change_bkg st b = { st with bkg = b }
 

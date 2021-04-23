@@ -193,10 +193,17 @@ let draw_bomb pl =
   let g = of_image img in
   Graphics.draw_image g (fst pl) (snd pl)
 
-let draw_speedup pos =
-  let img = Png.load "bomb_40.png" [] in
+let draw_speedup x y =
+  let img = Png.load "speedup_40.png" [] in
   let g = of_image img in
-  Graphics.draw_image g (fst pos) (snd pos)
+  Graphics.draw_image g x y
+
+let rec draw_speedups (pos_lst : (int * int) list) =
+  match pos_lst with
+  | [] -> ()
+  | h :: t ->
+      draw_speedup (fst h) (snd h);
+      draw_speedups t
 
 (* let draw_move st pos1 pos2 = let img = Png.load "tile_green_40.png"
    [] in let g = of_image img in Graphics.draw_image g (fst pos1) (snd

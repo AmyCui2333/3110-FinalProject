@@ -2,12 +2,24 @@ open Player
 open Bomb
 open Background
 
+(* type t = Tool of t *)
+
 type t = {
   pos : int * int;
   start_time : float;
   duration_time : float;
   speed_factor : int;
 }
+
+let show_tool1 b bkg =
+  let tool1_list = tool1_xy bkg in
+  let grids = get_neighbours b in
+  List.filter (fun x -> List.mem x grids) tool1_list
+
+let rec show_tool1s b_lst bkg =
+  match b_lst with
+  | [] -> []
+  | h :: t -> show_tool1 h bkg @ show_tool1s t bkg
 
 let new_speedup p =
   if
@@ -30,10 +42,5 @@ let check_end t =
   else false
 
 let speedback p = change_speed p (get_speed p / 2)
-
-let show_tool1 b bkg =
-  let tool1_list = tool1_xy bkg in
-  let grids = get_neighbours b in
-  List.filter (fun x -> List.mem x grids) tool1_list
 
 let show bkg b = get_neighbours b

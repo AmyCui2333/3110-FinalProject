@@ -45,4 +45,6 @@ val draw_tiles : (int * int) list -> unit
 
 val draw_explosions : Bomb.t list -> Background.t -> unit
 
+val draw_speedups : (int * int) list -> unit
+
 (* val draw_move : State.t -> int * int -> int * int -> unit *)
