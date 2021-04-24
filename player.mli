@@ -80,6 +80,10 @@ val tool_collision_down : int * int -> t -> bool
 
 val tool_collision : int * int -> t -> bool
 
+val tools_collision : (int * int) list -> t -> bool
+
+val tools_collision_return : (int * int) list -> t -> bool * (int * int)
+
 val tool_collision_gui : int * int -> t -> bool
 
 val tool_collision_right_gui : int * int -> t -> bool

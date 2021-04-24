@@ -119,6 +119,50 @@ let rec tool_collision xy p =
   || tool_collision_up xy p
   || tool_collision_down xy p
 
+let tool_collision_right_return xy p =
+  if check_tool_collision snd xy p then
+    (fst xy - fst (curr_pos p) = tile_size / 2, xy)
+  else (false, (0, 0))
+
+let tool_collision_left_return xy p =
+  if check_tool_collision snd xy p then
+    (fst (curr_pos p) - fst xy = tile_size / 2, xy)
+  else (false, (0, 0))
+
+let tool_collision_up_return xy p =
+  if check_tool_collision fst xy p then
+    (snd xy - snd (curr_pos p) = tile_size / 2, xy)
+  else (false, (0, 0))
+
+let tool_collision_down_return xy p =
+  if check_tool_collision fst xy p then
+    (snd (curr_pos p) - snd xy = tile_size / 2, xy)
+  else (false, (0, 0))
+
+let tool_collison_return xy p =
+  let cd = tool_collision_down_return xy p in
+  let cu = tool_collision_up_return xy p in
+  let ct = tool_collision_left_return xy p in
+  let cr = tool_collision_right_return xy p in
+  let c_all = [ cd; cu; ct; cr ] in
+  List.filter (fun x -> fst x) c_all
+
+let rec tools_collision_return xy_lst p =
+  match xy_lst with
+  | [] ->
+      (* failwith "imp" *)
+      (false, (0, 0))
+  | h :: t -> (
+      match tool_collison_return h p with
+      | [] -> tools_collision_return t p
+      | [ h ] -> h
+      | h :: t -> h)
+
+let rec tools_collision xy_lst p =
+  match xy_lst with
+  | [] -> false
+  | h :: t -> tool_collision h p || tools_collision t p
+
 let tool_collision_right_gui xy p =
   if check_tool_collision snd xy p then
     fst xy - fst (curr_pos p) = 30 || snd (curr_pos p) - snd xy = 20

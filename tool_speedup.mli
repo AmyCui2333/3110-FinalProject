@@ -2,9 +2,11 @@
    with the duration, new speed*)
 type t
 
-val get_xy : t -> int * int
+val get_speedup_xy : t -> int * int
 
-(** [show_tool1 b bkg] returns the list of position of tool_speedup
+val xy_to_speedup : int * int -> t list -> t
+
+(** [show_tool1 b bkgs] returns the list of position of tool_speedup
     bombed by the bomb*)
 val show_tool1s : Bomb.t list -> Background.t -> (int * int) list
 

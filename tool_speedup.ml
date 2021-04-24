@@ -11,7 +11,10 @@ type t = {
   speed_factor : int;
 }
 
-let get_xy t = t.pos
+let get_speedup_xy t = t.pos
+
+let xy_to_speedup xy speedup_lst =
+  List.hd (List.filter (fun x -> xy = x.pos) speedup_lst)
 
 let show_tool1 b bkg =
   let tool1_list = tool1_xy bkg in

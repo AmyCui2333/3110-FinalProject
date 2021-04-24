@@ -33,7 +33,7 @@ let player_one t = t.player_one
 
 (* let player_two t = t.player_two *)
 
-let get_tool1_xys st = List.map (fun x -> get_xy x) st.tool1
+let get_tool1_xys st = List.map (fun x -> get_speedup_xy x) st.tool1
 
 let move_player_one st p = { st with player_one = p }
 
@@ -64,14 +64,31 @@ let change_bkg_tool st b tool_lst =
    :: clear_tool1 st *)
 
 (*TODO: rn only work for one tool*)
+let rec take_tool1_old st =
+  match st.tool1 with
+  | [] -> st
+  | h :: t ->
+      if tool_collision (get_speedup_xy h) st.player_one then
+        change_plr_tool st
+          (speedup_plr h st.player_one)
+          (List.filter
+             (fun x -> get_speedup_xy x <> get_speedup_xy h)
+             st.tool1) (* (clear_tool1 st) *)
+      else st
+
 let rec take_tool1 st =
   match st.tool1 with
   | [] -> st
   | h :: t ->
-      if tool_collision (get_xy h) st.player_one then
+      let to_r =
+        tools_collision_return (get_tool1_xys st) st.player_one
+      in
+      if fst to_r then
         change_plr_tool st
-          (speedup_plr h st.player_one)
-          (List.filter (fun x -> get_xy x <> get_xy h) st.tool1)
+          (speedup_plr
+             (xy_to_speedup (snd to_r) st.tool1)
+             st.player_one)
+          (List.filter (fun x -> get_speedup_xy x <> snd to_r) st.tool1)
         (* (clear_tool1 st) *)
       else st
 
@@ -84,7 +101,7 @@ let rec some_explosion st =
 
 let exploding st = List.filter check_explode st.bombs
 
-(*clear the exploding bushes while add tools to st*)
+(**clear the exploding bushes while add tools to st if any*)
 let clear_exploding st =
   let exploding = List.filter check_explode st.bombs in
   let left = List.filter (fun x -> check_explode x = false) st.bombs in
