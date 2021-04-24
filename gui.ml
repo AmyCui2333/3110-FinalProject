@@ -167,7 +167,7 @@ let rec draw_tiles (pos_lst : (int * int) list) =
       draw_tiles t
 
 let draw_burnt_pl p1_xy =
-  let img = Png.load "bush_40.png" [] in
+  let img = Png.load "p1_b_40.png" [] in
   let g = of_image img in
   Graphics.draw_image g (fst p1_xy) (snd p1_xy)
 
