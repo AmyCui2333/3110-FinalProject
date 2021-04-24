@@ -101,24 +101,25 @@ let rec some_explosion st =
 
 let exploding st = List.filter check_explode st.bombs
 
+let bombed_player bomb_lst pl =
+  if in_blast_lst bomb_lst pl then kill pl else pl
+
 (**clear the exploding bushes while add tools to st if any*)
 let clear_exploding st =
   let exploding = List.filter check_explode st.bombs in
   let left = List.filter (fun x -> check_explode x = false) st.bombs in
   (* let tool1_xy_lst = show_tool1s exploding st.bkg in *)
   let new_bkg = explode st.bkg exploding in
+  let new_ply = bombed_player exploding st.player_one in
   let tool1_xy_lst = show_tool1s exploding st.bkg in
   let tool1_lst = new_speedups_fromxy tool1_xy_lst in
-  change_bkg_tool { st with bombs = left } new_bkg tool1_lst
-
-(* let clear_exploding st = let exploding = List.filter check_explode
-   st.bombs in let left = List.filter (fun x -> check_explode x = false)
-   st.bombs in let new_bkg = explode st.bkg exploding in let
-   tool1_xy_lst = show_tool1s exploding st.bkg in let tool1_lst =
-   new_speedups_fromxy tool1_xy_lst in change_bkg { st with bombs = left
-   } new_bkg *)
+  change_bkg_tool
+    { st with bombs = left; player_one = new_ply }
+    new_bkg tool1_lst
 
 (* let exploding_add_tool st = clear_graph st |> *)
+
+let check_dead st = lives (player_one st) = 0
 
 let rec take_input st =
   let input = wait_next_event [ Key_pressed ] in

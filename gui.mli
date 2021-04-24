@@ -43,10 +43,11 @@ val draw_tile : int -> int -> unit
 
 val draw_tiles : (int * int) list -> unit
 
-val draw_explosions : Bomb.t list -> Background.t -> unit
+val draw_explosions : Bomb.t list -> Background.t -> int * int -> unit
 
 val draw_speedups : (int * int) list -> unit
 
 val clear_speedup : State.t -> unit
 
+val draw_burnt_pl : int * int -> unit
 (* val draw_move : State.t -> int * int -> int * int -> unit *)

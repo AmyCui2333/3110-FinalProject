@@ -166,6 +166,11 @@ let rec draw_tiles (pos_lst : (int * int) list) =
       draw_tile (fst h) (snd h);
       draw_tiles t
 
+let draw_burnt_pl p1_xy =
+  let img = Png.load "bush_40.png" [] in
+  let g = of_image img in
+  Graphics.draw_image g (fst p1_xy) (snd p1_xy)
+
 let rec draw_explodes (pos_lst : (int * int) list) =
   match pos_lst with
   | [] -> ()
@@ -182,12 +187,14 @@ let rec clean_bombs res b_lst =
 let grids_to_clean pos_lst bkg =
   List.filter (fun x -> List.mem x (obs_two_xy bkg) = false) pos_lst
 
-let draw_explosions b_lst bkg =
+let draw_explosions b_lst bkg pl =
   let pos_lst = clean_bombs [] b_lst in
   let grids = grids_to_clean pos_lst bkg in
   draw_explodes grids;
-  Unix.sleepf 0.2;
-  draw_tiles grids
+  draw_burnt_pl pl;
+  Unix.sleepf 0.4;
+  draw_tiles grids;
+  draw_plr1 pl
 
 let draw_bomb pl =
   let img = Png.load "bomb_40.png" [] in

@@ -57,3 +57,5 @@ val exploding : t -> Bomb.t list
 val take_tool1 : t -> t
 
 val get_tool1_xys : t -> (int * int) list
+
+val check_dead : t -> bool
