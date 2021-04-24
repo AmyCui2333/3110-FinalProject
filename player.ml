@@ -89,13 +89,27 @@ let no_collision_left bkg p = no_collisionx bkg p ( - ) move_left
 
 let no_collision_right bkg p = no_collisionx bkg p ( + ) move_right
 
-let tool_collision_right xy p = fst (curr_pos p) + tile_size > fst xy
+let check_tool_collision f xy p = f xy == f (curr_pos p)
 
-let tool_collision_left xy p = fst (curr_pos p) - fst xy < tile_size
+let tool_collision_right xy p =
+  if check_tool_collision snd xy p then
+    fst xy - fst (curr_pos p) = tile_size / 2
+  else false
 
-let tool_collision_up xy p = snd xy - snd (curr_pos p) < tile_size
+let tool_collision_left xy p =
+  if check_tool_collision snd xy p then
+    fst (curr_pos p) - fst xy = tile_size / 2
+  else false
 
-let tool_collision_down xy p = snd (curr_pos p) - snd xy < tile_size
+let tool_collision_up xy p =
+  if check_tool_collision fst xy p then
+    snd xy - snd (curr_pos p) = tile_size / 2
+  else false
+
+let tool_collision_down xy p =
+  if check_tool_collision fst xy p then
+    snd (curr_pos p) - snd xy = tile_size / 2
+  else false
 
 let rec tool_collision xy p =
   (* print_endline "e"; *)

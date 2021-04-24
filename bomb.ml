@@ -30,7 +30,7 @@ let get_neighbours b =
   ]
 
 let check_explode b =
-  if Unix.time () -. b.start_time >= 5.0 then true else false
+  if Unix.time () -. b.start_time >= 3.0 then true else false
 
 let rec explode bkg b_lst =
   match b_lst with
