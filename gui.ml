@@ -228,8 +228,10 @@ let clear_speedup2 st =
           Graphics.draw_image g (fst h) (snd h))
 
 let clear_speedup st =
-  let img = Png.load "tile_green_40.png" [] in
-  let g = of_image img in
+  let imgup = Png.load "tile_green_up.png" [] in
+  let g_up = of_image imgup in
+  let imgleft = Png.load "tile_green_left.png" [] in
+  let g_left = of_image imgleft in
   let tool1_xy_lst = get_tool1_xys st in
   match tool1_xy_lst with
   | [] ->
@@ -240,9 +242,14 @@ let clear_speedup st =
       if tool_collision_gui h (player_one st) then
         print_endline "s collison"
       else ();
-      if tool_collision_gui h (player_one st) then
-        Graphics.draw_image g (fst h + 10) (snd h)
-      else ()
+      if tool_collision_right_gui h (player_one st) then
+        Graphics.draw_image g_left (fst h + 10) (snd h)
+      else if tool_collision_left_gui h (player_one st) then
+        Graphics.draw_image g_left (fst h) (snd h)
+      else if tool_collision_up_gui h (player_one st) then
+        Graphics.draw_image g_up (fst h) (snd h + 10)
+      else if tool_collision_down_gui h (player_one st) then
+        Graphics.draw_image g_up (fst h) (snd h)
 
 (* if tool_collision h (player_one st) then Graphics.draw_image g (fst
    h) (snd h) else () *)

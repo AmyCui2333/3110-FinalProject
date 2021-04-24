@@ -81,3 +81,11 @@ val tool_collision_down : int * int -> t -> bool
 val tool_collision : int * int -> t -> bool
 
 val tool_collision_gui : int * int -> t -> bool
+
+val tool_collision_right_gui : int * int -> t -> bool
+
+val tool_collision_left_gui : int * int -> t -> bool
+
+val tool_collision_up_gui : int * int -> t -> bool
+
+val tool_collision_down_gui : int * int -> t -> bool

@@ -120,19 +120,23 @@ let rec tool_collision xy p =
   || tool_collision_down xy p
 
 let tool_collision_right_gui xy p =
-  if check_tool_collision snd xy p then fst xy - fst (curr_pos p) = 30
+  if check_tool_collision snd xy p then
+    fst xy - fst (curr_pos p) = 30 || snd (curr_pos p) - snd xy = 20
   else false
 
 let tool_collision_left_gui xy p =
-  if check_tool_collision snd xy p then fst (curr_pos p) - fst xy = 30
+  if check_tool_collision snd xy p then
+    fst (curr_pos p) - fst xy = 30 || snd (curr_pos p) - snd xy = 20
   else false
 
 let tool_collision_up_gui xy p =
-  if check_tool_collision fst xy p then snd xy - snd (curr_pos p) = 30
+  if check_tool_collision fst xy p then
+    snd xy - snd (curr_pos p) = 30 || snd (curr_pos p) - snd xy = 20
   else false
 
 let tool_collision_down_gui xy p =
-  if check_tool_collision fst xy p then snd (curr_pos p) - snd xy = 30
+  if check_tool_collision fst xy p then
+    snd (curr_pos p) - snd xy = 30 || snd (curr_pos p) - snd xy = 20
   else false
 
 let rec tool_collision_gui xy p =
