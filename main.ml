@@ -67,6 +67,9 @@ let play_game f =
   draw_canvas ();
   print_endline "canvas";
   draw_bkg ();
+  draw_board ();
+  draw_heart ();
+  draw_head ();
   let bkg = read_bkg f in
   let player1 = start_tile_one bkg in
 

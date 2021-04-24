@@ -21,6 +21,12 @@ val draw_canvas : unit -> unit
 
 val draw_bkg : unit -> unit
 
+val draw_board : unit -> unit
+
+val draw_heart : unit -> unit
+
+val draw_head : unit -> unit
+
 val draw_obs : Background.t -> unit
 
 val init_p1_xy : string -> int * int
@@ -50,4 +56,5 @@ val draw_speedups : (int * int) list -> unit
 val clear_speedup : State.t -> unit
 
 val draw_burnt_pl : int * int -> unit
+
 (* val draw_move : State.t -> int * int -> int * int -> unit *)
