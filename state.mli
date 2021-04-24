@@ -52,6 +52,8 @@ val clear_exploding : t -> t
     time of explosion)*)
 val exploding : t -> Bomb.t list
 
+(** [take_tool1 st] returns the new state if player takes in any tool1s
+    and change the state and the tool1 list of the state*)
 val take_tool1 : t -> t
 
 val get_tool1_xys : t -> (int * int) list

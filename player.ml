@@ -119,6 +119,30 @@ let rec tool_collision xy p =
   || tool_collision_up xy p
   || tool_collision_down xy p
 
+let tool_collision_right_gui xy p =
+  if check_tool_collision snd xy p then fst xy - fst (curr_pos p) = 30
+  else false
+
+let tool_collision_left_gui xy p =
+  if check_tool_collision snd xy p then fst (curr_pos p) - fst xy = 30
+  else false
+
+let tool_collision_up_gui xy p =
+  if check_tool_collision fst xy p then snd xy - snd (curr_pos p) = 30
+  else false
+
+let tool_collision_down_gui xy p =
+  if check_tool_collision fst xy p then snd (curr_pos p) - snd xy = 30
+  else false
+
+let rec tool_collision_gui xy p =
+  (* print_endline "e"; *)
+  (* print_endline (string_of_bool (tool_collision xy p)); *)
+  tool_collision_right_gui xy p
+  || tool_collision_left_gui xy p
+  || tool_collision_up_gui xy p
+  || tool_collision_down_gui xy p
+
 (* let no_collision_up bkg p p2 = no_collisiony bkg p p2 ( + ) move_up
 
    let no_collision_down bkg p p2 = no_collisiony bkg p p2 ( - )

@@ -206,7 +206,7 @@ let rec draw_speedups (pos_lst : (int * int) list) =
       draw_speedup (fst h) (snd h);
       draw_speedups t
 
-let clear_speedup st =
+let clear_speedup2 st =
   let img = Png.load "tile_green_40.png" [] in
   let g = of_image img in
   let tool1_xy_lst = get_tool1_xys st in
@@ -218,12 +218,31 @@ let clear_speedup st =
       print_endline "tool list not empty";
       let take_tool =
         List.filter
-          (fun x -> tool_collision x (player_one st) = false)
+          (fun x -> tool_collision_gui x (player_one st))
           tool1_xy_lst
       in
       match take_tool with
-      | [] -> ()
-      | _ -> Graphics.draw_image g (fst h) (snd h))
+      | [] -> print_endline "no collison"
+      | h :: t ->
+          print_endline "s collison";
+          Graphics.draw_image g (fst h) (snd h))
+
+let clear_speedup st =
+  let img = Png.load "tile_green_40.png" [] in
+  let g = of_image img in
+  let tool1_xy_lst = get_tool1_xys st in
+  match tool1_xy_lst with
+  | [] ->
+      print_endline "tool list empty";
+      ()
+  | h :: t ->
+      print_endline "tool list not empty";
+      if tool_collision_gui h (player_one st) then
+        print_endline "s collison"
+      else ();
+      if tool_collision_gui h (player_one st) then
+        Graphics.draw_image g (fst h + 10) (snd h)
+      else ()
 
 (* if tool_collision h (player_one st) then Graphics.draw_image g (fst
    h) (snd h) else () *)

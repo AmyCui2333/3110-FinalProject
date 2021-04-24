@@ -79,3 +79,5 @@ val tool_collision_up : int * int -> t -> bool
 val tool_collision_down : int * int -> t -> bool
 
 val tool_collision : int * int -> t -> bool
+
+val tool_collision_gui : int * int -> t -> bool
