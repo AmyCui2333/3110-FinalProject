@@ -43,16 +43,13 @@ let in_blast_area b pl =
   let right = x + ((b.power + 1) * tile_size) in
   let top = y + ((b.power + 1) * tile_size) in
   let bottom = y - ((b.power + 1) * tile_size) in
-  let p1_x, p1_y = curr_pos pl in
+  let p1_x, p1_y = (fst pl, snd pl) in
   in_cross (x, y) left right top bottom p1_x p1_y
 
 let in_blast_lst b_lst pl =
   let _ = print_endline "blast_lst called" in
   let blasts = List.filter (fun x -> in_blast_area x pl) b_lst in
-  if blasts = [] then false
-  else
-    let _ = print_endline "in blast area" in
-    true
+  if blasts = [] then false else true
 
 let check_explode b =
   if Unix.time () -. b.start_time >= 3.0 then true else false

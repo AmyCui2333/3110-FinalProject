@@ -208,7 +208,7 @@ let draw_explosions b_lst bkg pl =
   let pos_lst = clean_bombs [] b_lst in
   let grids = grids_to_clean pos_lst bkg in
   draw_explodes grids;
-  draw_burnt_pl pl;
+  if in_blast_lst b_lst pl then draw_burnt_pl pl;
   Unix.sleepf 0.4;
   draw_tiles grids;
   draw_plr1 pl

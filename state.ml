@@ -102,7 +102,7 @@ let rec some_explosion st =
 let exploding st = List.filter check_explode st.bombs
 
 let bombed_player bomb_lst pl =
-  if in_blast_lst bomb_lst pl then kill pl else pl
+  if in_blast_lst bomb_lst (curr_pos pl) then kill pl else pl
 
 (**clear the exploding bushes while add tools to st if any*)
 let clear_exploding st =

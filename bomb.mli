@@ -22,6 +22,6 @@ val explode : Background.t -> t list -> Background.t
 (** [get_pos t] returns the postion of the bomb*)
 val get_pos : t -> int * int
 
-val in_blast_area : t -> Player.t -> bool
+val in_blast_area : t -> int * int -> bool
 
-val in_blast_lst : t list -> Player.t -> bool
+val in_blast_lst : t list -> int * int -> bool
