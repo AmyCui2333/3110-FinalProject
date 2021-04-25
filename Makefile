@@ -1,4 +1,4 @@
-MODULES=gui command state main author player background bomb
+MODULES=gui state main author player background bomb
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)

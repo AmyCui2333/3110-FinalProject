@@ -64,17 +64,11 @@ let change_bkg_tool st b tool_lst =
    :: clear_tool1 st *)
 
 (*TODO: rn only work for one tool*)
-let rec take_tool1_old st =
-  match st.tool1 with
-  | [] -> st
-  | h :: t ->
-      if tool_collision (get_speedup_xy h) st.player_one then
-        change_plr_tool st
-          (speedup_plr h st.player_one)
-          (List.filter
-             (fun x -> get_speedup_xy x <> get_speedup_xy h)
-             st.tool1) (* (clear_tool1 st) *)
-      else st
+(* let rec take_tool1_old st = match st.tool1 with | [] -> st | h :: t
+   -> if tool_collision (get_speedup_xy h) st.player_one then
+   change_plr_tool st (speedup_plr h st.player_one) (List.filter (fun x
+   -> get_speedup_xy x <> get_speedup_xy h) st.tool1) (* (clear_tool1
+   st) *) else st *)
 
 let rec take_tool1 st =
   match st.tool1 with

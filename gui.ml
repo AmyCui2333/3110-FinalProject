@@ -74,7 +74,7 @@ let tile_size = 40
 
 let tile_number = 16
 
-let draw_canvas () = Graphics.open_graph " 760x640"
+let draw_canvas () = Graphics.open_graph " 780x640"
 
 let draw_bkg () =
   (* let () = Graphics.open_graph " 800x800" in *)
@@ -101,11 +101,21 @@ let draw_board () =
   let g = of_image img in
   Graphics.draw_image g 0 0
 
-let draw_heart () =
+let draw_heart_3 () =
   let img = Png.load "heart_26.png" [] in
   let g = of_image img in
   Graphics.draw_image g 30 40;
   Graphics.draw_image g 56 40;
+  Graphics.draw_image g 82 40
+
+let draw_heart_2 () =
+  let img = Png.load "tile_green_left.png" [] in
+  let g = of_image img in
+  Graphics.draw_image g 56 40
+
+let draw_heart_1 () =
+  let img = Png.load "tile_green_left.png" [] in
+  let g = of_image img in
   Graphics.draw_image g 82 40
 
 let draw_head () =
@@ -212,6 +222,11 @@ let draw_explosions b_lst bkg pl =
   Unix.sleepf 0.4;
   draw_tiles grids;
   draw_plr1 pl
+
+let draw_minus_heart b_lst p =
+  if in_blast_lst b_lst (curr_pos p) && lives p == 2 then
+    draw_heart_2 ()
+  else draw_heart_1 ()
 
 let draw_bomb pl =
   let img = Png.load "bomb_40.png" [] in

@@ -23,7 +23,9 @@ val draw_bkg : unit -> unit
 
 val draw_board : unit -> unit
 
-val draw_heart : unit -> unit
+val draw_heart_3 : unit -> unit
+
+val draw_minus_heart : Bomb.t list -> Player.t -> unit
 
 val draw_head : unit -> unit
 

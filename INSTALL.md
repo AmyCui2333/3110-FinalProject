@@ -53,9 +53,9 @@ The GUI we use is dependent on having an X11 server on your local machine. Here 
 
 
 
-# 4. Running Game
+# 4. Instructions on Running Game
 
-Great! You have installed all things required for this game. Let's run it:
+Great! You have successfully installed all things required for this game. Now let's run it:
 
 ## **Windows**:
 1. Open `XLaunch` on your local **Windows** computer. Don't change any default option, except for the page "`Extra settings`" where you should tick the box with "`Disable access control`". Then, continue until you complete all settings.
@@ -91,13 +91,13 @@ Please enter the name of the game file you want to load.
 
 
 
-# 5. Game Commands on Keyboard:
-"W" key: move up
+# 5. Commands on Keyboard:
+**W** - move up
 
-"S" key: move down
+**S** - move down
 
-“A” key: move left
+**A** - move left
 
-“D” key: move right
+**D** - move right
 
-All the other keys: exit game
+**SPACE** - put a bomb at where the player locates in

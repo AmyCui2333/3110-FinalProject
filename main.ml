@@ -9,32 +9,12 @@ open Tool_speedup
 
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
-let burn_player pos1 =
-  draw_burnt_pl pos1;
-  Unix.sleepf 10.0
+(* let burn_player pos1 = draw_burnt_pl pos1; Unix.sleepf 10.0 *)
 
-let rec bomb_explode st pos1 =
-  match some_explosion st with
-  | true ->
-      draw_explosions (exploding st) (get_bkg st) pos1;
-      draw_speedups (show_tool1s (exploding st) (get_bkg st))
-  (* draw_speedups show_tool1 b bkg move_state2 (clear_exploding st)
-     pos1 *)
-  | false -> ()
-
-let rec move_state2 st pos1 =
-  bomb_explode st pos1;
-  draw_move st pos1;
-
-  let n = take_input st in
-  match n with
-  | Legal new_st -> move_state2 new_st (curr_pos (player_one st))
-  | Make_bomb new_st ->
-      draw_bomb (curr_pos (player_one new_st));
-      Unix.sleep 1;
-      draw_move st pos1;
-      move_state2 new_st (curr_pos (player_one st))
-  | Exit -> ()
+(* let rec bomb_explode st pos1 = match some_explosion st with | true ->
+   draw_explosions (exploding st) (get_bkg st) pos1; draw_speedups
+   (show_tool1s (exploding st) (get_bkg st)) (* draw_speedups show_tool1
+   b bkg move_state2 (clear_exploding st) pos1 *) | false -> () *)
 
 let rec move_state st pos1 =
   clear_speedup st;
@@ -44,6 +24,7 @@ let rec move_state st pos1 =
     | true ->
         draw_explosions (exploding st) (get_bkg st) pos1;
         draw_speedups (show_tool1s (exploding st) (get_bkg st));
+        draw_minus_heart (exploding st) (player_one st);
         move_state (clear_exploding st) pos1
     | false -> (
         let n = take_input st in
@@ -68,7 +49,7 @@ let play_game f =
   print_endline "canvas";
   draw_bkg ();
   draw_board ();
-  draw_heart ();
+  draw_heart_3 ();
   draw_head ();
   let bkg = read_bkg f in
   let player1 = start_tile_one bkg in
