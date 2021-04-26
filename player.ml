@@ -176,10 +176,7 @@ let rec tools_collision_return xy_lst p =
 let rec tools_collision_gui_return xy_lst p =
   tools_collision_return_aux xy_lst p tool_collison_gui_return
 
-let ( <+> ) (a : bool * (int * int)) b =
-  let a1 = fst a in
-  let b1 = fst b in
-  (b1 || a1, snd a)
+let ( <+> ) (a : bool * (int * int)) b = if fst a = true then a else b
 
 let rec tools_collision xy_lst p =
   match xy_lst with
