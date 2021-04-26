@@ -214,14 +214,23 @@ let rec clean_bombs res b_lst =
 let grids_to_clean pos_lst bkg =
   List.filter (fun x -> List.mem x (obs_two_xy bkg) = false) pos_lst
 
+let draw_burnt_minus_heart pl =
+  draw_burnt_pl (curr_pos pl);
+  if lives pl == 2 then draw_heart_2 () else draw_heart_1 ()
+
+(* let draw_explosions b_lst bkg pl = let pos_lst = clean_bombs [] b_lst
+   in let grids = grids_to_clean pos_lst bkg in draw_explodes grids; if
+   in_blast_lst b_lst pl then draw_burnt_pl pl; Unix.sleepf 0.4;
+   draw_tiles grids; draw_plr1 pl *)
+
 let draw_explosions b_lst bkg pl =
   let pos_lst = clean_bombs [] b_lst in
   let grids = grids_to_clean pos_lst bkg in
   draw_explodes grids;
-  if in_blast_lst b_lst pl then draw_burnt_pl pl;
+  if in_blast_lst b_lst (curr_pos pl) then draw_burnt_minus_heart pl;
   Unix.sleepf 0.4;
   draw_tiles grids;
-  draw_plr1 pl
+  draw_plr1 (curr_pos pl)
 
 let draw_minus_heart b_lst p =
   if in_blast_lst b_lst (curr_pos p) && lives p == 2 then

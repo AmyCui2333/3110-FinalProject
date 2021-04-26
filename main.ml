@@ -22,9 +22,9 @@ let rec move_state st pos1 =
   else
     match some_explosion st with
     | true ->
-        draw_explosions (exploding st) (get_bkg st) pos1;
+        draw_explosions (exploding st) (get_bkg st) (player_one st);
         draw_speedups (show_tool1s (exploding st) (get_bkg st));
-        draw_minus_heart (exploding st) (player_one st);
+        (* draw_minus_heart (exploding st) (player_one st); *)
         move_state (clear_exploding st) pos1
     | false -> (
         let n = take_input st in

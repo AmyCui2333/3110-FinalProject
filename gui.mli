@@ -51,7 +51,7 @@ val draw_tile : int -> int -> unit
 
 val draw_tiles : (int * int) list -> unit
 
-val draw_explosions : Bomb.t list -> Background.t -> int * int -> unit
+val draw_explosions : Bomb.t list -> Background.t -> Player.t -> unit
 
 val draw_speedups : (int * int) list -> unit
 
