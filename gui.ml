@@ -280,24 +280,24 @@ let clear_speedup st =
   let g_up = of_image imgup in
   let imgleft = Png.load "tile_green_left.png" [] in
   let g_left = of_image imgleft in
-  let tool1_xy_lst = get_tool1_xys st in
-  match tool1_xy_lst with
-  | [] ->
-      print_endline "tool list empty";
-      ()
-  | h :: t ->
-      print_endline "tool list not empty";
-      if tool_collision_gui h (player_one st) then
-        print_endline "s collison"
-      else ();
-      if tool_collision_right_gui h (player_one st) then
-        Graphics.draw_image g_left (fst h + 150) (snd h)
-      else if tool_collision_left_gui h (player_one st) then
-        Graphics.draw_image g_left (fst h + 140) (snd h)
-      else if tool_collision_up_gui h (player_one st) then
-        Graphics.draw_image g_up (fst h + 140) (snd h + 10)
-      else if tool_collision_down_gui h (player_one st) then
-        Graphics.draw_image g_up (fst h + 140) (snd h)
+
+  match get_tool1 st with
+  | [] -> ()
+  | h :: t -> (
+      let to_r =
+        tools_collision_gui_return (get_tool1_xys st) (player_one st)
+      in
+      match to_r with
+      | false, _ -> ()
+      | true, h ->
+          if tool_collision_right_gui h (player_one st) then
+            Graphics.draw_image g_left (fst h + 150) (snd h)
+          else if tool_collision_left_gui h (player_one st) then
+            Graphics.draw_image g_left (fst h + 140) (snd h)
+          else if tool_collision_up_gui h (player_one st) then
+            Graphics.draw_image g_up (fst h + 140) (snd h + 10)
+          else if tool_collision_down_gui h (player_one st) then
+            Graphics.draw_image g_up (fst h + 140) (snd h))
 
 (* if tool_collision h (player_one st) then Graphics.draw_image g (fst
    h) (snd h) else () *)

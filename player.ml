@@ -119,44 +119,67 @@ let rec tool_collision xy p =
   || tool_collision_up xy p
   || tool_collision_down xy p
 
-let tool_collision_right_return xy p =
+let tool_collision_right_return xy p num =
   if check_tool_collision snd xy p then
-    (fst xy - fst (curr_pos p) = tile_size / 2, xy)
+    (fst xy - fst (curr_pos p) = num, xy)
   else (false, (0, 0))
 
-let tool_collision_left_return xy p =
+let tool_collision_left_return xy p num =
   if check_tool_collision snd xy p then
-    (fst (curr_pos p) - fst xy = tile_size / 2, xy)
+    (fst (curr_pos p) - fst xy = num, xy)
   else (false, (0, 0))
 
-let tool_collision_up_return xy p =
+let tool_collision_up_return xy p num =
   if check_tool_collision fst xy p then
-    (snd xy - snd (curr_pos p) = tile_size / 2, xy)
+    (snd xy - snd (curr_pos p) = num, xy)
   else (false, (0, 0))
 
-let tool_collision_down_return xy p =
+let tool_collision_down_return xy p num =
   if check_tool_collision fst xy p then
-    (snd (curr_pos p) - snd xy = tile_size / 2, xy)
+    (snd (curr_pos p) - snd xy = num, xy)
   else (false, (0, 0))
 
-let tool_collison_return xy p =
-  let cd = tool_collision_down_return xy p in
-  let cu = tool_collision_up_return xy p in
-  let ct = tool_collision_left_return xy p in
-  let cr = tool_collision_right_return xy p in
+let tool_collison_return_aux xy p num =
+  let cd = tool_collision_down_return xy p num in
+  let cu = tool_collision_up_return xy p num in
+  let ct = tool_collision_left_return xy p num in
+  let cr = tool_collision_right_return xy p num in
   let c_all = [ cd; cu; ct; cr ] in
   List.filter (fun x -> fst x) c_all
 
-let rec tools_collision_return xy_lst p =
+let tool_collison_return xy p =
+  tool_collison_return_aux xy p (tile_size / 2)
+
+let tool_collison_gui_return xy p = tool_collison_return_aux xy p 30
+
+(* let tool_collision *)
+
+(* let rec tools_collision_return xy_lst p = match xy_lst with | [] ->
+   (* failwith "imp" *) (false, (0, 0)) | h :: t -> ( match
+   tool_collison_return h p with | [] -> tools_collision_return t p | [
+   h ] -> h | h :: t -> h) *)
+
+let rec tools_collision_return_aux xy_lst p f =
   match xy_lst with
   | [] ->
       (* failwith "imp" *)
       (false, (0, 0))
   | h :: t -> (
-      match tool_collison_return h p with
-      | [] -> tools_collision_return t p
+      match f h p with
+      | [] -> tools_collision_return_aux t p f
       | [ h ] -> h
       | h :: t -> h)
+
+let rec tools_collision_return xy_lst p =
+  tools_collision_return_aux xy_lst p tool_collison_return
+
+let rec tools_collision_gui_return xy_lst p =
+  tools_collision_return_aux xy_lst p tool_collison_gui_return
+
+let ( <+> ) (a : bool * (int * int)) b =
+  let a1 = fst a in
+  let b1 = fst b in
+  (b1 || a1, snd a)
 
 let rec tools_collision xy_lst p =
   match xy_lst with

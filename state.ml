@@ -11,6 +11,7 @@ type t = {
   bombs : Bomb.t list;
   bomb_limit : int;
   tool1 : Tool_speedup.t list;
+  t_c : bool;
 }
 
 type input =
@@ -21,7 +22,14 @@ type input =
 let init_state bkg pos1 =
   let player_one = Player.build_player "one" pos1 in
   (* let player_two = Player.build_player "two" pos2 in *)
-  { player_one; bkg; bombs = []; bomb_limit = 1; tool1 = [] }
+  {
+    player_one;
+    bkg;
+    bombs = [];
+    bomb_limit = 1;
+    tool1 = [];
+    t_c = false;
+  }
 
 (* let init_state bkg pos1 pos2 = let player_one = Player.build_player
    "one" pos1 in let player_two = Player.build_player "two" pos2 in {
@@ -32,6 +40,8 @@ let get_bkg st = st.bkg
 let player_one t = t.player_one
 
 (* let player_two t = t.player_two *)
+
+let get_tool1 st = st.tool1
 
 let get_tool1_xys st = List.map (fun x -> get_speedup_xy x) st.tool1
 
@@ -69,6 +79,38 @@ let change_bkg_tool st b tool_lst =
    change_plr_tool st (speedup_plr h st.player_one) (List.filter (fun x
    -> get_speedup_xy x <> get_speedup_xy h) st.tool1) (* (clear_tool1
    st) *) else st *)
+type t_c = bool
+
+let on_grid p =
+  fst (curr_pos p) mod tile_size = 0
+  && snd (curr_pos p) mod tile_size = 0
+
+let toggle b = match b with true -> false | false -> true
+
+let toggle_st st = { st with t_c = toggle st.t_c }
+
+(*still working on this DON'T DELETE *)
+let rec take_tool1_working_on_this st =
+  match st.tool1 with
+  | [] -> st
+  | h :: t ->
+      let to_r =
+        tools_collision_gui_return (get_tool1_xys st) st.player_one
+        (* in let to_r2 = tools_collision_gui_return (get_tool1_xys st)
+           st.player_one *)
+      in
+      (* let to_r3 = to_r <+> to_r2 in *)
+      if fst to_r then toggle_st st
+      else if on_grid st.player_one && st.t_c then
+        toggle_st
+          (change_plr_tool st
+             (speedup_plr
+                (xy_to_speedup (snd to_r) st.tool1)
+                st.player_one)
+             (List.filter
+                (fun x -> get_speedup_xy x <> snd to_r)
+                st.tool1)) (* (clear_tool1 st) *)
+      else st
 
 let rec take_tool1 st =
   match st.tool1 with
@@ -106,10 +148,13 @@ let clear_exploding st =
   let new_bkg = explode st.bkg exploding in
   let new_ply = bombed_player exploding st.player_one in
   let tool1_xy_lst = show_tool1s exploding st.bkg in
-  let tool1_lst = new_speedups_fromxy tool1_xy_lst in
+  let tool1_lst = new_speedups_fromxy tool1_xy_lst @ st.tool1 in
+  print_endline (string_of_int (List.length tool1_lst));
   change_bkg_tool
     { st with bombs = left; player_one = new_ply }
     new_bkg tool1_lst
+
+(* print_endline (string_of_int(List.length tool1_xy_lst)) *)
 
 (* let exploding_add_tool st = clear_graph st |> *)
 

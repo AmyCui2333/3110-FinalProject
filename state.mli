@@ -21,6 +21,8 @@ val get_bkg : t -> Background.t
 (**[player_one t] returns the player_one object. *)
 val player_one : t -> Player.t
 
+val get_tool1 : t -> Tool_speedup.t list
+
 (**[player_one t] returns the player_one object. *)
 
 (* val player_two : t -> Player.t *)
