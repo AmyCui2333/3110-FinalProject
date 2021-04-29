@@ -12,6 +12,7 @@ type t = {
   bomb_limit : int;
   tool1 : Tool_speedup.t list;
   t_c : bool * (int * int);
+  tool1_effective : Tool_speedup.t list;
 }
 
 type input =
@@ -29,6 +30,7 @@ let init_state bkg pos1 =
     bomb_limit = 1;
     tool1 = [];
     t_c = (false, (0, 0));
+    tool1_effective = [];
   }
 
 (* let init_state bkg pos1 pos2 = let player_one = Player.build_player

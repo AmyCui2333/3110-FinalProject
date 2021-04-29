@@ -42,6 +42,7 @@ val lives : t -> int
     the new player*)
 val kill : t -> t
 
+val add : t -> t
 (** [move_up p] moves the player up by one unit if there is nothing
     blocking the player, returns the new player*)
 val move_up : t -> t

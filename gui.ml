@@ -76,6 +76,11 @@ let tile_number = 16
 
 let draw_canvas () = Graphics.open_graph " 780x640"
 
+let draw_file name pl =
+  let img = Png.load name [] in
+  let g = of_image img in
+  Graphics.draw_image g (fst pl + 140) (snd pl)
+
 let draw_bkg () =
   (* let () = Graphics.open_graph " 800x800" in *)
   let img = Png.load "tile_green_40.png" [] in
@@ -145,6 +150,11 @@ let init_p1_xy f =
   let player_1 = player_one st in
   curr_pos player_1
 
+let draw_tile2 xy = draw_file "tile_green_40.png" xy
+
+(* let img = Png.load "tile_green_40.png" [] in let g = of_image img in
+   Graphics.draw_image g fstx y *)
+
 (*change *)
 (* let init_p2_xy f = let bkg = read_bkg f in let st = init_state bkg
    (start_tile_two bkg) (start_tile_two bkg) in let player_2 =
@@ -156,10 +166,10 @@ let init_p1_xy f =
    of_image img in let p1_xy = init_p1_xy p in Graphics.draw_image g
    (fst p1_xy) (snd p1_xy) *)
 
-let draw_plr1 p1_xy =
-  let img = Png.load "p1_40.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g (fst p1_xy + 140) (snd p1_xy)
+let draw_plr1 p1_xy = draw_file "p1_40.png" p1_xy
+
+(* let img = Png.load "p1_40.png" [] in let g = of_image img in
+   Graphics.draw_image g (fst p1_xy + 140) (snd p1_xy) *)
 
 (* let draw_plr2 p2_xy = let img = Png.load "p1_40.png" [] in let g =
    of_image img in Graphics.draw_image g (fst p2_xy) (snd p2_xy) *)
@@ -171,9 +181,9 @@ let draw_state st =
 (* draw_plr2 (curr_pos (player_two st)) *)
 
 let draw_move st pos1 =
-  let img = Png.load "tile_green_40.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g (fst pos1 + 140) (snd pos1);
+  (* let img = Png.load "tile_green_40.png" [] in let g = of_image img
+     in Graphics.draw_image g (fst pos1 + 140) (snd pos1); *)
+  draw_tile2 pos1;
   draw_plr1 (curr_pos (player_one st))
 
 let draw_tile x y =
@@ -237,10 +247,10 @@ let draw_minus_heart b_lst p =
     draw_heart_2 ()
   else draw_heart_1 ()
 
-let draw_bomb pl =
-  let img = Png.load "bomb_40.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g (fst pl + 140) (snd pl)
+let draw_bomb pl = draw_file "bomb_40.png" pl
+
+(* let img = Png.load "bomb_40.png" [] in let g = of_image img in
+   Graphics.draw_image g (fst pl + 140) (snd pl) *)
 
 let draw_speedup x y =
   let img = Png.load "speedup_40.png" [] in
@@ -276,28 +286,35 @@ let clear_speedup2 st =
           Graphics.draw_image g (fst h + 40) (snd h))
 
 let clear_speedup st =
-  let imgup = Png.load "tile_green_up.png" [] in
-  let g_up = of_image imgup in
-  let imgleft = Png.load "tile_green_left.png" [] in
-  let g_left = of_image imgleft in
-
+  (* let imgup = Png.load "tile_green_up.png" [] in let g_up = of_image
+     imgup in let imgleft = Png.load "tile_green_left.png" [] in let
+     g_left = of_image imgleft in let imup2 = Png.load
+     "tile_green_up.png" [] in let g_up2 = of_image imgup in *)
   match get_tool1 st with
   | [] -> ()
   | h :: t -> (
       let to_r =
         tools_collision_gui_return (get_tool1_xys st) (player_one st)
       in
-      match to_r with
+      let to_r2 =
+        tools_collision_return (get_tool1_xys st) (player_one st)
+      in
+      let to_r3 = to_r <+> to_r2 in
+
+      match to_r3 with
       | false, _ -> ()
       | true, h ->
-          if tool_collision_right_gui h (player_one st) then
-            Graphics.draw_image g_left (fst h + 150) (snd h)
-          else if tool_collision_left_gui h (player_one st) then
-            Graphics.draw_image g_left (fst h + 140) (snd h)
-          else if tool_collision_up_gui h (player_one st) then
-            Graphics.draw_image g_up (fst h + 140) (snd h + 10)
-          else if tool_collision_down_gui h (player_one st) then
-            Graphics.draw_image g_up (fst h + 140) (snd h))
+          draw_tile2 h;
+          (* draw_tile (fst h + 140) (snd h)); *)
+          draw_plr1 (curr_pos (player_one st)))
+
+(* if tool_collision_right_gui h (player_one st) then
+   Graphics.draw_image g_left (fst h + 150) (snd h) else if
+   tool_collision_left_gui h (player_one st) then Graphics.draw_image
+   g_left (fst h + 140) (snd h) else if tool_collision_up_gui h
+   (player_one st) then Graphics.draw_image g_up (fst h + 140) (snd h +
+   10) else if tool_collision_down_gui h (player_one st) then
+   Graphics.draw_image g_up (fst h + 140) (snd h)) *)
 
 (* if tool_collision h (player_one st) then Graphics.draw_image g (fst
    h) (snd h) else () *)

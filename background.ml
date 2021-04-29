@@ -91,7 +91,11 @@ let obs_two_xy bkg = obs_n_xy bkg 2
 
 let obs_xy_tool1 bkg = obs_tool_xy bkg 1
 
+let obs_xy_tool2 bkg = obs_tool_xy bkg 2
+
 let tool1_xy bkg = tool_xy bkg 1
+
+let tool2_xy bkg = tool_xy bkg 2
 
 let get_x (coord : xy) = match coord with a, _ -> a
 
