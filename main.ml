@@ -25,7 +25,7 @@ let rec move_state st pos1 =
     | true ->
         draw_explosions (exploding st) (get_bkg st) (player_one st);
         draw_speedups (show_tool1s (exploding st) (get_bkg st));
-        draw_addhearts (show_tool2s (exploding st) (get_bkg st));
+        (* draw_addhearts (show_tool2s (exploding st) (get_bkg st)); *)
         (* draw_minus_heart (exploding st) (player_one st); *)
         move_state (clear_exploding st) pos1
     | false -> (

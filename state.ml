@@ -207,19 +207,19 @@ let rec take_input st =
   | 'w' ->
       Legal
         (move_player_one st (no_collision_up st.bkg st.player_one)
-        |> take_tools)
+        |> take_tool1)
   | 's' ->
       Legal
         (move_player_one st (no_collision_down st.bkg st.player_one)
-        |> take_tools)
+        |> take_tool1)
   | 'a' ->
       Legal
         (move_player_one st (no_collision_left st.bkg st.player_one)
-        |> take_tools)
+        |> take_tool1)
   | 'd' ->
       Legal
         (move_player_one st (no_collision_right st.bkg st.player_one)
-        |> take_tools)
+        |> take_tool1)
   | ' ' ->
       let new_b = make_bomb st.player_one in
       if more_bomb (make_bomb st.player_one) st then
