@@ -35,7 +35,7 @@ let lives p = p.lives
 
 let kill p = { p with lives = p.lives - 1 }
 
-let add p = { p with lives = p.lives + 1 }
+let add p = if p.lives < 3 then { p with lives = p.lives + 1 } else p
 
 let move_up p =
   { p with curr_pos = (fst (curr_pos p), snd (curr_pos p) + p.speed) }

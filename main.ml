@@ -4,6 +4,7 @@ open State
 open Player
 open Bomb
 open Tool_speedup
+open Tool_addheart
 
 (** [play_game f] starts the adventure in file [f]. *)
 
@@ -17,13 +18,14 @@ let read_bkg f = from_json (Yojson.Basic.from_file f)
    b bkg move_state2 (clear_exploding st) pos1 *) | false -> () *)
 
 let rec move_state st pos1 =
-  clear_speedup st;
+  clear_tools st;
   if check_dead st then ()
   else
     match some_explosion st with
     | true ->
         draw_explosions (exploding st) (get_bkg st) (player_one st);
         draw_speedups (show_tool1s (exploding st) (get_bkg st));
+        draw_addhearts (show_tool2s (exploding st) (get_bkg st));
         (* draw_minus_heart (exploding st) (player_one st); *)
         move_state (clear_exploding st) pos1
     | false -> (

@@ -48,6 +48,8 @@ let player_one t = t.player_one
 
 let get_tool1 st = st.tool1
 
+let get_tool2 st = st.tool2
+
 let get_tool1_xys st = List.map (fun x -> get_speedup_xy x) st.tool1
 
 let get_tool2_xys st = List.map (fun x -> get_addheart_xy x) st.tool2
@@ -70,11 +72,15 @@ let change_bkg st b = { st with bkg = b }
 
 let change_plr st p = { st with player_one = p }
 
-let change_plr_tool st p tool = { (change_plr st p) with tool1 = tool }
+let change_plr_tool1 st p tool = { (change_plr st p) with tool1 = tool }
 
-let change_bkg_tool st b tool_lst =
+let change_plr_tool2 st p tool = { (change_plr st p) with tool2 = tool }
+
+let change_bkg_tool1 st b tool_lst =
   let new_st = change_bkg st b in
   { new_st with tool1 = tool_lst }
+
+let change_tool2 st tool_lst = { st with tool2 = tool_lst }
 
 (* let rec clear_tool1 st = match st.tool1 with | [] -> [] | h :: t ->
    if tool_collision (get_xy h) st.player_one then clear_tool1 st else h
@@ -98,7 +104,6 @@ let toggle_st st = { st with t_c = toggle st.t_c }
 
 let new_t_c a st = { st with t_c = (true, snd a) }
 
-(*still working on this DON'T DELETE *)
 let rec take_tool1 st =
   match st.tool1 with
   | [] -> st
@@ -113,13 +118,34 @@ let rec take_tool1 st =
       if fst to_r3 then new_t_c to_r3 st
       else if on_grid st.player_one && fst st.t_c then
         toggle_st
-          (change_plr_tool st
+          (change_plr_tool1 st
              (speedup_plr
                 (xy_to_speedup (snd st.t_c) st.tool1)
                 st.player_one)
              (List.filter
                 (fun x -> get_speedup_xy x <> snd st.t_c)
                 st.tool1)) (* (clear_tool1 st) *)
+      else st
+
+let rec take_tool2 st =
+  match st.tool2 with
+  | [] -> st
+  | h :: t ->
+      let to_r =
+        tools_collision_gui_return (get_tool2_xys st) st.player_one
+      in
+      let to_r2 =
+        tools_collision_return (get_tool2_xys st) st.player_one
+      in
+      let to_r3 = to_r <+> to_r2 in
+      if fst to_r3 then
+        change_plr_tool2 st (add st.player_one)
+          (List.filter
+             (fun x -> get_addheart_xy x <> snd to_r3)
+             st.tool2)
+        (* (add (xy_to_addheart (snd st.t_c) st.tool2) st.player_one)
+           (List.filter (fun x -> get_speedup_xy x <> snd st.t_c)
+           st.tool1) (clear_tool1 st) *)
       else st
 
 let rec take_tool1_ st =
@@ -130,7 +156,7 @@ let rec take_tool1_ st =
         tools_collision_return (get_tool1_xys st) st.player_one
       in
       if fst to_r then
-        change_plr_tool st
+        change_plr_tool1 st
           (speedup_plr
              (xy_to_speedup (snd to_r) st.tool1)
              st.player_one)
@@ -139,6 +165,7 @@ let rec take_tool1_ st =
       else st
 
 (* let tool1_expire st = *)
+let take_tools st = take_tool2 st |> take_tool1
 
 let rec some_explosion st =
   match List.filter check_explode st.bombs with
@@ -159,11 +186,14 @@ let clear_exploding st =
   let new_ply = bombed_player exploding st.player_one in
   let tool1_xy_lst = show_tool1s exploding st.bkg in
   let tool1_lst = new_speedups_fromxy tool1_xy_lst @ st.tool1 in
+  let tool2_lst = new_addhearts_fromxy tool1_xy_lst @ st.tool2 in
   print_endline
     ("tool1_lst length:" ^ string_of_int (List.length tool1_lst));
-  change_bkg_tool
-    { st with bombs = left; player_one = new_ply }
-    new_bkg tool1_lst
+  change_tool2
+    (change_bkg_tool1
+       { st with bombs = left; player_one = new_ply }
+       new_bkg tool1_lst)
+    tool2_lst
 
 (* print_endline (string_of_int(List.length tool1_xy_lst)) *)
 
@@ -177,19 +207,19 @@ let rec take_input st =
   | 'w' ->
       Legal
         (move_player_one st (no_collision_up st.bkg st.player_one)
-        |> take_tool1)
+        |> take_tools)
   | 's' ->
       Legal
         (move_player_one st (no_collision_down st.bkg st.player_one)
-        |> take_tool1)
+        |> take_tools)
   | 'a' ->
       Legal
         (move_player_one st (no_collision_left st.bkg st.player_one)
-        |> take_tool1)
+        |> take_tools)
   | 'd' ->
       Legal
         (move_player_one st (no_collision_right st.bkg st.player_one)
-        |> take_tool1)
+        |> take_tools)
   | ' ' ->
       let new_b = make_bomb st.player_one in
       if more_bomb (make_bomb st.player_one) st then

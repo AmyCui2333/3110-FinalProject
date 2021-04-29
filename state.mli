@@ -23,6 +23,8 @@ val player_one : t -> Player.t
 
 val get_tool1 : t -> Tool_speedup.t list
 
+val get_tool2 : t -> Tool_addheart.t list
+
 (**[player_one t] returns the player_one object. *)
 
 (* val player_two : t -> Player.t *)
@@ -59,5 +61,7 @@ val exploding : t -> Bomb.t list
 val take_tool1 : t -> t
 
 val get_tool1_xys : t -> (int * int) list
+
+val get_tool2_xys : t -> (int * int) list
 
 val check_dead : t -> bool

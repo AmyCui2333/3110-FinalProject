@@ -252,16 +252,37 @@ let draw_bomb pl = draw_file "bomb_40.png" pl
 (* let img = Png.load "bomb_40.png" [] in let g = of_image img in
    Graphics.draw_image g (fst pl + 140) (snd pl) *)
 
-let draw_speedup x y =
-  let img = Png.load "speedup_40.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g x y
+let draw_speedup xy = draw_file "speedup_40.png" xy
+
+(* let img = Png.load "speedup_40.png" [] in let g = of_image img in
+   Graphics.draw_image g x y *)
 
 let rec draw_speedups (pos_lst : (int * int) list) =
   match pos_lst with
   | [] -> ()
   | h :: t ->
-      draw_speedup (fst h + 140) (snd h);
+      draw_speedup h;
+      draw_speedups t
+
+let draw_speedup xy = draw_file "speedup_40.png" xy
+
+(* let img = Png.load "speedup_40.png" [] in let g = of_image img in
+   Graphics.draw_image g x y *)
+
+let rec draw_speedups (pos_lst : (int * int) list) =
+  match pos_lst with
+  | [] -> ()
+  | h :: t ->
+      draw_speedup h;
+      draw_speedups t
+
+let draw_addheart xy = draw_file "tool_addheart.png" xy
+
+let rec draw_addhearts (pos_lst : (int * int) list) =
+  match pos_lst with
+  | [] -> ()
+  | h :: t ->
+      draw_addheart h;
       draw_speedups t
 
 let clear_speedup2 st =
@@ -285,28 +306,26 @@ let clear_speedup2 st =
           print_endline "s collison";
           Graphics.draw_image g (fst h + 40) (snd h))
 
-let clear_speedup st =
-  (* let imgup = Png.load "tile_green_up.png" [] in let g_up = of_image
-     imgup in let imgleft = Png.load "tile_green_left.png" [] in let
-     g_left = of_image imgleft in let imup2 = Png.load
-     "tile_green_up.png" [] in let g_up2 = of_image imgup in *)
-  match get_tool1 st with
+let clear_tool f1 f2 st =
+  match f1 st with
   | [] -> ()
   | h :: t -> (
-      let to_r =
-        tools_collision_gui_return (get_tool1_xys st) (player_one st)
-      in
-      let to_r2 =
-        tools_collision_return (get_tool1_xys st) (player_one st)
-      in
+      let to_r = tools_collision_gui_return (f2 st) (player_one st) in
+      let to_r2 = tools_collision_return (f2 st) (player_one st) in
       let to_r3 = to_r <+> to_r2 in
-
       match to_r3 with
       | false, _ -> ()
       | true, h ->
           draw_tile2 h;
-          (* draw_tile (fst h + 140) (snd h)); *)
           draw_plr1 (curr_pos (player_one st)))
+
+let clear_speedup st = clear_tool get_tool1 get_tool1_xys st
+
+let clear_addheart st = clear_tool get_tool2 get_tool2_xys st
+
+let clear_tools st =
+  clear_addheart st;
+  clear_speedup st
 
 (* if tool_collision_right_gui h (player_one st) then
    Graphics.draw_image g_left (fst h + 150) (snd h) else if

@@ -55,7 +55,9 @@ val draw_explosions : Bomb.t list -> Background.t -> Player.t -> unit
 
 val draw_speedups : (int * int) list -> unit
 
-val clear_speedup : State.t -> unit
+val draw_addhearts : (int * int) list -> unit
+
+val clear_tools : State.t -> unit
 
 val draw_burnt_pl : int * int -> unit
 
