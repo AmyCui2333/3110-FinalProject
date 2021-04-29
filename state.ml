@@ -3,6 +3,7 @@ open Player
 open Graphics
 open Bomb
 open Tool_speedup
+open Tool_addheart
 
 type t = {
   player_one : Player.t;
@@ -11,6 +12,7 @@ type t = {
   bombs : Bomb.t list;
   bomb_limit : int;
   tool1 : Tool_speedup.t list;
+  tool2 : Tool_addheart.t list;
   t_c : bool * (int * int);
   tool1_effective : Tool_speedup.t list;
 }
@@ -29,6 +31,7 @@ let init_state bkg pos1 =
     bombs = [];
     bomb_limit = 1;
     tool1 = [];
+    tool2 = [];
     t_c = (false, (0, 0));
     tool1_effective = [];
   }
@@ -46,6 +49,8 @@ let player_one t = t.player_one
 let get_tool1 st = st.tool1
 
 let get_tool1_xys st = List.map (fun x -> get_speedup_xy x) st.tool1
+
+let get_tool2_xys st = List.map (fun x -> get_addheart_xy x) st.tool2
 
 let move_player_one st p = { st with player_one = p }
 
