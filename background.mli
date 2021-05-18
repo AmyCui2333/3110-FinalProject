@@ -29,7 +29,12 @@ val start_tile_one : t -> xy
 
 (** [start_tile_two bkg] is the identifier of the starting tile of
     player two in background [bkg]. *)
-val start_tile_two : t -> xy
+
+(* val start_tile_two : t -> xy *)
+
+val portal_one : t -> xy
+
+val portal_two : t -> xy
 
 (** [obs_ids a] is a set-like list of all of the obstacle identifiers in
     background [a]. *)
@@ -42,6 +47,10 @@ val obs_one_xy : t -> xy list
 (** [obs_two_xy a] is a set-like list of all of the type two obstacle
     identifiers in background [a]. *)
 val obs_two_xy : t -> xy list
+
+(** [obs_three_xy a] is a set-like list of all of the type two obstacle
+    (portal) identifiers in background [a]. *)
+val obs_three_xy : t -> xy list
 
 (** [obs_on_x x] is a list of all obstacles on row x. *)
 val obs_on_x : t -> int -> int list
@@ -62,3 +71,5 @@ val tool2_xy : t -> xy list
 val obs_xy_tool3 : t -> ((int * int) * int) list
 
 val tool3_xy : t -> xy list
+
+val all_tools : t -> xy list

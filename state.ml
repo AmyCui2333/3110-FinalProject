@@ -5,24 +5,26 @@ open Bomb
 open Tool_speedup
 open Tool_addheart
 open Tool_addbomb
+open Obs_portal
 open Enemy
 
 type t = {
   player_one : Player.t;
-  (* player_two : Player.t; *)
   bkg : Background.t;
   bombs : Bomb.t list;
   bomb_limit : int;
   tool1 : Tool_speedup.t list;
   tool2 : Tool_addheart.t list;
   tool3 : Tool_addbomb.t list;
+  obs_portal : Obs_portal.t;
   tool1_start_time : float;
   tool1_duration_time : float;
   t_c : bool * (int * int);
   t_c2 : bool * (int * int);
   t_c3 : bool * (int * int);
   last_enemy : float * string;
-  enemies : Enemy.t list;
+  enemy : Enemy.t option;
+  score : int;
 }
 
 type input =
@@ -41,20 +43,28 @@ let init_state bkg pos1 =
     tool1 = [];
     tool2 = [];
     tool3 = [];
+    obs_portal = new_portal bkg;
     tool1_start_time = Unix.time () +. max_float;
-    tool1_duration_time = 5.0;
+    tool1_duration_time = 15.0;
     t_c = (false, (0, 0));
     t_c2 = (false, (0, 0));
     t_c3 = (false, (0, 0));
     last_enemy = (Unix.time (), "fast");
-    enemies = [];
+    enemy = None;
+    score = 0;
   }
+
+  let get_portal_pos st = let p1 = get_portal1_xy st.obs_portal in
+  let p2 = get_portal2_xy st.obs_portal in
+[ p1; p2 ]
 
 (* let init_state bkg pos1 pos2 = let player_one = Player.build_player
    "one" pos1 in let player_two = Player.build_player "two" pos2 in {
    player_one; player_two; bkg } *)
 
 let get_bkg st = st.bkg
+
+let get_score st = st.score
 
 let player_one t = t.player_one
 
@@ -71,6 +81,8 @@ let get_tool1_xys st = List.map (fun x -> get_speedup_xy x) st.tool1
 let get_tool2_xys st = List.map (fun x -> get_addheart_xy x) st.tool2
 
 let get_tool3_xys st = List.map (fun x -> get_bomb_xy x) st.tool3
+
+let get_tools_xys st = all_tools st.bkg
 
 let move_player_one st p = { st with player_one = p }
 
@@ -223,6 +235,33 @@ let rec take_tool3 st =
         |> toggle_st3
       else st
 
+let take_portal st =
+  let p1 = get_portal1_xy st.obs_portal in
+  let p2 = get_portal2_xy st.obs_portal in
+  let p_lst = [ p1; p2 ] in
+  let to_r = tools_collision_gui_return p_lst st.player_one in
+  let to_r2 = tools_collision_return p_lst st.player_one in
+  let to_r3 = to_r <+> to_r2 in
+  if fst to_r3 then
+    change_plr st
+      (transfer_pl st.player_one
+         (portal_pos
+            (List.hd (List.filter (fun x -> x <> snd to_r3) p_lst))
+            st.obs_portal))
+  else st
+
+  (* let rec clean_bombs res b_lst =
+    match b_lst with
+    | [] -> res
+    | h :: t ->
+        clean_bombs
+          (List.append (get_pos h :: get_neighbours 1 h []) res)
+          t  
+          
+          
+let pos_lst = clean_bombs [] b_lst in
+  let grids = grids_to_clean pos_lst bkg in *)
+
 (* let rec take_tool1_ st = match st.tool1 with | [] -> st | h :: t ->
    let to_r = tools_collision_return (get_tool1_xys st) st.player_one in
    if fst to_r then change_plr_tool1 st (speedup_plr (xy_to_speedup (snd
@@ -230,7 +269,8 @@ let rec take_tool3 st =
    x <> snd to_r) st.tool1) (* (clear_tool1 st) *) else st *)
 
 (* let tool1_expire st = *)
-let take_tools st = take_tool3 st |> take_tool2 |> take_tool1
+let take_tools st =
+  take_tool3 st |> take_tool2 |> take_tool1 |> take_portal
 
 let rec some_explosion st =
   match List.filter check_explode st.bombs with
@@ -242,38 +282,25 @@ let exploding st = List.filter check_explode st.bombs
 let bombed_player bomb_lst pl =
   if in_blast_lst bomb_lst (curr_pos pl) then kill pl else pl
 
-(**clear the exploding bushes while add tools to st if any*)
-let clear_exploding st =
-  let exploding = List.filter check_explode st.bombs in
-  let left = List.filter (fun x -> check_explode x = false) st.bombs in
-  (* let tool1_xy_lst = show_tool1s exploding st.bkg in *)
-  let new_bkg = explode st.bkg exploding in
-  let new_ply = bombed_player exploding st.player_one in
-  let tool1_xy_lst = show_tool1s exploding st.bkg in
-  let tool2_xy_lst = show_tool2s exploding st.bkg in
-  let tool3_xy_lst = show_tool3s exploding st.bkg in
-  let tool1_lst = new_speedups_fromxy tool1_xy_lst @ st.tool1 in
-  let tool2_lst = new_addhearts_fromxy tool2_xy_lst @ st.tool2 in
-  let tool3_lst = new_addbombs_fromxy tool3_xy_lst @ st.tool3 in
-  print_endline
-    ("speedup_lst length:" ^ string_of_int (List.length tool1_lst));
-  print_endline
-    ("addheart_lst length:" ^ string_of_int (List.length tool2_lst));
-  print_endline
-    ("addbomb_lst length:" ^ string_of_int (List.length tool3_lst));
-  change_tool3
-    (change_tool2
-       (change_bkg_tool1
-          { st with bombs = left; player_one = new_ply }
-          new_bkg tool1_lst)
-       tool2_lst)
-    tool3_lst
+let rec bombed_obs bomb_lst obs_lst =
+  match obs_lst with
+  | [] -> []
+  | h :: t -> 
+    print_endline (string_of_bool (in_blast_lst bomb_lst h ) );
+    if in_blast_lst bomb_lst h 
+    then h :: bombed_obs bomb_lst t else bombed_obs bomb_lst t 
 
-(* print_endline (string_of_int(List.length tool1_xy_lst)) *)
-
-(* let exploding_add_tool st = clear_graph st |> *)
-
-let check_dead st = lives (player_one st) = 0
+let score_obs exploding st=
+  (* let exploding = List.filter check_explode st.bombs in *)
+  (* print_endline (to_string check_explode); *)
+  let num_bombed_obs = List.length (bombed_obs exploding (obs_one_xy st.bkg)) in
+  let new_score  =10* num_bombed_obs in
+  new_score
+  (* print_endline (string_of_int (List.length (obs_one_xy st.bkg)));
+  print_endline (string_of_int (List.length exploding));
+  print_endline (string_of_int (num_bombed_obs));  *)
+  (* Bug lies here? *)
+  (* {st with score = new_score} *)
 
 let get_area xy =
   match (fst xy - 280 > 0, snd xy - 280 > 0) with
@@ -297,52 +324,129 @@ let random_enemy_pos st =
 
 let make_enemy st =
   let new_enemy_pos = random_enemy_pos st in
-  let tools = get_tool1_xys st in
+  let tools = get_tools_xys st in
+  let portals = get_portal_pos st in 
+  
   if snd st.last_enemy = "fast" then
-    (build_enemy new_enemy_pos tools "slow", "slow")
-  else (build_enemy new_enemy_pos tools "fast", "fast")
+    (build_enemy new_enemy_pos (tools @ portals) "slow", "slow")
+  else (build_enemy new_enemy_pos (tools @ portals) "fast", "fast")
+ let generate_enemy st =
+  if Unix.time () -. fst st.last_enemy >= 10.0 && st.enemy = None then
+    let new_enemy = make_enemy st in
+    {
+      st with
+      enemy = Some (fst new_enemy);
+      last_enemy = (Unix.time (), snd new_enemy);
+    }
+  else st
 
-let generate_enemy st =
-  let new_enemy = make_enemy st in
-  let enemy_lst = fst new_enemy :: st.enemies in
-  {
-    st with
-    enemies = enemy_lst;
-    last_enemy = (Unix.time (), snd new_enemy);
-  }
+let bombed_enemy st bomb_lst =
+  match st.enemy with
+  | Some enemy ->
+      if in_blast_lst bomb_lst (enemy_pos enemy) then
+        (None, st.score + 200)
+      else (st.enemy, st.score)
+  | None -> (None, st.score)
 
-let update_enemies st e_lst = { st with enemies = e_lst }
+let get_enemy_pos st =
+  match st.enemy with Some e -> Some (enemy_pos e) | None -> None
+
+let update_enemy_pos st =
+  match st.enemy with
+  | Some e ->
+      let dirs = get_direction st.player_one e in
+      let moved_enemy = move_enemy dirs st.bkg e in
+      { st with enemy = Some moved_enemy }
+  | None -> st
+
+
+let change_exploding_state
+    st
+    bombs_left
+    new_bkg
+    new_ply
+    new_enemy
+    new_score
+    new_score2
+    tool1_lst
+    tool2_lst
+    tool3_lst =
+  change_tool3
+    (change_tool2
+       (change_bkg_tool1
+          {
+            st with
+            bombs = bombs_left;
+            player_one = new_ply;
+            enemy = new_enemy;
+            score = new_score + new_score2;
+          }
+          new_bkg tool1_lst)
+       tool2_lst)
+    tool3_lst
+
+(**clear the exploding bushes while add tools to st if any*)
+let clear_exploding st =
+  let exploding = List.filter check_explode st.bombs in
+  let bombs_left =
+    List.filter (fun x -> check_explode x = false) st.bombs
+  in
+  (* let tool1_xy_lst = show_tool1s exploding st.bkg in *)
+  let new_bkg = explode st.bkg exploding in
+  let new_ply = bombed_player exploding st.player_one in
+  let new_enemy, new_score = bombed_enemy st exploding in
+  let tool1_xy_lst = show_tool1s exploding st.bkg in
+  let tool2_xy_lst = show_tool2s exploding st.bkg in
+  let tool3_xy_lst = show_tool3s exploding st.bkg in
+  let tool1_lst = new_speedups_fromxy tool1_xy_lst @ st.tool1 in
+  let tool2_lst = new_addhearts_fromxy tool2_xy_lst @ st.tool2 in
+  let tool3_lst = new_addbombs_fromxy tool3_xy_lst @ st.tool3 in
+  let new_score2 = score_obs exploding st in 
+  change_exploding_state st bombs_left new_bkg new_ply new_enemy
+    new_score new_score2 tool1_lst tool2_lst tool3_lst
+
+(* print_endline (string_of_int(List.length tool1_xy_lst)) *)
+
+(* let exploding_add_tool st = clear_graph st |> *)
+
+let check_dead st = lives (player_one st) = 0
+
+let generate_bomb st =
+  let new_b = make_bomb st.player_one in
+  if more_bomb (make_bomb st.player_one) st then
+    match new_b with
+    | None -> failwith "impossible"
+    | Some b -> Make_bomb (add_bomb b st)
+  else Legal st
+
+let enemy_ply_collision st =
+  let player = st.player_one in 
+  match st.enemy with 
+  | Some e -> 
+    let new_ply, new_enemy = collide_with_player player e 
+    in {st with enemy = new_enemy; player_one = new_ply}
+  | None -> st
+
+
+let update_state_enemy st = 
+  st |> generate_enemy |> update_enemy_pos |> enemy_ply_collision
+
+
+let update_state st collision_dir =
+  Legal
+    (move_player_one st (collision_dir st.bkg st.player_one)
+    |> update_state_enemy
+    |> take_tools
+    |> speedback_plr st.player_one)
 
 let rec take_input st =
   let input = wait_next_event [ Key_pressed ] in
   match input.key with
-  | 'w' ->
-      Legal
-        (move_player_one st (no_collision_up st.bkg st.player_one)
-        |> take_tools
-        |> speedback_plr st.player_one)
-  | 's' ->
-      Legal
-        (move_player_one st (no_collision_down st.bkg st.player_one)
-        |> take_tools
-        |> speedback_plr st.player_one)
-  | 'a' ->
-      Legal
-        (move_player_one st (no_collision_left st.bkg st.player_one)
-        |> take_tools
-        |> speedback_plr st.player_one)
-  | 'd' ->
-      Legal
-        (move_player_one st (no_collision_right st.bkg st.player_one)
-        |> take_tools
-        |> speedback_plr st.player_one)
-  | ' ' ->
-      let new_b = make_bomb st.player_one in
-      if more_bomb (make_bomb st.player_one) st then
-        match new_b with
-        | None -> failwith "impossible"
-        | Some b -> Make_bomb (add_bomb b st)
-      else Legal st
+  | 'w' -> update_state st no_collision_up
+  | 's' -> update_state st no_collision_down
+  | 'a' -> update_state st no_collision_left
+  | 'd' -> update_state st no_collision_right
+  | ' ' -> generate_bomb st
   | _ -> take_input st
 
 (* let rec take_input st = let input = wait_next_event [ Key_pressed ]

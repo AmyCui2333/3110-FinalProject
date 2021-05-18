@@ -70,3 +70,9 @@ val get_tool3_xys : t -> (int * int) list
 val check_dead : t -> bool
 
 val speedback_plr : Player.t -> t -> t
+
+val get_enemy_pos : t -> (int * int) option
+
+val get_score : t -> int
+
+val get_portal_pos : t -> (int * int) list

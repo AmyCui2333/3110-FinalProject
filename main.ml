@@ -19,6 +19,8 @@ let read_bkg f = from_json (Yojson.Basic.from_file f)
 
 let rec move_state st pos1 =
   clear_tools st;
+  draw_score st;
+
   if check_dead st then ()
   else
     match some_explosion st with
@@ -36,13 +38,15 @@ let rec move_state st pos1 =
         let n = take_input st in
         match n with
         | Legal new_st ->
-            draw_move new_st (curr_pos (player_one st));
+            draw_move new_st
+              (curr_pos (player_one st))
+              (get_enemy_pos st);
             draw_heart_on_board (player_one new_st);
             move_state new_st (curr_pos (player_one new_st))
         | Make_bomb new_st ->
             draw_bomb (curr_pos (player_one new_st));
             Unix.sleep 1;
-            draw_move new_st pos1;
+            draw_move new_st pos1 (get_enemy_pos st);
             move_state new_st (curr_pos (player_one st))
         | Exit -> ())
 

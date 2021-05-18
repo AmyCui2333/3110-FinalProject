@@ -3,8 +3,7 @@
 type t
 
 (** [make_bomb p ] makes the bomb at the player's current position with
-    the bomb_power initiated from player and record a start time of bomb
-    if the player position is on the center of the tile else return none*)
+    the bomb_power initiated from player and record a start time of bomb*)
 val make_bomb : Player.t -> t option
 
 (** [get_neighbours b] returns the position of the all neighbors

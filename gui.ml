@@ -78,10 +78,23 @@ let tile_number = 16
 
 let draw_canvas () = Graphics.open_graph " 780x640"
 
+(* let set_pos = moveto 100 100 *)
+
 let draw_file name pl =
   let img = Png.load name [] in
   let g = of_image img in
   Graphics.draw_image g (fst pl + 140) (snd pl)
+
+let draw_score_cover xy = draw_file "score_cover.png" xy
+
+let draw_score st =
+  (* set_pos; *)
+  draw_score_cover (45 - 140, 300);
+  moveto 45 300;
+  (* set_text_size 20; *)
+  draw_string ("score: " ^ string_of_int (get_score st));
+  set_text_size 20;
+  moveto 45 300
 
 let draw_bkg () =
   (* let () = Graphics.open_graph " 800x800" in *)
@@ -93,15 +106,17 @@ let draw_bkg () =
     done
   done
 
-let draw_obs1 ob =
-  let img = Png.load "bush_40.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g (fst ob + 140) (snd ob)
+let draw_obs1 ob = draw_file "bush_40.png" ob
 
-let draw_obs2 ob =
-  let img = Png.load "stone_40.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g (fst ob + 140) (snd ob)
+(* let img = Png.load "bush_40.png" [] in let g = of_image img in
+   Graphics.draw_image g (fst ob + 140) (snd ob) *)
+
+let draw_obs2 ob = draw_file "stone_40.png" ob
+
+(* let img = Png.load "stone_40.png" [] in let g = of_image img in
+   Graphics.draw_image g (fst ob + 140) (snd ob) *)
+
+let draw_obs3 ob = draw_file "portal.png" ob
 
 let draw_board () =
   let img = Png.load "score_board_bkg.png" [] in
@@ -121,9 +136,12 @@ let draw_all_obs1 bkg = draw_all_obs bkg obs_one_xy draw_obs1
 
 let draw_all_obs2 bkg = draw_all_obs bkg obs_two_xy draw_obs2
 
+let draw_all_obs3 bkg = draw_all_obs bkg obs_three_xy draw_obs3
+
 let draw_obs bkg =
   draw_all_obs1 bkg;
-  draw_all_obs2 bkg
+  draw_all_obs2 bkg;
+  draw_all_obs3 bkg
 
 (* let init_p1_xy f = let bkg = read_bkg f in let st = init_state bkg
    (start_tile_one bkg) (start_tile_two bkg) in let player_1 =
@@ -134,6 +152,22 @@ let init_p1_xy f =
   let st = init_state bkg (start_tile_one bkg) in
   let player_1 = player_one st in
   curr_pos player_1
+
+let draw_enemy pos =
+  match pos with
+  | Some (x, y) ->
+      let img = Png.load "enemy.png" [] in
+      let g = of_image img in
+      Graphics.draw_image g (x + 140) y
+  | None -> ()
+
+let draw_enemy_b pos =
+  match pos with
+  | Some (x, y) ->
+      let img = Png.load "enemy_b.png" [] in
+      let g = of_image img in
+      Graphics.draw_image g (x + 140) y
+  | None -> ()
 
 let draw_tile2 xy = draw_file "tile_green_40.png" xy
 
@@ -161,15 +195,21 @@ let draw_plr1 p1_xy = draw_file "p1_40.png" p1_xy
 
 let draw_state st =
   draw_obs (get_bkg st);
-  draw_plr1 (curr_pos (player_one st))
+  draw_plr1 (curr_pos (player_one st));
+  draw_enemy (get_enemy_pos st)
 
 (* draw_plr2 (curr_pos (player_two st)) *)
 
-let draw_move st pos1 =
+let draw_move st pos_ply pos_enemy =
   (* let img = Png.load "tile_green_40.png" [] in let g = of_image img
      in Graphics.draw_image g (fst pos1 + 140) (snd pos1); *)
-  draw_tile2 pos1;
-  draw_plr1 (curr_pos (player_one st))
+  draw_tile2 pos_ply;
+  draw_plr1 (curr_pos (player_one st));
+  match pos_enemy with
+  | Some pos_e ->
+      draw_tile2 pos_e;
+      draw_enemy (get_enemy_pos st)
+  | None -> ()
 
 let draw_tile x y =
   let img = Png.load "tile_green_40.png" [] in
@@ -212,6 +252,7 @@ let grids_to_clean pos_lst st =
   List.filter
     (fun x ->
       List.mem x (obs_two_xy (get_bkg st)) = false
+      && List.mem x (obs_three_xy (get_bkg st)) = false
       && List.mem x (get_tool1_xys st) = false
       && List.mem x (get_tool2_xys st) = false)
     pos_lst
@@ -259,9 +300,11 @@ let draw_heart_0 () =
   Graphics.draw_image g 56 40;
   Graphics.draw_image g 82 40
 
-(* let draw_minus_heart b_lst p = if in_blast_lst b_lst (curr_pos p) &&
-   lives p == 2 then draw_heart_2 () else if in_blast_lst b_lst
-   (curr_pos p) && lives p == 1 then draw_heart_1 () *)
+let draw_minus_heart b_lst p =
+  if in_blast_lst b_lst (curr_pos p) && lives p == 2 then
+    draw_heart_2 ()
+  else if in_blast_lst b_lst (curr_pos p) && lives p == 1 then
+    draw_heart_1 ()
 
 let draw_heart_on_board pl =
   match lives pl with
@@ -276,16 +319,24 @@ let draw_heart_on_board pl =
    in_blast_lst b_lst (curr_pos pl) then draw_heart_on_board pl;
    draw_burnt_pl (curr_pos pl); Unix.sleepf 0.4; draw_tiles grids;
    draw_plr1 (curr_pos pl) *)
+let in_blast_lst_op b_lst st =
+  match get_enemy_pos st with
+  | None -> false
+  | Some xy -> in_blast_lst b_lst xy
 
-let draw_explosions b_lst bkg (pl : Player.t) =
+let draw_explosions b_lst st (pl : Player.t) =
   let pos_lst = clean_bombs [] b_lst in
-  let grids = grids_to_clean pos_lst bkg in
+  let grids = grids_to_clean pos_lst st in
   draw_explodes grids;
   if in_blast_lst b_lst (curr_pos pl) then draw_burnt_pl (curr_pos pl);
+  if in_blast_lst_op b_lst st then draw_enemy_b (get_enemy_pos st);
   draw_heart_on_board pl;
+  (* draw_minus_heart b_lst pl; *)
   Unix.sleepf 0.4;
   draw_tiles grids;
   draw_plr1 (curr_pos pl)
+
+(* else if in_blast_lst_op b_lst bkg then *)
 
 let draw_bomb pl = draw_file "bomb_40.png" pl
 

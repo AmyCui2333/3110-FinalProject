@@ -46,13 +46,13 @@ let in_cross cen left right top bottom x y =
      && x < fst cen + tile_size
      && x > fst cen - tile_size
 
-let in_blast_area b pl =
+let in_blast_area b pos =
   let x, y = b.pos in
   let left = x - ((b.power + 1) * tile_size) in
   let right = x + ((b.power + 1) * tile_size) in
   let top = y + ((b.power + 1) * tile_size) in
   let bottom = y - ((b.power + 1) * tile_size) in
-  let p1_x, p1_y = (fst pl, snd pl) in
+  let p1_x, p1_y = (fst pos, snd pos) in
   in_cross (x, y) left right top bottom p1_x p1_y
 
 let in_blast_lst b_lst pl =

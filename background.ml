@@ -26,8 +26,10 @@ type obstacle = {
 
 type t = {
   obs_list : obstacle list;
-  start_pos1 : int * int;
-  start_pos2 : int * int;
+  start_pos : int * int;
+  portal1 : int * int;
+  portal2 : int * int;
+  tools_xy : xy list;
 }
 
 let coord_of_json j =
@@ -47,23 +49,37 @@ let obs_of_json j : obstacle =
     tool = j |> tool_member "tool";
   }
 
+let all_tools_xy obs_lst =
+  let tools =
+    List.filter
+      (fun obs -> obs.tool = 1 || obs.tool = 2 || obs.tool = 3)
+      obs_lst
+  in
+  List.map (fun obs -> obs.coordinate) tools
+
 let from_json json =
   {
     obs_list =
       json |> member "obstacle_list" |> to_list |> List.map obs_of_json;
-    start_pos1 =
-      json |> member "start_1" |> coord_of_json |> coord_to_xy;
-    start_pos2 =
-      json |> member "start_2" |> coord_of_json |> coord_to_xy;
+    start_pos = json |> member "start" |> coord_of_json |> coord_to_xy;
+    portal1 =
+      json |> member "portal_lower" |> coord_of_json |> coord_to_xy;
+    portal2 =
+      json |> member "portal_upper" |> coord_of_json |> coord_to_xy;
+    tools_xy =
+      json |> member "obstacle_list" |> to_list |> List.map obs_of_json
+      |> all_tools_xy;
   }
 
 let lst_to_set lst = lst |> List.sort_uniq Stdlib.compare
 
 let rec ids_of_obs obs = List.map (fun obs -> obs.id) obs
 
-let start_tile_one t = t.start_pos1
+let start_tile_one t = t.start_pos
 
-let start_tile_two t = t.start_pos2
+let portal_one t = t.portal1
+
+let portal_two t = t.portal2
 
 let obs_ids bkg = ids_of_obs bkg.obs_list
 
@@ -85,21 +101,27 @@ let tool_xy bkg n =
   in
   List.map (fun obs -> obs.coordinate) obs_tool_list
 
+let tool1_xy bkg = tool_xy bkg 1
+
+let tool2_xy bkg = tool_xy bkg 2
+
+let tool3_xy bkg = tool_xy bkg 3
+
+let all_tools bkg = bkg.tools_xy
+
 let obs_one_xy bkg = obs_n_xy bkg 1
 
 let obs_two_xy bkg = obs_n_xy bkg 2
+
+let obs_three_xy bkg = [ bkg.portal1; bkg.portal2 ]
+
+(* obs_n_xy bkg 3 *)
 
 let obs_xy_tool1 bkg = obs_tool_xy bkg 1
 
 let obs_xy_tool2 bkg = obs_tool_xy bkg 2
 
 let obs_xy_tool3 bkg = obs_tool_xy bkg 3
-
-let tool1_xy bkg = tool_xy bkg 1
-
-let tool2_xy bkg = tool_xy bkg 2
-
-let tool3_xy bkg = tool_xy bkg 3
 
 let get_x (coord : xy) = match coord with a, _ -> a
 

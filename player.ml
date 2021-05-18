@@ -35,6 +35,8 @@ let get_bomb p = p.bomb_power
 
 let change_bomb p b = { p with bomb_power = b }
 
+let change_pl_pos plr pos = { plr with curr_pos = pos }
+
 let lives p = p.lives
 
 let kill p = { p with lives = p.lives - 1 }

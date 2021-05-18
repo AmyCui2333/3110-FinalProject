@@ -44,7 +44,7 @@ val draw_state : State.t -> unit
 
 (* val input : State.t -> unit *)
 
-val draw_move : State.t -> int * int -> unit
+val draw_move : State.t -> int * int -> (int * int) option -> unit
 
 val draw_bomb : int * int -> unit
 
@@ -63,5 +63,9 @@ val clear_tools : State.t -> unit
 val draw_tools : State.t -> unit
 
 val draw_burnt_pl : int * int -> unit
+
+val draw_enemy : (int * int) option -> unit
+
+val draw_score : State.t -> unit
 
 (* val draw_move : State.t -> int * int -> int * int -> unit *)

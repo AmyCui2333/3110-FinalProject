@@ -39,6 +39,8 @@ val get_bomb : t -> int
 
 val change_bomb : t -> int -> t
 
+val  change_pl_pos : t -> (int * int)-> t
+
 (** [lives p] gets the current remaining lives of player p *)
 val lives : t -> int
 
