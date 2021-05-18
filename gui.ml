@@ -216,10 +216,19 @@ let grids_to_clean pos_lst st =
       && List.mem x (get_tool2_xys st) = false)
     pos_lst
 
-(* let draw_explosions b_lst bkg pl = let pos_lst = clean_bombs [] b_lst
-   in let grids = grids_to_clean pos_lst bkg in draw_explodes grids; if
-   in_blast_lst b_lst pl then draw_burnt_pl pl; Unix.sleepf 0.4;
-   draw_tiles grids; draw_plr1 pl *)
+let draw_explosions b_lst bkg (pl : Player.t) =
+  let pos_lst = clean_bombs [] b_lst in
+  let grids = grids_to_clean pos_lst bkg in
+  draw_explodes grids;
+  if in_blast_lst b_lst (curr_pos pl) then draw_burnt_pl (curr_pos pl);
+  Unix.sleepf 0.4;
+  draw_tiles grids;
+  draw_plr1 (curr_pos pl)
+
+(* let draw_explosions b_lst st pl = let pos_lst = clean_bombs [] b_lst
+   in let grids = grids_to_clean pos_lst st in draw_explodes grids; if
+   in_blast_lst b_lst (curr_pos pl) then draw_heart_on_board pl;
+   Unix.sleepf 0.4; draw_tiles grids; draw_plr1 (curr_pos pl) *)
 
 (* let draw_explosions b_lst st pl = let pos_lst = clean_bombs [] b_lst
    in let grids = grids_to_clean pos_lst st in draw_explodes grids; (*
@@ -271,14 +280,11 @@ let draw_heart_on_board pl =
   | 3 -> draw_heart_3 ()
   | _ -> failwith "impossible"
 
-let draw_explosions b_lst st pl =
-  let pos_lst = clean_bombs [] b_lst in
-  let grids = grids_to_clean pos_lst st in
-  draw_explodes grids;
-  if in_blast_lst b_lst (curr_pos pl) then draw_heart_on_board pl;
-  Unix.sleepf 0.4;
-  draw_tiles grids;
-  draw_plr1 (curr_pos pl)
+(* let draw_explosions b_lst st pl = let pos_lst = clean_bombs [] b_lst
+   in let grids = grids_to_clean pos_lst st in draw_explodes grids; if
+   in_blast_lst b_lst (curr_pos pl) then draw_heart_on_board pl;
+   draw_burnt_pl (curr_pos pl); Unix.sleepf 0.4; draw_tiles grids;
+   draw_plr1 (curr_pos pl) *)
 
 let draw_bomb pl = draw_file "bomb_40.png" pl
 
