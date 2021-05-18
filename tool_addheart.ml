@@ -11,7 +11,7 @@ let xy_to_addheart xy speedup_lst =
 
 let show_tool2 b bkg =
   let tool2_list = tool2_xy bkg in
-  let grids = get_neighbours b in
+  let grids = get_neighbours 1 b [] in
   List.filter (fun x -> List.mem x grids) tool2_list
 
 let rec show_tool2s b_lst bkg =

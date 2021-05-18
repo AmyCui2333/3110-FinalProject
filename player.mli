@@ -35,6 +35,10 @@ val get_speed : t -> int
 
 val change_speed : t -> int -> t
 
+val get_bomb : t -> int
+
+val change_bomb : t -> int -> t
+
 (** [lives p] gets the current remaining lives of player p *)
 val lives : t -> int
 

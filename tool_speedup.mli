@@ -15,6 +15,6 @@ val new_speedups : Bomb.t list -> Background.t -> t list
 
 val speedup_plr : t -> Player.t -> Player.t
 
-val speedback_plr : t -> Player.t -> Player.t
+(* val speedback_plr : t -> Player.t -> Player.t *)
 
 val new_speedups_fromxy : (int * int) list -> t list

@@ -8,6 +8,8 @@ open Player
 open State
 open Bomb
 open Tool_speedup
+open Tool_addheart
+open Tool_addbomb
 
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
@@ -106,23 +108,6 @@ let draw_board () =
   let g = of_image img in
   Graphics.draw_image g 0 0
 
-let draw_heart_3 () =
-  let img = Png.load "heart_26.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g 30 40;
-  Graphics.draw_image g 56 40;
-  Graphics.draw_image g 82 40
-
-let draw_heart_2 () =
-  let img = Png.load "tile_green_left.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g 56 40
-
-let draw_heart_1 () =
-  let img = Png.load "tile_green_left.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g 82 40
-
 let draw_head () =
   let img = Png.load "headshot_lama_100.png" [] in
   let g = of_image img in
@@ -219,33 +204,81 @@ let rec clean_bombs res b_lst =
   match b_lst with
   | [] -> res
   | h :: t ->
-      clean_bombs (List.append (get_pos h :: get_neighbours h) res) t
+      clean_bombs
+        (List.append (get_pos h :: get_neighbours 1 h []) res)
+        t
 
-let grids_to_clean pos_lst bkg =
-  List.filter (fun x -> List.mem x (obs_two_xy bkg) = false) pos_lst
-
-let draw_burnt_minus_heart pl =
-  draw_burnt_pl (curr_pos pl);
-  if lives pl == 2 then draw_heart_2 () else draw_heart_1 ()
+let grids_to_clean pos_lst st =
+  List.filter
+    (fun x ->
+      List.mem x (obs_two_xy (get_bkg st)) = false
+      && List.mem x (get_tool1_xys st) = false
+      && List.mem x (get_tool2_xys st) = false)
+    pos_lst
 
 (* let draw_explosions b_lst bkg pl = let pos_lst = clean_bombs [] b_lst
    in let grids = grids_to_clean pos_lst bkg in draw_explodes grids; if
    in_blast_lst b_lst pl then draw_burnt_pl pl; Unix.sleepf 0.4;
    draw_tiles grids; draw_plr1 pl *)
 
-let draw_explosions b_lst bkg pl =
+(* let draw_explosions b_lst st pl = let pos_lst = clean_bombs [] b_lst
+   in let grids = grids_to_clean pos_lst st in draw_explodes grids; (*
+   if in_blast_lst b_lst (curr_pos pl) then draw_burnt_minus_heart pl;
+   *) if in_blast_lst b_lst (curr_pos pl) then draw_heart_on_board pl;
+   Unix.sleepf 0.4; draw_tiles grids; draw_plr1 (curr_pos pl) *)
+
+let draw_heart_3 () =
+  let img_h = Png.load "heart_26.png" [] in
+  let h = of_image img_h in
+  Graphics.draw_image h 30 40;
+  Graphics.draw_image h 56 40;
+  Graphics.draw_image h 82 40
+
+let draw_heart_2 () =
+  let img_h = Png.load "heart_26.png" [] in
+  let h = of_image img_h in
+  let img_g = Png.load "tile_green_left.png" [] in
+  let g = of_image img_g in
+  Graphics.draw_image h 30 40;
+  Graphics.draw_image h 56 40;
+  Graphics.draw_image g 82 40
+
+let draw_heart_1 () =
+  let img_h = Png.load "heart_26.png" [] in
+  let h = of_image img_h in
+  let img_g = Png.load "tile_green_left.png" [] in
+  let g = of_image img_g in
+  Graphics.draw_image h 30 40;
+  Graphics.draw_image g 56 40;
+  Graphics.draw_image g 82 40
+
+let draw_heart_0 () =
+  let img_g = Png.load "tile_green_left.png" [] in
+  let g = of_image img_g in
+  Graphics.draw_image g 30 40;
+  Graphics.draw_image g 56 40;
+  Graphics.draw_image g 82 40
+
+(* let draw_minus_heart b_lst p = if in_blast_lst b_lst (curr_pos p) &&
+   lives p == 2 then draw_heart_2 () else if in_blast_lst b_lst
+   (curr_pos p) && lives p == 1 then draw_heart_1 () *)
+
+let draw_heart_on_board pl =
+  match lives pl with
+  | 0 -> draw_heart_0 ()
+  | 1 -> draw_heart_1 ()
+  | 2 -> draw_heart_2 ()
+  | 3 -> draw_heart_3 ()
+  | _ -> failwith "impossible"
+
+let draw_explosions b_lst st pl =
   let pos_lst = clean_bombs [] b_lst in
-  let grids = grids_to_clean pos_lst bkg in
+  let grids = grids_to_clean pos_lst st in
   draw_explodes grids;
-  if in_blast_lst b_lst (curr_pos pl) then draw_burnt_minus_heart pl;
+  if in_blast_lst b_lst (curr_pos pl) then draw_heart_on_board pl;
   Unix.sleepf 0.4;
   draw_tiles grids;
   draw_plr1 (curr_pos pl)
-
-let draw_minus_heart b_lst p =
-  if in_blast_lst b_lst (curr_pos p) && lives p == 2 then
-    draw_heart_2 ()
-  else draw_heart_1 ()
 
 let draw_bomb pl = draw_file "bomb_40.png" pl
 
@@ -283,7 +316,16 @@ let rec draw_addhearts (pos_lst : (int * int) list) =
   | [] -> ()
   | h :: t ->
       draw_addheart h;
-      draw_speedups t
+      draw_addhearts t
+
+let draw_addbomb xy = draw_file "tool_addbomb.png" xy
+
+let rec draw_addbombs (pos_lst : (int * int) list) =
+  match pos_lst with
+  | [] -> ()
+  | h :: t ->
+      draw_addbomb h;
+      draw_addbombs t
 
 let clear_speedup2 st =
   let img = Png.load "tile_green_40.png" [] in
@@ -311,11 +353,15 @@ let clear_tool f1 f2 st =
   | [] -> ()
   | h :: t -> (
       let to_r = tools_collision_gui_return (f2 st) (player_one st) in
+      (* print_endline (string_of_bool (fst to_r)); *)
       let to_r2 = tools_collision_return (f2 st) (player_one st) in
+      (* print_endline (string_of_bool (fst to_r2)); *)
       let to_r3 = to_r <+> to_r2 in
+      (* print_endline (string_of_bool (fst to_r3)); *)
       match to_r3 with
       | false, _ -> ()
       | true, h ->
+          (* print_string (string_of_bool (fst to_r3)); *)
           draw_tile2 h;
           draw_plr1 (curr_pos (player_one st)))
 
@@ -323,9 +369,17 @@ let clear_speedup st = clear_tool get_tool1 get_tool1_xys st
 
 let clear_addheart st = clear_tool get_tool2 get_tool2_xys st
 
+let clear_addbomb st = clear_tool get_tool3 get_tool3_xys st
+
 let clear_tools st =
   clear_addheart st;
-  clear_speedup st
+  clear_speedup st;
+  clear_addbomb st
+
+let draw_tools st =
+  draw_speedups (show_tool1s (exploding st) (get_bkg st));
+  draw_addhearts (show_tool2s (exploding st) (get_bkg st));
+  draw_addbombs (show_tool3s (exploding st) (get_bkg st))
 
 (* if tool_collision_right_gui h (player_one st) then
    Graphics.draw_image g_left (fst h + 150) (snd h) else if

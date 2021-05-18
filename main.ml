@@ -23,16 +23,21 @@ let rec move_state st pos1 =
   else
     match some_explosion st with
     | true ->
-        draw_explosions (exploding st) (get_bkg st) (player_one st);
-        draw_speedups (show_tool1s (exploding st) (get_bkg st));
-        (* draw_addhearts (show_tool2s (exploding st) (get_bkg st)); *)
+        draw_explosions (exploding st) st (player_one st);
+        (* draw_speedups (show_tool1s (exploding st) (get_bkg st));
+           draw_addhearts (show_tool2s (exploding st) (get_bkg st));
+           draw_addbombs (show_tool2s (exploding st) (get_bkg st)); *)
+        draw_tools st;
+        draw_heart_on_board (player_one st);
         (* draw_minus_heart (exploding st) (player_one st); *)
         move_state (clear_exploding st) pos1
     | false -> (
+        clear_tools st;
         let n = take_input st in
         match n with
         | Legal new_st ->
             draw_move new_st (curr_pos (player_one st));
+            draw_heart_on_board (player_one new_st);
             move_state new_st (curr_pos (player_one new_st))
         | Make_bomb new_st ->
             draw_bomb (curr_pos (player_one new_st));

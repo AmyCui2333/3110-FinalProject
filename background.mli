@@ -58,3 +58,7 @@ val tool1_xy : t -> xy list
 val obs_xy_tool2 : t -> ((int * int) * int) list
 
 val tool2_xy : t -> xy list
+
+val obs_xy_tool3 : t -> ((int * int) * int) list
+
+val tool3_xy : t -> xy list

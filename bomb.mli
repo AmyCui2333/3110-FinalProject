@@ -9,7 +9,7 @@ val make_bomb : Player.t -> t option
 
 (** [get_neighbours b] returns the position of the all neighbors
     affectted by the bomb depending on the bomb power *)
-val get_neighbours : t -> (int * int) list
+val get_neighbours : int -> t -> (int * int) list -> (int * int) list
 
 (** [check_explode b] returns true if it's time for the bomb [b] to de
     exploded else false*)

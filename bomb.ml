@@ -20,14 +20,23 @@ let make_bomb p =
       }
   else None
 
-let get_neighbours b =
-  let x, y = b.pos in
-  [
-    (x + (b.power * tile_size), y);
-    (x - (b.power * tile_size), y);
-    (x, y + (b.power * tile_size));
-    (x, y - (b.power * tile_size));
-  ]
+let rec get_neighbours power b lst =
+  if power = b.power + 1 then lst
+  else
+    let x, y = b.pos in
+    let new_lst =
+      List.concat
+        [
+          [
+            (x + (power * tile_size), y);
+            (x - (power * tile_size), y);
+            (x, y + (power * tile_size));
+            (x, y - (power * tile_size));
+          ];
+          lst;
+        ]
+    in
+    get_neighbours (power + 1) b new_lst
 
 let in_cross cen left right top bottom x y =
   right > x && x > left
@@ -58,7 +67,7 @@ let rec explode bkg b_lst =
   match b_lst with
   | [] -> bkg
   | b :: t ->
-      let surr = get_neighbours b in
+      let surr = get_neighbours 1 b [] in
       let new_bkg = clear_obstacles surr bkg in
       explode new_bkg t
 

@@ -25,7 +25,8 @@ val draw_board : unit -> unit
 
 val draw_heart_3 : unit -> unit
 
-val draw_minus_heart : Bomb.t list -> Player.t -> unit
+(* val draw_minus_heart : Bomb.t list -> Player.t -> unit *)
+val draw_heart_on_board : Player.t -> unit
 
 val draw_head : unit -> unit
 
@@ -51,13 +52,15 @@ val draw_tile : int -> int -> unit
 
 val draw_tiles : (int * int) list -> unit
 
-val draw_explosions : Bomb.t list -> Background.t -> Player.t -> unit
+val draw_explosions : Bomb.t list -> State.t -> Player.t -> unit
 
 val draw_speedups : (int * int) list -> unit
 
 val draw_addhearts : (int * int) list -> unit
 
 val clear_tools : State.t -> unit
+
+val draw_tools : State.t -> unit
 
 val draw_burnt_pl : int * int -> unit
 

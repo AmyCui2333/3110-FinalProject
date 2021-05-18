@@ -31,6 +31,10 @@ let get_speed p = p.speed
 
 let change_speed p s = { p with speed = s }
 
+let get_bomb p = p.bomb_power
+
+let change_bomb p b = { p with bomb_power = b }
+
 let lives p = p.lives
 
 let kill p = { p with lives = p.lives - 1 }
