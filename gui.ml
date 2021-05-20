@@ -1,8 +1,5 @@
 open Graphics
 open Images
-
-(* open Images.Png *)
-(* open Images.Png *)
 open Background
 open Player
 open State
@@ -10,10 +7,11 @@ open Bomb
 open Tool_speedup
 open Tool_addheart
 open Tool_addbomb
+open Tool_twobomb
 
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
-(**********************from library module Graphic_image ******** *)
+(* ***************** from library module Graphic_image ***************** *)
 let array_of_image img =
   match img with
   | Index8 bitmap ->
@@ -67,37 +65,94 @@ let image_of grpimg =
 
 let get_image x y w h = image_of (Graphics.get_image x y w h)
 
-(********************************************* ******** *)
+(* ***************** end library module Graphic_image ***************** *)
 
-(* let rec input f = try print_endline (let bkg = read_bkg f in
-   description bkg (start_room adv)) with Sys_error s -> print_endline
-   "\n\nFile doesn't exit, try a new file"; Stdlib.exit 0 *)
 let tile_size = 40
 
 let tile_number = 16
 
 let draw_canvas () = Graphics.open_graph " 780x640"
 
-(* let set_pos = moveto 100 100 *)
-
 let draw_file name pl =
   let img = Png.load name [] in
   let g = of_image img in
   Graphics.draw_image g (fst pl + 140) (snd pl)
 
-let draw_score_cover xy = draw_file "score_cover.png" xy
+let draw_file_no_displace name pl =
+  let img = Png.load name [] in
+  let g = of_image img in
+  Graphics.draw_image g (fst pl) (snd pl)
+
+let draw_score_cover xy = draw_file_no_displace "score_cover.png" xy
+
+let draw_n xy n = draw_file_no_displace (string_of_int n ^ "_52.png") xy
+
+let draw_score_pixel () =
+  draw_file_no_displace "score_108.png" (253, 115)
+
+let draw_num_pixel c xy =
+  match c with
+  | '0' -> draw_n xy 0
+  | '1' -> draw_n xy 1
+  | '2' -> draw_n xy 2
+  | '3' -> draw_n xy 3
+  | '4' -> draw_n xy 4
+  | '5' -> draw_n xy 5
+  | '6' -> draw_n xy 6
+  | '7' -> draw_n xy 7
+  | '8' -> draw_n xy 8
+  | '9' -> draw_n xy 9
+  | _ -> failwith "impossible"
+
+let rec draw_score_str score_str x y =
+  match score_str with
+  | "" -> ()
+  | score_str ->
+      draw_num_pixel score_str.[0] (x, y);
+      let rest_of_str =
+        String.sub score_str 1 (String.length score_str - 1)
+      in
+      draw_score_str rest_of_str (x + 36) y
+
+let rec draw_final_score st =
+  draw_score_pixel ();
+  let score = get_score st in
+  let score_str = string_of_int score in
+  draw_score_str score_str 361 150
+
+let draw_start_screen () =
+  let img = Png.load "start_screen.png" [] in
+  let g = of_image img in
+  Graphics.draw_image g 0 0
 
 let draw_score st =
-  (* set_pos; *)
-  draw_score_cover (45 - 140, 300);
+  draw_score_cover (45, 300);
   moveto 45 300;
-  (* set_text_size 20; *)
   draw_string ("score: " ^ string_of_int (get_score st));
   set_text_size 20;
   moveto 45 300
 
+let draw_choose_text () =
+  draw_file_no_displace "choose_player.png" (135, 417)
+
+let draw_lama () =
+  draw_file_no_displace "headshot_lama_choose.png" (135, 207)
+
+let draw_camel () =
+  draw_file_no_displace "headshot_lama_choose.png" (456, 207)
+
+let draw_instruction () =
+  draw_file_no_displace "instruction_text_c.png" (0, 0);
+  draw_file_no_displace "tool_speedup_60.png" (85, 348);
+  draw_file_no_displace "tool_addheart_60.png" (85, 276);
+  draw_file_no_displace "stone_60.png" (85, 207);
+  draw_file_no_displace "bush_60.png" (85, 134);
+  draw_file_no_displace "tool_addbomb_60.png" (401, 348);
+  draw_file_no_displace "tool_twobomb_60.png" (401, 276);
+  draw_file_no_displace "portal_60.png" (401, 207);
+  draw_file_no_displace "enemy_60.png" (401, 134)
+
 let draw_bkg () =
-  (* let () = Graphics.open_graph " 800x800" in *)
   let img = Png.load "tile_green_40.png" [] in
   let g = of_image img in
   for i = 0 to tile_number - 1 do
@@ -118,15 +173,37 @@ let draw_obs2 ob = draw_file "stone_40.png" ob
 
 let draw_obs3 ob = draw_file "portal.png" ob
 
-let draw_board () =
-  let img = Png.load "score_board_bkg.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g 0 0
+let draw_board () = draw_file_no_displace "score_board_bkg.png" (0, 0)
 
 let draw_head () =
-  let img = Png.load "headshot_lama_100.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g 20 520
+  draw_file_no_displace "headshot_lama_100.png" (20, 520)
+
+let draw_win_image () = draw_file_no_displace "cong_324.png" (228, 201)
+
+let draw_lose_image () = draw_file_no_displace "lose_324.png" (228, 201)
+
+let draw_win st =
+  draw_bkg ();
+  draw_board ();
+  draw_win_image ();
+  draw_final_score st;
+  Unix.sleepf 7.0;
+  ()
+
+let draw_lose st =
+  draw_bkg ();
+  draw_board ();
+  draw_lose_image ();
+  draw_final_score st;
+  Unix.sleepf 7.0;
+  ()
+
+let draw_choose () =
+  draw_bkg ();
+  draw_board ();
+  draw_choose_text ();
+  draw_lama ();
+  draw_camel ()
 
 let draw_all_obs bkg obs_num draw =
   let obs_lst = obs_num bkg in
@@ -147,9 +224,9 @@ let draw_obs bkg =
    (start_tile_one bkg) (start_tile_two bkg) in let player_1 =
    player_one st in curr_pos player_1 *)
 
-let init_p1_xy f =
+let init_p1_xy f plr_type =
   let bkg = read_bkg f in
-  let st = init_state bkg (start_tile_one bkg) in
+  let st = init_state bkg (start_tile_one bkg) plr_type in
   let player_1 = player_one st in
   curr_pos player_1
 
@@ -171,73 +248,43 @@ let draw_enemy_b pos =
 
 let draw_tile2 xy = draw_file "tile_green_40.png" xy
 
-(* let img = Png.load "tile_green_40.png" [] in let g = of_image img in
-   Graphics.draw_image g fstx y *)
-
-(*change *)
-(* let init_p2_xy f = let bkg = read_bkg f in let st = init_state bkg
-   (start_tile_two bkg) (start_tile_two bkg) in let player_2 =
-   player_two st in curr_pos player_2 *)
-
-(*change *)
-
-(* let draw_plr1 p = let img = Png.load "p1_fontile.png" [] in let g =
-   of_image img in let p1_xy = init_p1_xy p in Graphics.draw_image g
-   (fst p1_xy) (snd p1_xy) *)
-
-let draw_plr1 p1_xy = draw_file "p1_40.png" p1_xy
-
-(* let img = Png.load "p1_40.png" [] in let g = of_image img in
-   Graphics.draw_image g (fst p1_xy + 140) (snd p1_xy) *)
-
-(* let draw_plr2 p2_xy = let img = Png.load "p1_40.png" [] in let g =
-   of_image img in Graphics.draw_image g (fst p2_xy) (snd p2_xy) *)
+let draw_plr1 st p1_xy =
+  if st |> player_one |> get_plr_type = "caml" then
+    draw_file "camel.png" p1_xy
+  else draw_file "p1_40.png" p1_xy
 
 let draw_state st =
   draw_obs (get_bkg st);
-  draw_plr1 (curr_pos (player_one st));
+  draw_plr1 st (curr_pos (player_one st));
   draw_enemy (get_enemy_pos st)
 
-(* draw_plr2 (curr_pos (player_two st)) *)
-
 let draw_move st pos_ply pos_enemy =
-  (* let img = Png.load "tile_green_40.png" [] in let g = of_image img
-     in Graphics.draw_image g (fst pos1 + 140) (snd pos1); *)
   draw_tile2 pos_ply;
-  draw_plr1 (curr_pos (player_one st));
+  draw_plr1 st (curr_pos (player_one st));
   match pos_enemy with
   | Some pos_e ->
       draw_tile2 pos_e;
       draw_enemy (get_enemy_pos st)
   | None -> ()
 
-let draw_tile x y =
-  let img = Png.load "tile_green_40.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g x y
+let draw_tile x y = draw_file "tile_green_40.png" (x, y)
 
-let draw_explode x y =
-  let img = Png.load "bomb_explode_40.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g x y
+let draw_explode x y = draw_file "bomb_explode_40.png" (x, y)
 
 let rec draw_tiles (pos_lst : (int * int) list) =
   match pos_lst with
   | [] -> ()
   | h :: t ->
-      draw_tile (fst h + 140) (snd h);
+      draw_tile (fst h) (snd h);
       draw_tiles t
 
-let draw_burnt_pl p1_xy =
-  let img = Png.load "p1_b_40.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g (fst p1_xy + 140) (snd p1_xy)
+let draw_burnt_pl p1_xy = draw_file "p1_b_40.png" p1_xy
 
 let rec draw_explodes (pos_lst : (int * int) list) =
   match pos_lst with
   | [] -> ()
   | h :: t ->
-      draw_explode (fst h + 140) (snd h);
+      draw_explode (fst h) (snd h);
       draw_explodes t
 
 let rec clean_bombs res b_lst =
@@ -256,17 +303,6 @@ let grids_to_clean pos_lst st =
       && List.mem x (get_tool1_xys st) = false
       && List.mem x (get_tool2_xys st) = false)
     pos_lst
-
-(* let draw_explosions b_lst st pl = let pos_lst = clean_bombs [] b_lst
-   in let grids = grids_to_clean pos_lst st in draw_explodes grids; if
-   in_blast_lst b_lst (curr_pos pl) then draw_heart_on_board pl;
-   Unix.sleepf 0.4; draw_tiles grids; draw_plr1 (curr_pos pl) *)
-
-(* let draw_explosions b_lst st pl = let pos_lst = clean_bombs [] b_lst
-   in let grids = grids_to_clean pos_lst st in draw_explodes grids; (*
-   if in_blast_lst b_lst (curr_pos pl) then draw_burnt_minus_heart pl;
-   *) if in_blast_lst b_lst (curr_pos pl) then draw_heart_on_board pl;
-   Unix.sleepf 0.4; draw_tiles grids; draw_plr1 (curr_pos pl) *)
 
 let draw_heart_3 () =
   let img_h = Png.load "heart_26.png" [] in
@@ -314,11 +350,6 @@ let draw_heart_on_board pl =
   | 3 -> draw_heart_3 ()
   | _ -> failwith "impossible"
 
-(* let draw_explosions b_lst st pl = let pos_lst = clean_bombs [] b_lst
-   in let grids = grids_to_clean pos_lst st in draw_explodes grids; if
-   in_blast_lst b_lst (curr_pos pl) then draw_heart_on_board pl;
-   draw_burnt_pl (curr_pos pl); Unix.sleepf 0.4; draw_tiles grids;
-   draw_plr1 (curr_pos pl) *)
 let in_blast_lst_op b_lst st =
   match get_enemy_pos st with
   | None -> false
@@ -334,19 +365,17 @@ let draw_explosions b_lst st (pl : Player.t) =
   (* draw_minus_heart b_lst pl; *)
   Unix.sleepf 0.4;
   draw_tiles grids;
-  draw_plr1 (curr_pos pl)
-
-(* else if in_blast_lst_op b_lst bkg then *)
+  draw_plr1 st (curr_pos pl)
 
 let draw_bomb pl = draw_file "bomb_40.png" pl
 
-(* let img = Png.load "bomb_40.png" [] in let g = of_image img in
-   Graphics.draw_image g (fst pl + 140) (snd pl) *)
+let draw_left_panel () =
+  draw_bkg ();
+  draw_board ();
+  draw_heart_3 ();
+  draw_head ()
 
 let draw_speedup xy = draw_file "speedup_40.png" xy
-
-(* let img = Png.load "speedup_40.png" [] in let g = of_image img in
-   Graphics.draw_image g x y *)
 
 let rec draw_speedups (pos_lst : (int * int) list) =
   match pos_lst with
@@ -356,9 +385,6 @@ let rec draw_speedups (pos_lst : (int * int) list) =
       draw_speedups t
 
 let draw_speedup xy = draw_file "speedup_40.png" xy
-
-(* let img = Png.load "speedup_40.png" [] in let g = of_image img in
-   Graphics.draw_image g x y *)
 
 let rec draw_speedups (pos_lst : (int * int) list) =
   match pos_lst with
@@ -385,26 +411,14 @@ let rec draw_addbombs (pos_lst : (int * int) list) =
       draw_addbomb h;
       draw_addbombs t
 
-let clear_speedup2 st =
-  let img = Png.load "tile_green_40.png" [] in
-  let g = of_image img in
-  let tool1_xy_lst = get_tool1_xys st in
-  match tool1_xy_lst with
-  | [] ->
-      print_endline "tool list empty";
-      ()
-  | h :: t -> (
-      print_endline "tool list not empty";
-      let take_tool =
-        List.filter
-          (fun x -> tool_collision_gui x (player_one st))
-          tool1_xy_lst
-      in
-      match take_tool with
-      | [] -> print_endline "no collison"
-      | h :: t ->
-          print_endline "s collison";
-          Graphics.draw_image g (fst h + 40) (snd h))
+let draw_twobomb xy = draw_file "tool_twobomb.png" xy
+
+let rec draw_twobombs (pos_lst : (int * int) list) =
+  match pos_lst with
+  | [] -> ()
+  | h :: t ->
+      draw_twobomb h;
+      draw_twobombs t
 
 let clear_tool f1 f2 st =
   match f1 st with
@@ -421,7 +435,7 @@ let clear_tool f1 f2 st =
       | true, h ->
           (* print_string (string_of_bool (fst to_r3)); *)
           draw_tile2 h;
-          draw_plr1 (curr_pos (player_one st)))
+          draw_plr1 st (curr_pos (player_one st)))
 
 let clear_speedup st = clear_tool get_tool1 get_tool1_xys st
 
@@ -429,110 +443,16 @@ let clear_addheart st = clear_tool get_tool2 get_tool2_xys st
 
 let clear_addbomb st = clear_tool get_tool3 get_tool3_xys st
 
+let clear_twobomb st = clear_tool get_tool4 get_tool4_xys st
+
 let clear_tools st =
   clear_addheart st;
   clear_speedup st;
-  clear_addbomb st
+  clear_addbomb st;
+  clear_twobomb st
 
 let draw_tools st =
   draw_speedups (show_tool1s (exploding st) (get_bkg st));
   draw_addhearts (show_tool2s (exploding st) (get_bkg st));
-  draw_addbombs (show_tool3s (exploding st) (get_bkg st))
-
-(* if tool_collision_right_gui h (player_one st) then
-   Graphics.draw_image g_left (fst h + 150) (snd h) else if
-   tool_collision_left_gui h (player_one st) then Graphics.draw_image
-   g_left (fst h + 140) (snd h) else if tool_collision_up_gui h
-   (player_one st) then Graphics.draw_image g_up (fst h + 140) (snd h +
-   10) else if tool_collision_down_gui h (player_one st) then
-   Graphics.draw_image g_up (fst h + 140) (snd h)) *)
-
-(* if tool_collision h (player_one st) then Graphics.draw_image g (fst
-   h) (snd h) else () *)
-
-(* let draw_move st pos1 pos2 = let img = Png.load "tile_green_40.png"
-   [] in let g = of_image img in Graphics.draw_image g (fst pos1) (snd
-   pos1); draw_plr1 (curr_pos (player_one st)); Graphics.draw_image g
-   (fst pos2) (snd pos2); draw_plr2 (curr_pos (player_two st)) *)
-
-(* let rec move st = let bkg = get_bkg st in let p = player_one st in
-   match read_key () with | 'w' -> remember_mode false; draw_plr1
-   (curr_pos (no_collision_up bkg p)) | 's' -> remember_mode false;
-   draw_plr1 (curr_pos (move_down p)) | 'd' -> remember_mode false;
-   draw_plr1 (curr_pos (move_right p)) | 'a' -> remember_mode false;
-   draw_plr1 (curr_pos (move_left p)) | _ -> move st *)
-
-(* let input f = try while true do let st = wait_next_event [
-   Button_down; Key_pressed ] in auto_synchronize true; if st.button
-   then raise Exit; if st.keypressed then print_endline "p"; move f done
-   with Exit -> () *)
-
-(* type obs = { mutable x : int; mutable y : int; }
-
-   let obs1 = { x = 80; y = 80 }
-
-   let obs2 = { x = 0; y = 80 } *)
-
-(* let draw_obs1 p = let img = Png.load "ob1_80.png" [] in let g =
-   of_image img in Graphics.draw_image g p.x p.y *)
-
-(* let draw_obs2 p = let img = Png.load "ob3_80.png" [] in let g =
-   of_image img in Graphics.draw_image g p.x p.y *)
-
-(* ;; draw_obs1 obs1 *)
-
-(* ;; draw_obs2 obs2 *)
-
-(* type player = { mutable x : int; mutable y : int; }
-
-   let player1 = { x = 0; y = 0 }
-
-   let draw_player p = let img = Png.load "p1_fontile.png" [] in let g =
-   of_image img in Graphics.draw_image g p.x p.y *)
-
-(* let no_collision_up p (ob : obs) = p.x = ob.x && p.y + 80 != ob.y
-
-   let no_collision_down p (ob : obs) = p.x = ob.x && p.y - 80 != ob.y
-
-   let no_collision_right p (ob : obs) = p.y = ob.y && p.x + 80 != ob.x
-
-   let no_collision_left p (ob : obs) = p.y = ob.y && p.x - 80 != ob.x *)
-
-(* let player_moveup p (ob : obs) = if no_collision_up p ob then p.y <-
-   p.y + 20; p
-
-   let player_movedown p ob = if no_collision_down p ob then p.y <- p.y
-   - 20; p
-
-   let player_moveright p ob = if no_collision_right p ob then p.x <-
-   p.x + 20; p
-
-   let player_moveleft p ob = if no_collision_left p ob then p.x <- p.x
-   - 20; p
-
-   let move_up p (ob : obs) = draw_player (player_moveup p ob)
-
-   let move_down p ob = draw_player (player_movedown p ob)
-
-   let move_right p obs1 = draw_player (player_moveright p obs1)
-
-   let move_left p obs1 = draw_player (player_moveleft p obs1)
-
-   let rec move () p (ob : obs) = match read_key () with | 'w' ->
-   remember_mode false; move_up p ob | 's' -> remember_mode false;
-   move_down p ob | 'd' -> remember_mode false; move_right p ob | 'a' ->
-   remember_mode false; move_left p ob | _ -> move () p ob
-
-   ;; try while true do let st = wait_next_event [ Button_down;
-   Key_pressed ] in auto_synchronize true; if st.button then raise Exit;
-   if st.keypressed then print_endline "p"; move () player1 obs1 done
-   with Exit -> () *)
-
-(* print_endline a *)
-(* Unix.sleep 10 *)
-
-(* let draw_background = failwith "todo"
-
-   let draw_player = failwith "todo"
-
-   let draw_bomb = failwith "todo" *)
+  draw_addbombs (show_tool3s (exploding st) (get_bkg st));
+  draw_twobombs (show_tool4s (exploding st) (get_bkg st))

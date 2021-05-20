@@ -12,7 +12,7 @@ let get_bomb_xy t = t.pos
 
 let new_addbomb xy = { pos = xy; range_factor = 2 }
 
-let bombup_plr p = change_bomb p (get_bomb p * 2)
+let bombup_plr p = change_bomb p (get_bomb p + 1)
 
 let rec new_addbombs_fromxy xy_lst =
   match xy_lst with

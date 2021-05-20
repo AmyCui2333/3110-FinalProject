@@ -10,6 +10,9 @@ open Tool_addheart
 
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
+(* let draw_left_panel () = draw_bkg (); draw_board (); draw_heart_3 ();
+   draw_head () *)
+
 (* let burn_player pos1 = draw_burnt_pl pos1; Unix.sleepf 10.0 *)
 
 (* let rec bomb_explode st pos1 = match some_explosion st with | true ->
@@ -20,8 +23,8 @@ let read_bkg f = from_json (Yojson.Basic.from_file f)
 let rec move_state st pos1 =
   clear_tools st;
   draw_score st;
-
-  if check_dead st then ()
+  if check_dead st then draw_lose st
+  else if all_cleared st then draw_win st
   else
     match some_explosion st with
     | true ->
@@ -58,19 +61,16 @@ let play_game f =
   print_endline "\n\nWelcome to CS3110 MS";
   draw_canvas ();
   print_endline "canvas";
-  draw_bkg ();
-  draw_board ();
-  draw_heart_3 ();
-  draw_head ();
+  draw_instruction ();
+  take_start ();
+  draw_choose ();
   let bkg = read_bkg f in
-  let player1 = start_tile_one bkg in
-
-  draw_state (init_state bkg player1);
-  print_endline "tiles";
-  let bkg = read_bkg f in
-  let player1 = start_tile_one bkg in
-
-  move_state (init_state bkg player1) player1
+  let plr_pos = start_tile_one bkg in
+  let plr_type = take_mouse () in
+  let st = init_state bkg plr_pos plr_type in
+  draw_left_panel ();
+  draw_state st;
+  move_state st plr_pos
 
 (* let play_game f = print_endline "\n\nWelcome to CS3110 MS";
    draw_canvas (); print_endline "canvas"; draw_bkg (); let bkg =
@@ -82,7 +82,7 @@ let play_game f =
    player2 = start_tile_two bkg in move_state (init_state bkg player1
    player2) player1 player2 *)
 
-(** [main ()] prompts for the game to play, then starts it. *)
+(** [main] prompts for the game to play, then starts it. *)
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ]
     "\n\nWelcome to the 3110 Game engine.\n";

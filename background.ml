@@ -18,7 +18,6 @@ type coordinate = {
 let coord_to_xy coord = (coord.x, coord.y)
 
 type obstacle = {
-  id : int;
   coordinate : int * int;
   obs_type : int;
   tool : int;
@@ -42,7 +41,6 @@ let tool_member s k = match member s k with `Int i -> i | _ -> 0
 
 let obs_of_json j : obstacle =
   {
-    id = j |> member "id" |> to_int;
     coordinate =
       j |> member "coordinates" |> coord_of_json |> coord_to_xy;
     obs_type = j |> member "type" |> to_int;
@@ -52,7 +50,8 @@ let obs_of_json j : obstacle =
 let all_tools_xy obs_lst =
   let tools =
     List.filter
-      (fun obs -> obs.tool = 1 || obs.tool = 2 || obs.tool = 3)
+      (fun obs ->
+        obs.tool = 1 || obs.tool = 2 || obs.tool = 3 || obs.tool = 4)
       obs_lst
   in
   List.map (fun obs -> obs.coordinate) tools
@@ -71,17 +70,7 @@ let from_json json =
       |> all_tools_xy;
   }
 
-let lst_to_set lst = lst |> List.sort_uniq Stdlib.compare
-
-let rec ids_of_obs obs = List.map (fun obs -> obs.id) obs
-
 let start_tile_one t = t.start_pos
-
-let portal_one t = t.portal1
-
-let portal_two t = t.portal2
-
-let obs_ids bkg = ids_of_obs bkg.obs_list
 
 let obs_n_xy bkg n =
   let obs_n_lst =
@@ -107,6 +96,8 @@ let tool2_xy bkg = tool_xy bkg 2
 
 let tool3_xy bkg = tool_xy bkg 3
 
+let tool4_xy bkg = tool_xy bkg 4
+
 let all_tools bkg = bkg.tools_xy
 
 let obs_one_xy bkg = obs_n_xy bkg 1
@@ -115,13 +106,13 @@ let obs_two_xy bkg = obs_n_xy bkg 2
 
 let obs_three_xy bkg = [ bkg.portal1; bkg.portal2 ]
 
-(* obs_n_xy bkg 3 *)
-
 let obs_xy_tool1 bkg = obs_tool_xy bkg 1
 
 let obs_xy_tool2 bkg = obs_tool_xy bkg 2
 
 let obs_xy_tool3 bkg = obs_tool_xy bkg 3
+
+let obs_xy_tool4 bkg = obs_tool_xy bkg 4
 
 let get_x (coord : xy) = match coord with a, _ -> a
 
@@ -141,14 +132,14 @@ let obs_on_y bkg y =
 
 let get_tool obs = obs.tool
 
-let check_tool grids bkg =
+let check_tool tiles bkg =
   List.filter (fun x ->
-      List.mem x.coordinate grids = false || x.tool = 1)
+      List.mem x.coordinate tiles = false || x.tool = 1)
 
-let clear_obstacles grids bkg =
+let clear_obstacles tiles bkg =
   let new_obs =
     List.filter
-      (fun x -> List.mem x.coordinate grids = false || x.obs_type = 2)
+      (fun x -> List.mem x.coordinate tiles = false || x.obs_type = 2)
       bkg.obs_list
   in
   { bkg with obs_list = new_obs }

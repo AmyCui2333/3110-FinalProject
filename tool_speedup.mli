@@ -1,13 +1,16 @@
+(** Representation of tool of type 2 "Speed-up" *)
+
 (** The abstract type of values representing the speed_up tool
-   with the duration, new speed*)
+   with the duration, new speed *)
 type t
 
+(** [get_speedup_xy ] *)
 val get_speedup_xy : t -> int * int
 
 val xy_to_speedup : int * int -> t list -> t
 
 (** [show_tool1 b bkgs] returns the list of position of tool_speedup
-    bombed by the bomb*)
+    bombed by the bomb *)
 val show_tool1s : Bomb.t list -> Background.t -> (int * int) list
 
 (** [new_speedups p b_lst bkg] *)

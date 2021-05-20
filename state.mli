@@ -1,45 +1,54 @@
-(** The abstract type of values representing the game state. 
-   type t*)
+(** Representation of dynamic game state.
+
+    This module represents the state of a game as it is being played,
+    including all information about game map (i.e., background), the
+    player (e.g., current position, player's type, and health), bomb
+    (position and limit on the amount), the properties of tools of
+    different types, enemy, player's score, and functions that cause the
+    state to change. *)
+
+(** The abstract type of values representing the game state. *)
 type t
 
+(** The type representing the result of an attempted command. Legal:
+    allowed movement (up, down, left, right). Make_bomb: putting a bomb
+    at the current position. Exit: end and exit the game. *)
 type input =
   | Legal of t
   | Make_bomb of t
   | Exit
 
-(**[init_state bkg pos1 pos2] is the starting state where the gamer is located 
-   in when
-   playing background [bkg]. In that state the player is currently 
-   located in the starting point. *)
+(** [init_state bkg pos1 plr_type] is the starting state where the gamer is
+    located in when
+    playing background [bkg]. In that state the player is
+    currently located in the starting position (lower-left
+    corner). *)
+val init_state : Background.t -> Player.xy -> string -> t
 
-(* val init_state : Background.t -> Player.xy -> Player.xy -> t *)
-
-val init_state : Background.t -> Player.xy -> t
-
+(** [get_bkg st] returns the background the player is playing in. *)
 val get_bkg : t -> Background.t
 
-(**[player_one t] returns the player_one object. *)
+(** [player_one t] returns the player_one object. *)
 val player_one : t -> Player.t
 
+(** [get_tool1 st] returns a list of tools of type 1 "speed-up" *)
 val get_tool1 : t -> Tool_speedup.t list
 
+(** [get_tool2 st] returns a list of tools of type 2 "add heart" *)
 val get_tool2 : t -> Tool_addheart.t list
 
-(**[player_one t] returns the player_one object. *)
+(** [get_tool3 st] returns a list of tools of type 3 "bomb power-up" *)
 val get_tool3 : t -> Tool_addbomb.t list
 
-(* val player_two : t -> Player.t *)
+(** [get_tool4 st] returns a list of tools of type 4 "double bombs" *)
+val get_tool4 : t -> Tool_twobomb.t list
 
-(**[move_player_one p] returns a new state after updating player one to
-   p *)
-val move_player_one : t -> Player.t -> t
-
-(**[move_player_two p] returns a new state after updating player two to
-   p *)
-
-(* val move_player_two : t -> Player.t -> t *)
-
+(** [take_input st] takes in the input from the keyboard *)
 val take_input : t -> input
+
+val take_mouse : unit -> string
+
+val take_start : unit -> unit
 
 (** [change_bkg st b] returns the state with bkg [b]*)
 val change_bkg : t -> Background.t -> t
@@ -67,12 +76,20 @@ val get_tool2_xys : t -> (int * int) list
 
 val get_tool3_xys : t -> (int * int) list
 
+val get_tool4_xys : t -> (int * int) list
+
+(** [check_dead st] returns true if the player's remaining number of
+    lives becomes 0; false is the player has more than 3 hearts*)
 val check_dead : t -> bool
-
+(**[speedback_plr p st] changes the speed of player [p] back to original in state [st]*)
 val speedback_plr : Player.t -> t -> t
-
+(**[get_enemy_pos st] returns Some postion if there is an enemy in [st], None if there isn't*)
 val get_enemy_pos : t -> (int * int) option
-
+(**[get_score st] gets current score from the state [st]*)
 val get_score : t -> int
 
+(** [check_dead st] returns true if the player's remaining number of
+    lives becomes 0; false is the player has more than 3 hearts*)
 val get_portal_pos : t -> (int * int) list
+(**[all_cleared st] returns true if there are no more tools or obstacles or enemies in [st], false otherwise*)
+val all_cleared : t -> bool

@@ -1,12 +1,13 @@
 (** Representation of static background type.
-
     This module represents the data used to represent players. *)
 
-(** The abstract type of values representing players. *)
+open Background
+
+(** The abstract type of values representing the player. *)
 type t
 
 (** The type of player ids. *)
-type player_id = string
+type player_type = string
 
 (** The type of coordinates of player *)
 type xy = int * int
@@ -17,21 +18,19 @@ val tile_number : int
 
 val move_number : int
 
-(* Initialize a player *)
-val build_player : player_id -> xy -> t
+(** [build_player ply_type curr_pos] initializes a player *)
+val build_player : player_type -> xy -> t
 
 val get_power : t -> int
+
+(** [get_plr_type plr] returns the player's type as either lama or camel *)
+val get_plr_type : t -> player_type
 
 (** [start_tile] is the identifier of the starting tile in the game. *)
 val curr_pos : t -> xy
 
 (** [get_speed p] gets the current speed of player p. *)
 val get_speed : t -> int
-
-(** [speed_up p s] increases the speed of player p by s and returns the
-    new player. *)
-
-(* val speed_up : t -> int -> t *)
 
 val change_speed : t -> int -> t
 
