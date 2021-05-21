@@ -27,31 +27,13 @@
    expected, 50 passing tests therefore is a minimal amount. In reality
    we should probably be asking for more, or for Bisect coverage. *)
 
-(********************************************************************
-                          FROM ASSIGNMENT 2
- ********************************************************************)
-
-(* We will add strings containing JSON here, and use them as the basis
-   for unit tests. Or you can add .json files in this directory and use
-   them, too. Any .json files in this directory will be included by
-   [make zip] as part of your CMS submission. *)
-
-(* You should not be testing any helper functions here. Test only the
-   functions exposed in the [.mli] files. Do not expose your helper
-   functions. See the handout for an explanation. *)
-
-(********************************************************************
-                         END FROM ASSIGNMENT 2
- ********************************************************************)
-
 open OUnit2
 open Background
+open Player
 open Bomb
 open Enemy
-open Gui
-open Obs_portal
-open Player
 open State
+open Obs_portal
 open Tool_addbomb
 open Tool_addheart
 open Tool_speedup
@@ -208,6 +190,9 @@ let bomb_tests =
       make_bomb_test (120, 60) false;
   ]
 
+(* TESTING MODULE: Enemy *)
+(* builds the enemy of type "slow" at position (560, 560), with [ (80,
+   80); (80, 120); (80, 240) ] as tiles the enemy cannot step on. *)
 let test_enemy =
   build_enemy (560, 560) [ (80, 80); (80, 120); (80, 240) ] "slow"
 
@@ -237,11 +222,96 @@ let enemy_tests =
       "testing move_enemy for enemy at (540,540) and player at (40,40)"
       [ DOWN; LEFT; UP; RIGHT ]
       (build_enemy (560, 540) [ (80, 80); (80, 120); (80, 240) ] "slow");
+    test_move_enemy
+      "testing move_enemy for enemy at (540,540) and player at (40,40)"
+      [ UP; RIGHT; DOWN; LEFT ]
+      (build_enemy (560, 580) [ (80, 80); (80, 120); (80, 240) ] "slow");
   ]
 
-let obs_portal_tests = []
+(* TESTING MODULE: state *)
+(* initiates a state [test_state] with player at position (40, 40),
+   background [bkg], and player type of "lama". *)
+let test_state = init_state bkg (40, 40) "lama"
 
-let state_tests = []
+let test_get_bkg name st expected =
+  name >:: fun _ -> assert_equal expected (get_bkg st)
+
+let test_player_one name st expected =
+  name >:: fun _ -> assert_equal expected (player_one st)
+
+let test_check_dead name st expected =
+  name >:: fun _ -> assert_equal expected (check_dead st)
+
+let test_all_cleared name st expected =
+  name >:: fun _ -> assert_equal expected (all_cleared st)
+
+let exploding_bomb =
+  match make_bomb ply_test with
+  | Some bomb -> bomb
+  | _ -> failwith "wrong"
+
+let test_some_explosion_true name st expected =
+  name >:: fun _ ->
+  let new_st = add_bomb exploding_bomb st in
+  let _ = Unix.sleep 6 in
+  assert_equal expected (some_explosion new_st)
+
+let test_some_explosion_false name st expected =
+  name >:: fun _ ->
+  let new_st = add_bomb exploding_bomb st in
+  assert_equal expected (some_explosion new_st)
+
+let test_exploding name st expected =
+  name >:: fun _ ->
+  let new_st = add_bomb exploding_bomb st in
+  let _ = Unix.sleep 6 in
+  assert_equal expected (exploding new_st)
+
+let test_get_tools_xys
+    name
+    st
+    (get_tools_func : t -> (int * int) list)
+    expected =
+  name >:: fun _ -> assert_equal expected (get_tools_func st)
+
+let test_get_enemy_pos name st expected =
+  name >:: fun _ -> assert_equal expected (get_enemy_pos st)
+
+let state_tests =
+  [
+    test_get_bkg "testing get_bkg for state with bkg as background"
+      test_state bkg;
+    test_player_one
+      "testing player_one for state with ply_test as player" test_state
+      ply_test;
+    test_check_dead
+      "testing check_dead for state where player is not dead" test_state
+      false;
+    test_all_cleared
+      "testing all_clear for state which hasn't been cleared" test_state
+      false;
+    test_some_explosion_false
+      "testing some_explosion for state that doesn't have an exploding \
+       bomb"
+      test_state false;
+    test_some_explosion_true
+      "testing some_explosion for state that has an exploding bomb"
+      test_state true;
+    test_exploding
+      "testing exploding for state that has [exploding bomb] about to \
+       explode"
+      test_state [ exploding_bomb ];
+    test_get_enemy_pos "testing get_enemy_pos in state with no enemy"
+      test_state None;
+    test_get_enemy_pos "testing get_enemy_pos in state with no enemy"
+      test_state None;
+  ]
+
+(* TESTING MODULE: Obs_portal *)
+(* loads the background file [bkg] and initializes a portal object. *)
+let test_portal = new_portal bkg
+
+let obs_portal_tests = []
 
 let tool_addbomb_tests = []
 
@@ -259,8 +329,8 @@ let suite =
            player_tests;
            bomb_tests;
            enemy_tests;
-           obs_portal_tests;
            state_tests;
+           obs_portal_tests;
            tool_addbomb_tests;
            tool_addheart_tests;
            tool_speedup_tests;
