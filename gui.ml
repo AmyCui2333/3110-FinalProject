@@ -11,7 +11,13 @@ open Tool_twobomb
 
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
-(* ***************** From library module Graphic_image ***************** *)
+(**************************************************************************
+    From Libpng package[1], Graphics module[2], and CamlImages library[3].
+    Reference:
+    [1] https://opam.ocaml.org/packages/conf-libpng/
+    [2] https://ocaml.org/releases/4.08/htmlman/libref/Graphics.html
+    [3] https://opam.ocaml.org/packages/camlimages/
+ **************************************************************************)
 let array_of_image img =
   match img with
   | Index8 bitmap ->
@@ -65,11 +71,13 @@ let image_of grpimg =
 
 let get_image x y w h = image_of (Graphics.get_image x y w h)
 
-(* ***************** End library module Graphic_image ***************** *)
+(**************************************************************************
+      End Libpng package, Graphics module, and CamlImages library.
+ **************************************************************************)
 
-let tile_size = 40
+let tile_size = Background.tile_size
 
-let tile_number = 16
+let tile_number = Background.tile_number
 
 let draw_canvas () = Graphics.open_graph " 780x640"
 
@@ -139,7 +147,7 @@ let draw_lama () =
   draw_file_no_displace "headshot_lama_choose.png" (135, 207)
 
 let draw_camel () =
-  draw_file_no_displace "headshot_lama_choose.png" (456, 207)
+  draw_file_no_displace "headshot_camel_choose.png" (456, 207)
 
 let draw_instruction () =
   draw_file_no_displace "instruction_text_c.png" (0, 0);
@@ -169,8 +177,10 @@ let draw_obs3 ob = draw_file "portal.png" ob
 
 let draw_board () = draw_file_no_displace "score_board_bkg.png" (0, 0)
 
-let draw_head () =
-  draw_file_no_displace "headshot_lama_100.png" (20, 520)
+let draw_head st =
+  if st |> player_one |> get_plr_type = "caml" then
+    draw_file_no_displace "headshot_camel.png" (20, 520)
+  else draw_file_no_displace "headshot_lama_100.png" (20, 520)
 
 let draw_win_image () = draw_file_no_displace "cong_324.png" (228, 201)
 
@@ -358,11 +368,11 @@ let draw_explosions b_lst st (pl : Player.t) =
 
 let draw_bomb pl = draw_file "bomb_40.png" pl
 
-let draw_left_panel () =
+let draw_left_panel st =
   draw_bkg ();
   draw_board ();
   draw_heart_3 ();
-  draw_head ()
+  draw_head st
 
 let draw_speedup xy = draw_file "speedup_40.png" xy
 
@@ -437,7 +447,7 @@ let clear_tools st =
   clear_twobomb st
 
 let draw_tools st =
-  draw_speedups (show_tool1s (exploding st) (get_bkg st));
-  draw_addhearts (show_tool2s (exploding st) (get_bkg st));
-  draw_addbombs (show_tool3s (exploding st) (get_bkg st));
-  draw_twobombs (show_tool4s (exploding st) (get_bkg st))
+  draw_speedups (show_tools (exploding st) (get_bkg st) 1);
+  draw_addhearts (show_tools (exploding st) (get_bkg st) 2);
+  draw_addbombs (show_tools (exploding st) (get_bkg st) 3);
+  draw_twobombs (show_tools (exploding st) (get_bkg st) 4)

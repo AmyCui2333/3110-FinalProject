@@ -1,8 +1,6 @@
 (** Representation of static background type.
     This module represents the data used to represent players. *)
 
-open Background
-
 (** The abstract type of values representing the player. *)
 type t
 

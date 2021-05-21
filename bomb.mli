@@ -31,3 +31,8 @@ val in_blast_area : t -> int * int -> bool
 (** [in_blast_lst bomb_list pos] returns true if position [pos] is
     within the blast area of any of the bombs in [bomb_list]. *)
 val in_blast_lst : t list -> int * int -> bool
+
+(** [show_tools b_lst bkg i] returns a list of tool_[i]'s positions in
+    the background map [bkg]; all tool_[i] in the returned list were
+    hidden in bushes before exploded by bombs listed in [b_lst]. *)
+val show_tools : t list -> Background.t -> int -> (int * int) list

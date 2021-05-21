@@ -11,16 +11,6 @@ type t = {
 
 let get_speedup_xy t = t.pos
 
-let show_tool1 b bkg =
-  let tool1_list = tool1_xy bkg in
-  let tiles = get_neighbours 1 b [] in
-  List.filter (fun x -> List.mem x tiles) tool1_list
-
-let rec show_tool1s b_lst bkg =
-  match b_lst with
-  | [] -> []
-  | h :: t -> show_tool1 h bkg @ show_tool1s t bkg
-
 let new_speedup xy =
   {
     pos = xy;

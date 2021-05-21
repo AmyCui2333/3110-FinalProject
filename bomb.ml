@@ -72,3 +72,13 @@ let rec explode bkg b_lst =
       explode new_bkg t
 
 let get_pos b = b.pos
+
+let show_tool b bkg i =
+  let tool_list = tool_xy bkg i in
+  let tiles = get_neighbours 1 b [] in
+  List.filter (fun x -> List.mem x tiles) tool_list
+
+let rec show_tools b_lst bkg i =
+  match b_lst with
+  | [] -> []
+  | h :: t -> show_tool h bkg i @ show_tools t bkg i

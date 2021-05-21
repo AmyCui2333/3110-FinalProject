@@ -41,8 +41,10 @@ val get_tool4 : t -> Tool_twobomb.t list
 (** [take_input st] takes in the input from the keyboard. *)
 val take_input : t -> input
 
+(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
 val take_mouse : unit -> string
 
+(** [take_start] *)
 val take_start : unit -> unit
 
 (** [change_bkg st b] returns the state with bkg [b]. *)
@@ -59,8 +61,8 @@ val some_explosion : t -> bool
     explosion (if any) and the bombs left. *)
 val clear_exploding : t -> t
 
-(** [exploding st] returns the bombs to be exploded at the time the
-    function is called. *)
+(** [exploding st] returns a list of bombs to be exploded at the time
+    the function is called. *)
 val exploding : t -> Bomb.t list
 
 (** [take_tool1 st] returns the new state if player takes in any tool1s

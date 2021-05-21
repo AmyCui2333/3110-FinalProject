@@ -41,8 +41,9 @@ open Tool_twobomb
 
 (********************************************************************
     Helper functions for testing lists are equal to those in A2.
-    Reference: Professor Michael Clarkson (mrc26@cornell.edu) and
-               CS 3110 course staff at Cornell University.
+    Reference:
+    Professor Michael Clarkson (mrc26@cornell.edu) and
+    CS 3110 course staff at Cornell University.
  ********************************************************************)
 
 let cmp_set_like_lists lst1 lst2 =
@@ -208,24 +209,24 @@ let test_get_direction name expected =
 
 let test_move_enemy name dir_lst expected =
   name >:: fun _ ->
-  assert_equal expected (move_enemy dir_lst bkg test_enemy)
+  assert_equal expected (enemy_pos (move_enemy dir_lst bkg test_enemy))
 
 let enemy_tests =
   [
-    test_enemy_pos "testing get position of enemy at (540,540)"
+    test_enemy_pos "testing get position of enemy at (560,560)"
       (560, 560);
-    test_enemy_speed "testing get speed of slow enemy" 20;
+    test_enemy_speed "testing get speed of slow enemy" 10;
     test_get_direction
-      "get direction for enemy at (540,540) and player at (40,40)"
+      "get direction for enemy at (560, 560) and player at (40,40)"
       [ DOWN; LEFT; UP; RIGHT ];
     test_move_enemy
-      "testing move_enemy for enemy at (540,540) and player at (40,40)"
+      "testing move_enemy for enemy at (560,560) and player at (40,40)"
       [ DOWN; LEFT; UP; RIGHT ]
-      (build_enemy (560, 540) [ (80, 80); (80, 120); (80, 240) ] "slow");
+      (560, 550);
     test_move_enemy
       "testing move_enemy for enemy at (540,540) and player at (40,40)"
       [ UP; RIGHT; DOWN; LEFT ]
-      (build_enemy (560, 580) [ (80, 80); (80, 120); (80, 240) ] "slow");
+      (560, 570);
   ]
 
 (* TESTING MODULE: state *)
@@ -311,13 +312,25 @@ let state_tests =
 (* loads the background file [bkg] and initializes a portal object. *)
 let test_portal = new_portal bkg
 
+let portal_test = []
+
 let obs_portal_tests = []
 
 let tool_addbomb_tests = []
 
 let tool_addheart_tests = []
 
-let tool_speedup_tests = []
+let test_speedup = new_speedups_fromxy [ (40, 40); (40, 80) ]
+
+let get_speedup_xy_test name tool1 expected =
+  name >:: fun _ -> assert_equal expected (get_speedup_xy tool1)
+
+let tool_speedup_tests =
+  [
+    get_speedup_xy_test
+      "testing the position of of the one tool_speedup"
+      (List.hd test_speedup) (40, 40);
+  ]
 
 let tool_twobomb_tests = []
 

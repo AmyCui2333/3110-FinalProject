@@ -4,11 +4,11 @@ type player_type = string
 
 type xy = int * int
 
-let tile_size = 40
+let tile_size = Background.tile_size
 
-let tile_number = 16
+let tile_number = Background.tile_number
 
-let move_number = 10
+let move_number = Background.move_number
 
 type t = {
   player_type : player_type;
@@ -70,11 +70,6 @@ let no_collisiony bkg p op move =
   then p
   else move p
 
-(* let no_collisionx bkg p p2 op move = if snd (curr_pos p) |> obs_on_y
-   bkg |> List.mem (op (fst (curr_pos p)) tile_size) || snd (curr_pos p)
-   mod tile_size <> 0 || no_collison_plrx op (curr_pos p) (curr_pos p2)
-   then p else move p *)
-
 let no_collisionx bkg p op move =
   if
     snd (curr_pos p)
@@ -115,8 +110,6 @@ let tool_collision_down xy p =
   else false
 
 let rec tool_collision xy p =
-  (* print_endline "e"; *)
-  (* print_endline (string_of_bool (tool_collision xy p)); *)
   tool_collision_right xy p
   || tool_collision_left xy p
   || tool_collision_up xy p
@@ -157,9 +150,7 @@ let tool_collison_gui_return xy p = tool_collison_return_aux xy p 30
 
 let rec tools_collision_return_aux xy_lst p f =
   match xy_lst with
-  | [] ->
-      (* failwith "imp" *)
-      (false, (0, 0))
+  | [] -> (false, (0, 0))
   | h :: t -> (
       match f h p with
       | [] -> tools_collision_return_aux t p f
@@ -200,20 +191,7 @@ let tool_collision_down_gui xy p =
   else false
 
 let rec tool_collision_gui xy p =
-  (* print_endline "e"; *)
-  (* print_endline (string_of_bool (tool_collision xy p)); *)
   tool_collision_right_gui xy p
   || tool_collision_left_gui xy p
   || tool_collision_up_gui xy p
   || tool_collision_down_gui xy p
-
-(* let no_collision_up bkg p p2 = no_collisiony bkg p p2 ( + ) move_up
-
-   let no_collision_down bkg p p2 = no_collisiony bkg p p2 ( - )
-   move_down
-
-   let no_collision_left bkg p p2 = no_collisionx bkg p p2 ( - )
-   move_left
-
-   let no_collision_right bkg p p2 = no_collisionx bkg p p2 ( + )
-   move_right *)

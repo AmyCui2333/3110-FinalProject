@@ -78,25 +78,17 @@ let obs_n_xy bkg n =
   in
   List.map (fun obs -> obs.coordinate) obs_n_lst
 
-let obs_tool_xy bkg n =
+let obs_tool_xy bkg i =
   let obs_tool_list =
-    List.filter (fun obs -> obs.tool = n) bkg.obs_list
+    List.filter (fun obs -> obs.tool = i) bkg.obs_list
   in
   List.map (fun obs -> (obs.coordinate, obs.tool)) obs_tool_list
 
-let tool_xy bkg n =
+let tool_xy bkg i =
   let obs_tool_list =
-    List.filter (fun obs -> obs.tool = n) bkg.obs_list
+    List.filter (fun obs -> obs.tool = i) bkg.obs_list
   in
   List.map (fun obs -> obs.coordinate) obs_tool_list
-
-let tool1_xy bkg = tool_xy bkg 1
-
-let tool2_xy bkg = tool_xy bkg 2
-
-let tool3_xy bkg = tool_xy bkg 3
-
-let tool4_xy bkg = tool_xy bkg 4
 
 let all_tools bkg = bkg.tools_xy
 
@@ -105,14 +97,6 @@ let obs_one_xy bkg = obs_n_xy bkg 1
 let obs_two_xy bkg = obs_n_xy bkg 2
 
 let obs_three_xy bkg = [ bkg.portal1; bkg.portal2 ]
-
-let obs_xy_tool1 bkg = obs_tool_xy bkg 1
-
-let obs_xy_tool2 bkg = obs_tool_xy bkg 2
-
-let obs_xy_tool3 bkg = obs_tool_xy bkg 3
-
-let obs_xy_tool4 bkg = obs_tool_xy bkg 4
 
 let get_x (coord : xy) = match coord with a, _ -> a
 

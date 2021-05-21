@@ -48,7 +48,7 @@ let play_game f =
   let plr_pos = start_tile_one bkg in
   let plr_type = take_mouse () in
   let st = init_state bkg plr_pos plr_type in
-  draw_left_panel ();
+  draw_left_panel st;
   draw_state st;
   move_state st plr_pos
 
