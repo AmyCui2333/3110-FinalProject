@@ -32,17 +32,22 @@ val draw_tools : State.t -> unit
     draws the current score stored in state [st] *)
 val draw_score : State.t -> unit
 
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+(** [draw_win st] draw the win screen with win message and score. Exit
+    the game 7 seconds after this screen. *)
 val draw_win : State.t -> unit
 
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+(** [draw_lose st] draw the lose screen with win message and score. Exit
+    the game 7 seconds after this screen. *)
 val draw_lose : State.t -> unit
 
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+(** [draw_chooose ()] draw the choose player screen and allow users to
+    pick charater Lama or Camel *)
 val draw_choose : unit -> unit
 
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+(** [draw_instruction ()] draw the instruction page as the start of the
+    game *)
 val draw_instruction : unit -> unit
 
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+(** [draw_left_panel st ] draw the initial left panel showing the
+    character headshot, initial hearts, and intila score 0*)
 val draw_left_panel : State.t -> unit

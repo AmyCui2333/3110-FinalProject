@@ -151,12 +151,12 @@ let draw_camel () =
 
 let draw_instruction () =
   draw_file_no_displace "instruction_text_c.png" (0, 0);
-  draw_file_no_displace "ToolSpeedUp_60.png" (85, 348);
-  draw_file_no_displace "ToolAddHeart_60.png" (85, 276);
+  draw_file_no_displace "tool_speedup_60.png" (85, 348);
+  draw_file_no_displace "tool_addheart_60.png" (85, 276);
   draw_file_no_displace "stone_60.png" (85, 207);
   draw_file_no_displace "bush_60.png" (85, 134);
-  draw_file_no_displace "ToolAddBomb_60.png" (401, 348);
-  draw_file_no_displace "ToolTwoBomb_60.png" (401, 276);
+  draw_file_no_displace "tool_addbomb_60.png" (401, 348);
+  draw_file_no_displace "tool_twobomb_60.png" (401, 276);
   draw_file_no_displace "portal_60.png" (401, 207);
   draw_file_no_displace "enemy_60.png" (401, 134)
 
@@ -230,6 +230,8 @@ let init_p1_xy f plr_type =
   let player_1 = player_one st in
   curr_pos player_1
 
+let draw_tile xy = draw_file "tile_green_40.png" xy
+
 let draw_enemy pos =
   match pos with
   | Some (x, y) ->
@@ -243,10 +245,9 @@ let draw_enemy_b pos =
   | Some (x, y) ->
       let img = Png.load "enemy_b.png" [] in
       let g = of_image img in
-      Graphics.draw_image g (x + 140) y
+      Graphics.draw_image g (x + 140) y;
+      draw_tile (x, y)
   | None -> ()
-
-let draw_tile2 xy = draw_file "tile_green_40.png" xy
 
 let draw_plr1 st p1_xy =
   if st |> player_one |> get_plr_type = "caml" then
@@ -259,15 +260,13 @@ let draw_state st =
   draw_enemy (get_enemy_pos st)
 
 let draw_move st pos_ply pos_enemy =
-  draw_tile2 pos_ply;
+  draw_tile pos_ply;
   draw_plr1 st (curr_pos (player_one st));
   match pos_enemy with
   | Some pos_e ->
-      draw_tile2 pos_e;
+      draw_tile pos_e;
       draw_enemy (get_enemy_pos st)
   | None -> ()
-
-let draw_tile x y = draw_file "tile_green_40.png" (x, y)
 
 let draw_explode x y = draw_file "bomb_explode_40.png" (x, y)
 
@@ -275,7 +274,7 @@ let rec draw_tiles (pos_lst : (int * int) list) =
   match pos_lst with
   | [] -> ()
   | h :: t ->
-      draw_tile (fst h) (snd h);
+      draw_tile h;
       draw_tiles t
 
 let draw_burnt_pl p1_xy = draw_file "p1_b_40.png" p1_xy
@@ -392,7 +391,7 @@ let rec draw_speedups (pos_lst : (int * int) list) =
       draw_speedup h;
       draw_speedups t
 
-let draw_addheart xy = draw_file "ToolAddHeart.png" xy
+let draw_addheart xy = draw_file "tool_addheart.png" xy
 
 let rec draw_addhearts (pos_lst : (int * int) list) =
   match pos_lst with
@@ -401,7 +400,7 @@ let rec draw_addhearts (pos_lst : (int * int) list) =
       draw_addheart h;
       draw_addhearts t
 
-let draw_addbomb xy = draw_file "ToolAddBomb.png" xy
+let draw_addbomb xy = draw_file "tool_addbomb.png" xy
 
 let rec draw_addbombs (pos_lst : (int * int) list) =
   match pos_lst with
@@ -410,7 +409,7 @@ let rec draw_addbombs (pos_lst : (int * int) list) =
       draw_addbomb h;
       draw_addbombs t
 
-let draw_twobomb xy = draw_file "ToolTwoBomb.png" xy
+let draw_twobomb xy = draw_file "tool_twobomb.png" xy
 
 let rec draw_twobombs (pos_lst : (int * int) list) =
   match pos_lst with
@@ -429,7 +428,7 @@ let clear_tool f1 f2 st =
       match to_r3 with
       | false, _ -> ()
       | true, h ->
-          draw_tile2 h;
+          draw_tile h;
           draw_plr1 st (curr_pos (player_one st)))
 
 let clear_speedup st = clear_tool get_tool1 get_tool1_xys st

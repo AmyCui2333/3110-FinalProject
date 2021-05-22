@@ -53,7 +53,7 @@ val change_tool4 : t -> ToolTwoBomb.t list -> t
 (** [take_input st] takes in the input from the keyboard. *)
 val take_input : t -> input
 
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+(** [take_mouse] *)
 val take_mouse : unit -> string
 
 (** [take_start] *)
@@ -81,12 +81,16 @@ val exploding : t -> Bomb.t list
     and change the state and the tool1 list of the state. *)
 val take_tool1 : t -> t
 
+(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
 val get_tool1_xys : t -> (int * int) list
 
+(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
 val get_tool2_xys : t -> (int * int) list
 
+(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
 val get_tool3_xys : t -> (int * int) list
 
+(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
 val get_tool4_xys : t -> (int * int) list
 
 (** [check_dead st] returns true if the player's remaining number of

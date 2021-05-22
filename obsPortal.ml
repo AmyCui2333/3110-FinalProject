@@ -24,13 +24,3 @@ let portal_pos xy t =
   | _ -> failwith "impossible"
 
 let transfer_pl p new_pos = change_pl_pos p new_pos
-
-(* let rec new_portal_fromxy xy_lst = match xy_lst with | [] -> [] | h
-   :: t -> [ new_portal h ] @ new_portal_fromxy t *)
-
-(* let show_tool3 port bkg = let tool3_list = tool3_xy bkg in let grids
-   = get_neighbours 1 port [] in List.filter (fun x -> List.mem x grids)
-   tool3_list
-
-   let rec show_tool3s port_lst bkg = match port_lst with | [] -> [] | h
-   :: t -> show_tool3 h bkg @ show_tool3s t bkg *)
