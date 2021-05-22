@@ -4,10 +4,10 @@ open Background
 open Player
 open State
 open Bomb
-open Tool_speedup
-open Tool_addheart
-open Tool_addbomb
-open Tool_twobomb
+open ToolSpeedUp
+open ToolAddHeart
+open ToolAddBomb
+open ToolTwoBomb
 
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
@@ -151,12 +151,12 @@ let draw_camel () =
 
 let draw_instruction () =
   draw_file_no_displace "instruction_text_c.png" (0, 0);
-  draw_file_no_displace "tool_speedup_60.png" (85, 348);
-  draw_file_no_displace "tool_addheart_60.png" (85, 276);
+  draw_file_no_displace "ToolSpeedUp_60.png" (85, 348);
+  draw_file_no_displace "ToolAddHeart_60.png" (85, 276);
   draw_file_no_displace "stone_60.png" (85, 207);
   draw_file_no_displace "bush_60.png" (85, 134);
-  draw_file_no_displace "tool_addbomb_60.png" (401, 348);
-  draw_file_no_displace "tool_twobomb_60.png" (401, 276);
+  draw_file_no_displace "ToolAddBomb_60.png" (401, 348);
+  draw_file_no_displace "ToolTwoBomb_60.png" (401, 276);
   draw_file_no_displace "portal_60.png" (401, 207);
   draw_file_no_displace "enemy_60.png" (401, 134)
 
@@ -295,7 +295,7 @@ let rec clean_bombs res b_lst =
         (List.append (get_pos h :: get_neighbours 1 h []) res)
         t
 
-let grids_to_clean pos_lst st =
+let tiles_to_clean pos_lst st =
   List.filter
     (fun x ->
       List.mem x (obs_two_xy (get_bkg st)) = false
@@ -357,13 +357,13 @@ let in_blast_lst_op b_lst st =
 
 let draw_explosions b_lst st (pl : Player.t) =
   let pos_lst = clean_bombs [] b_lst in
-  let grids = grids_to_clean pos_lst st in
-  draw_explodes grids;
+  let tiles = tiles_to_clean pos_lst st in
+  draw_explodes tiles;
   if in_blast_lst b_lst (curr_pos pl) then draw_burnt_pl (curr_pos pl);
   if in_blast_lst_op b_lst st then draw_enemy_b (get_enemy_pos st);
   draw_heart_on_board pl;
   Unix.sleepf 0.4;
-  draw_tiles grids;
+  draw_tiles tiles;
   draw_plr1 st (curr_pos pl)
 
 let draw_bomb pl = draw_file "bomb_40.png" pl
@@ -392,7 +392,7 @@ let rec draw_speedups (pos_lst : (int * int) list) =
       draw_speedup h;
       draw_speedups t
 
-let draw_addheart xy = draw_file "tool_addheart.png" xy
+let draw_addheart xy = draw_file "ToolAddHeart.png" xy
 
 let rec draw_addhearts (pos_lst : (int * int) list) =
   match pos_lst with
@@ -401,7 +401,7 @@ let rec draw_addhearts (pos_lst : (int * int) list) =
       draw_addheart h;
       draw_addhearts t
 
-let draw_addbomb xy = draw_file "tool_addbomb.png" xy
+let draw_addbomb xy = draw_file "ToolAddBomb.png" xy
 
 let rec draw_addbombs (pos_lst : (int * int) list) =
   match pos_lst with
@@ -410,7 +410,7 @@ let rec draw_addbombs (pos_lst : (int * int) list) =
       draw_addbomb h;
       draw_addbombs t
 
-let draw_twobomb xy = draw_file "tool_twobomb.png" xy
+let draw_twobomb xy = draw_file "ToolTwoBomb.png" xy
 
 let rec draw_twobombs (pos_lst : (int * int) list) =
   match pos_lst with

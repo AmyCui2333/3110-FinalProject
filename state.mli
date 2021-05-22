@@ -27,16 +27,28 @@ val get_bkg : t -> Background.t
 val player_one : t -> Player.t
 
 (** [get_tool1 st] returns a list of tools of type 1 "speed-up". *)
-val get_tool1 : t -> Tool_speedup.t list
+val get_tool1 : t -> ToolSpeedUp.t list
 
 (** [get_tool2 st] returns a list of tools of type 2 "add heart". *)
-val get_tool2 : t -> Tool_addheart.t list
+val get_tool2 : t -> ToolAddHeart.t list
 
 (** [get_tool3 st] returns a list of tools of type 3 "bomb power-up". *)
-val get_tool3 : t -> Tool_addbomb.t list
+val get_tool3 : t -> ToolAddBomb.t list
 
 (** [get_tool4 st] returns a list of tools of type 4 "double bombs". *)
-val get_tool4 : t -> Tool_twobomb.t list
+val get_tool4 : t -> ToolTwoBomb.t list
+
+(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+val change_tool1 : t -> ToolSpeedUp.t list -> t
+
+(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+val change_tool2 : t -> ToolAddHeart.t list -> t
+
+(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+val change_tool3 : t -> ToolAddBomb.t list -> t
+
+(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+val change_tool4 : t -> ToolTwoBomb.t list -> t
 
 (** [take_input st] takes in the input from the keyboard. *)
 val take_input : t -> input

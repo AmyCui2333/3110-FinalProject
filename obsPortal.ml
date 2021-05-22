@@ -7,9 +7,9 @@ type t = {
   pos2 : int * int;
 }
 
-let get_portal1_xy t = t.pos
+let get_portal_lower_xy t = t.pos
 
-let get_portal2_xy t = t.pos2
+let get_portal_upper_xy t = t.pos2
 
 let new_portal bkg =
   {

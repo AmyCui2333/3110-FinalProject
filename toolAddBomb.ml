@@ -16,4 +16,4 @@ let rec new_addbombs_fromxy xy_lst =
   | [] -> []
   | h :: t -> [ new_addbomb h ] @ new_addbombs_fromxy t
 
-let bombup_plr p = change_bomb p (get_bomb p + 1)
+let bombup_plr p = change_bomb p (get_power p + 1)

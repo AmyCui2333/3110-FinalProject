@@ -8,17 +8,19 @@ type t
     file. *)
 val new_portal : Background.t -> t
 
-(** [get_portal1_xy port] returns the first portal [port]'s position. *)
-val get_portal1_xy : t -> int * int
+(** [get_portal_lower_xy port] returns the lower portal [port]'s
+    position. *)
+val get_portal_lower_xy : t -> int * int
 
-(** [get_portal2_xy port] returns the second portal [port]'s position. *)
-val get_portal2_xy : t -> int * int
-
-(** [transfer_pl p pos] returns player [p] with an updated position
-    [pos]. *)
-val transfer_pl : Player.t -> int * int -> Player.t
+(** [get_portal_upper_xy port] returns the upper portal [port]'s
+    position. *)
+val get_portal_upper_xy : t -> int * int
 
 (** [portal_pos pos port] returns the adjusted position that the player
     will be transfered to, according to the position [pos] of portal
     gateway [port] that the player will be transfered to. *)
 val portal_pos : int * int -> t -> int * int
+
+(** [transfer_pl p pos] returns player [p] with an updated position
+    [pos]. *)
+val transfer_pl : Player.t -> int * int -> Player.t

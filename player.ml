@@ -18,10 +18,6 @@ type t = {
   bomb_power : int;
 }
 
-let curr_pos t = t.curr_pos
-
-let get_power t = t.bomb_power
-
 let build_player ply_type curr_pos =
   {
     player_type = ply_type;
@@ -31,19 +27,21 @@ let build_player ply_type curr_pos =
     bomb_power = 1;
   }
 
-let get_speed p = p.speed
-
 let get_plr_type p = p.player_type
 
-let change_speed p s = { p with speed = s }
+let get_speed p = p.speed
 
-let get_bomb p = p.bomb_power
+let curr_pos t = t.curr_pos
+
+let lives p = p.lives
+
+let get_power p = p.bomb_power
+
+let change_speed p s = { p with speed = s }
 
 let change_bomb p b = { p with bomb_power = b }
 
 let change_pl_pos plr pos = { plr with curr_pos = pos }
-
-let lives p = p.lives
 
 let kill p = { p with lives = p.lives - 1 }
 

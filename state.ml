@@ -2,11 +2,11 @@ open Background
 open Player
 open Graphics
 open Bomb
-open Tool_speedup
-open Tool_addheart
-open Tool_addbomb
-open Tool_twobomb
-open Obs_portal
+open ToolSpeedUp
+open ToolAddHeart
+open ToolAddBomb
+open ToolTwoBomb
+open ObsPortal
 open Enemy
 
 type t = {
@@ -14,11 +14,11 @@ type t = {
   bkg : Background.t;
   bombs : Bomb.t list;
   bomb_limit : int;
-  tool1 : Tool_speedup.t list;
-  tool2 : Tool_addheart.t list;
-  tool3 : Tool_addbomb.t list;
-  tool4 : Tool_twobomb.t list;
-  obs_portal : Obs_portal.t;
+  tool1 : ToolSpeedUp.t list;
+  tool2 : ToolAddHeart.t list;
+  tool3 : ToolAddBomb.t list;
+  tool4 : ToolTwoBomb.t list;
+  obsPortal : ObsPortal.t;
   tool1_start_time : float;
   tool1_duration_time : float;
   t_c : bool * (int * int);
@@ -45,7 +45,7 @@ let init_state bkg pos1 plr_type =
     tool2 = [];
     tool3 = [];
     tool4 = [];
-    obs_portal = new_portal bkg;
+    obsPortal = new_portal bkg;
     tool1_start_time = Unix.time () +. max_float;
     tool1_duration_time = 15.0;
     t_c = (false, (0, 0));
@@ -58,8 +58,8 @@ let init_state bkg pos1 plr_type =
   }
 
 let get_portal_pos st =
-  let p1 = get_portal1_xy st.obs_portal in
-  let p2 = get_portal2_xy st.obs_portal in
+  let p1 = get_portal_lower_xy st.obsPortal in
+  let p2 = get_portal_upper_xy st.obsPortal in
   [ p1; p2 ]
 
 let get_bkg st = st.bkg
@@ -126,6 +126,8 @@ let change_plr_tool2 st p tool = { (change_plr st p) with tool2 = tool }
 let change_bkg_tool1 st b tool_lst =
   let new_st = change_bkg st b in
   { new_st with tool1 = tool_lst }
+
+let change_tool1 st tool_lst = { st with tool1 = tool_lst }
 
 let change_tool2 st tool_lst = { st with tool2 = tool_lst }
 
@@ -234,8 +236,8 @@ let rec take_tool4 st =
       else st
 
 let take_portal st =
-  let p1 = get_portal1_xy st.obs_portal in
-  let p2 = get_portal2_xy st.obs_portal in
+  let p1 = get_portal_lower_xy st.obsPortal in
+  let p2 = get_portal_upper_xy st.obsPortal in
   let p_lst = [ p1; p2 ] in
   let to_r = tools_collision_gui_return p_lst st.player_one in
   let to_r2 = tools_collision_return p_lst st.player_one in
@@ -245,7 +247,7 @@ let take_portal st =
       (transfer_pl st.player_one
          (portal_pos
             (List.hd (List.filter (fun x -> x <> snd to_r3) p_lst))
-            st.obs_portal))
+            st.obsPortal))
   else st
 
 let take_tools st =

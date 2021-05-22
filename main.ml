@@ -3,8 +3,8 @@ open Gui
 open State
 open Player
 open Bomb
-open Tool_speedup
-open Tool_addheart
+open ToolSpeedUp
+open ToolAddHeart
 
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
@@ -58,6 +58,9 @@ let main () =
     "\n\nWelcome to the 3110 Game engine.\n";
   print_endline
     "Please enter the name of the game file you want to load.\n";
+  print_endline
+    "You can type either \"easy.json\" or \"hard.json\", and press \
+     \"enter\" to start the game!\n";
   print_string "> ";
   match read_line () with
   | exception End_of_file -> ()
