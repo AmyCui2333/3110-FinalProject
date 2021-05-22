@@ -1,0 +1,76 @@
+{
+  "start": {
+    "x": 8,
+    "y": 8
+  },
+  "portal_lower": {
+    "x": 8,
+    "y": 6
+  },
+  "portal_upper": {
+    "x": 8,
+    "y": 10
+  },
+  "obstacle_list": [
+    {
+      "coordinates": {
+        "x": 7,
+        "y": 7
+      },
+      "type": 1
+    },
+    {
+      "coordinates": {
+        "x": 7,
+        "y": 9
+      },
+      "type": 1
+    },
+    {
+      "coordinates": {
+        "x": 7,
+        "y": 8
+      },
+      "type": 1,
+      "tool": 3
+    },
+    {
+      "coordinates": {
+        "x": 8,
+        "y": 7
+      },
+      "type": 1,
+      "tool": 2
+    },
+    {
+      "coordinates": {
+        "x": 8,
+        "y": 9
+      },
+      "type": 1,
+      "tool": 1
+    },
+    {
+      "coordinates": {
+        "x": 9,
+        "y": 8
+      },
+      "type": 1,
+      "tool": 4
+    },
+    {
+      "coordinates": {
+        "x": 9,
+        "y": 7
+      },
+      "type": 2
+    },
+    {
+      "coordinates": {
+        "x": 9,
+        "y": 9
+      },
+      "type": 2
+    }
+  ]
+}
