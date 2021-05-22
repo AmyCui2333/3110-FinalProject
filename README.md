@@ -9,7 +9,7 @@ Please check [INSTALL.md](https://github.com/AmyCui2333/3110-FinalProject/blob/m
 Great! You have successfully installed all things required for this game. Now let's run it:
 
 ## **Windows**:
-1. Open `XLaunch` on your local **Windows** computer. Don't change any default option, except for the page "`Extra settings`" where you should tick the box with "`Disable access control`". Then, continue until you complete all settings.
+1. Open `XLaunch` on your local **WINDOWS** computer. Don't change any default option, except for the page "`Extra settings`" where you should tick the box with "`Disable access control`". Then, continue until you complete all settings.
 2. Find your local **WINDOWS** computer’s IP address. This can be done by Looking through your computer settings; but if you have no idea how to find it, follow the guidance below:
 - Open the **WINDOWS** command prompt by pressing the `start` button on keyboard, typing "`cmd`", and press the `enter` button.
 - Type "`ipconfig/all`" into the **WINDOWS** command prompt.
@@ -18,27 +18,29 @@ Great! You have successfully installed all things required for this game. Now le
 ```
 export DISPLAY=<your-ip-address>:0.0
 ```
-4. In your **UBUNTU** command prompt, change directory into the place you downloaded the game. The directory name should be "`3110-FinalProject`".
+4. In your **UBUNTU** command prompt, change directory into the place you downloaded the game.
 5. Run the command "`make play`" in your **UBUNTU** command prompt to start the game. You will see the following lines displayed in the **UBUNTU** command prompt:
 ```
 Welcome to the 3110 Game engine.
 Please enter the name of the game file you want to load.
+You can type either "easy.json" (friendly for new players) or "hard.json", and press "enter" to start the game!
 
 >
 ```
-6. Load the json file by typing "`background.json`" into the **UBUNTU** command prompt and pressing the `enter` button. Then, our game will immediately start!
+6. Load the json file by typing either "`easy.json`" or "`hard.json`" into the **UBUNTU** command prompt and pressing the `enter` button. Then, our game will immediately start! (Tips: if you are new to our game, you may want to choose the "`easy.json`" map to start with :D )
 
 ## **MacOS**:
 1. NOTE: we assume that MacOS has `XQuartz` installed in the local machine. If it is not the case, you can follow the instructions [here](https://www.xquartz.org/) for guidance.
-2. In your **UBUNTU** command prompt, change directory into the place you downloaded the game. The directory name should be "`3110-FinalProject`".
+2. In your **UBUNTU** command prompt, change directory into the place you downloaded the game.
 3. Run the command "`make play`" in your **UBUNTU** command prompt to start the game. You will see the following lines displayed in the **UBUNTU** command prompt:
 ```
 Welcome to the 3110 Game engine.
 Please enter the name of the game file you want to load.
+You can type either "easy.json" (friendly for new players) or "hard.json", and press "enter" to start the game!
 
 >
 ```
-4. Load the json file by typing "`background.json`" into the **UBUNTU** command prompt and pressing the `enter` button. Then, our game will immediately start!
+4. Load the json file by typing either "`easy.json`" or "`hard.json`" into the **UBUNTU** command prompt and pressing the `enter` button. Then, our game will immediately start! (Tips: if you are new to our game, you may want to choose the "`easy.json`" map to start with :D )
 
 
 
