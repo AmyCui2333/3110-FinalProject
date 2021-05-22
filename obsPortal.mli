@@ -16,10 +16,10 @@ val get_portal_lower_xy : t -> int * int
     position. *)
 val get_portal_upper_xy : t -> int * int
 
-(** [portal_pos pos port] returns the adjusted position that the player
+(** [portal_pos port pos] returns the adjusted position that the player
     will be transfered to, according to the position [pos] of portal
     gateway [port] that the player will be transfered to. *)
-val portal_pos : int * int -> t -> int * int
+val portal_pos : t -> int * int -> int * int
 
 (** [transfer_pl p pos] returns player [p] with an updated position
     [pos]. *)

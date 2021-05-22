@@ -17,7 +17,7 @@ let new_portal bkg =
     pos2 = List.hd (List.rev (obs_three_xy bkg));
   }
 
-let portal_pos xy t =
+let portal_pos t xy =
   match xy with
   | a, b when (a, b) = t.pos -> (a, b - 40)
   | a, b when (a, b) = t.pos2 -> (a, b + 40)

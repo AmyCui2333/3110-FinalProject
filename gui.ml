@@ -50,27 +50,6 @@ let of_image img = Graphics.make_image (array_of_image img)
 
 let draw_image img x y = Graphics.draw_image (of_image img) x y
 
-let image_of grpimg =
-  let rgb_of_color color =
-    {
-      r = (color lsr 16) land 255;
-      g = (color lsr 8) land 255;
-      b = color land 255;
-    }
-  in
-  let array = Graphics.dump_image grpimg in
-  let height = Array.length array in
-  let width = Array.length array.(0) in
-  let img = Rgb24.create width height in
-  for y = 0 to height - 1 do
-    for x = 0 to width - 1 do
-      Rgb24.unsafe_set img x y (rgb_of_color array.(y).(x))
-    done
-  done;
-  img
-
-let get_image x y w h = image_of (Graphics.get_image x y w h)
-
 (**************************************************************************
       End Libpng package, Graphics module, and CamlImages library.
  **************************************************************************)
@@ -128,11 +107,6 @@ let rec draw_final_score st =
   let score_str = string_of_int score in
   draw_score_str score_str 361 150
 
-let draw_start_screen () =
-  let img = Png.load "start_screen.png" [] in
-  let g = of_image img in
-  Graphics.draw_image g 0 0
-
 let draw_score st =
   draw_score_cover (45, 300);
   moveto 45 300;
@@ -186,18 +160,10 @@ let draw_win_image () = draw_file_no_displace "cong_324.png" (228, 201)
 
 let draw_lose_image () = draw_file_no_displace "lose_324.png" (228, 201)
 
-let draw_win st =
+let draw_ending st win =
   draw_bkg ();
   draw_board ();
-  draw_win_image ();
-  draw_final_score st;
-  Unix.sleepf 7.0;
-  ()
-
-let draw_lose st =
-  draw_bkg ();
-  draw_board ();
-  draw_lose_image ();
+  if win then draw_win_image () else draw_lose_image ();
   draw_final_score st;
   Unix.sleepf 7.0;
   ()
@@ -245,9 +211,11 @@ let draw_enemy_b pos =
   | Some (x, y) ->
       let img = Png.load "enemy_b.png" [] in
       let g = of_image img in
-      Graphics.draw_image g (x + 140) y;
-      draw_tile (x, y)
+      Graphics.draw_image g (x + 140) y
   | None -> ()
+
+let draw_enemy_bcover pos =
+  match pos with Some (x, y) -> draw_tile (x, y) | None -> ()
 
 let draw_plr1 st p1_xy =
   if st |> player_one |> get_plr_type = "caml" then
@@ -268,8 +236,6 @@ let draw_move st pos_ply pos_enemy =
       draw_enemy (get_enemy_pos st)
   | None -> ()
 
-let draw_explode x y = draw_file "bomb_explode_40.png" (x, y)
-
 let rec draw_tiles (pos_lst : (int * int) list) =
   match pos_lst with
   | [] -> ()
@@ -277,7 +243,7 @@ let rec draw_tiles (pos_lst : (int * int) list) =
       draw_tile h;
       draw_tiles t
 
-let draw_burnt_pl p1_xy = draw_file "p1_b_40.png" p1_xy
+let draw_explode x y = draw_file "bomb_explode_40.png" (x, y)
 
 let rec draw_explodes (pos_lst : (int * int) list) =
   match pos_lst with
@@ -285,6 +251,11 @@ let rec draw_explodes (pos_lst : (int * int) list) =
   | h :: t ->
       draw_explode (fst h) (snd h);
       draw_explodes t
+
+let draw_burnt_pl st p1_xy =
+  if st |> player_one |> get_plr_type = "caml" then
+    draw_file "camel_b.png" p1_xy
+  else draw_file "p1_b_40.png" p1_xy
 
 let rec clean_bombs res b_lst =
   match b_lst with
@@ -304,42 +275,24 @@ let tiles_to_clean pos_lst st =
     pos_lst
 
 let draw_heart_3 () =
-  let img_h = Png.load "heart_26.png" [] in
-  let h = of_image img_h in
-  Graphics.draw_image h 30 40;
-  Graphics.draw_image h 56 40;
-  Graphics.draw_image h 82 40
+  draw_file_no_displace "heart_26.png" (30, 40);
+  draw_file_no_displace "heart_26.png" (56, 40);
+  draw_file_no_displace "heart_26.png" (82, 40)
 
 let draw_heart_2 () =
-  let img_h = Png.load "heart_26.png" [] in
-  let h = of_image img_h in
-  let img_g = Png.load "tile_green_left.png" [] in
-  let g = of_image img_g in
-  Graphics.draw_image h 30 40;
-  Graphics.draw_image h 56 40;
-  Graphics.draw_image g 82 40
+  draw_file_no_displace "heart_26.png" (30, 40);
+  draw_file_no_displace "heart_26.png" (56, 40);
+  draw_file_no_displace "tile_green_left.png" (82, 40)
 
 let draw_heart_1 () =
-  let img_h = Png.load "heart_26.png" [] in
-  let h = of_image img_h in
-  let img_g = Png.load "tile_green_left.png" [] in
-  let g = of_image img_g in
-  Graphics.draw_image h 30 40;
-  Graphics.draw_image g 56 40;
-  Graphics.draw_image g 82 40
+  draw_file_no_displace "heart_26.png" (30, 40);
+  draw_file_no_displace "tile_green_left.png" (56, 40);
+  draw_file_no_displace "tile_green_left.png" (82, 40)
 
 let draw_heart_0 () =
-  let img_g = Png.load "tile_green_left.png" [] in
-  let g = of_image img_g in
-  Graphics.draw_image g 30 40;
-  Graphics.draw_image g 56 40;
-  Graphics.draw_image g 82 40
-
-let draw_minus_heart b_lst p =
-  if in_blast_lst b_lst (curr_pos p) && lives p == 2 then
-    draw_heart_2 ()
-  else if in_blast_lst b_lst (curr_pos p) && lives p == 1 then
-    draw_heart_1 ()
+  draw_file_no_displace "tile_green_left.png" (30, 40);
+  draw_file_no_displace "tile_green_left.png" (56, 40);
+  draw_file_no_displace "tile_green_left.png" (82, 40)
 
 let draw_heart_on_board pl =
   match lives pl with
@@ -358,10 +311,12 @@ let draw_explosions b_lst st (pl : Player.t) =
   let pos_lst = clean_bombs [] b_lst in
   let tiles = tiles_to_clean pos_lst st in
   draw_explodes tiles;
-  if in_blast_lst b_lst (curr_pos pl) then draw_burnt_pl (curr_pos pl);
+  if in_blast_lst b_lst (curr_pos pl) then
+    draw_burnt_pl st (curr_pos pl);
   if in_blast_lst_op b_lst st then draw_enemy_b (get_enemy_pos st);
   draw_heart_on_board pl;
   Unix.sleepf 0.4;
+  if in_blast_lst_op b_lst st then draw_enemy_bcover (get_enemy_pos st);
   draw_tiles tiles;
   draw_plr1 st (curr_pos pl)
 
@@ -370,53 +325,23 @@ let draw_bomb pl = draw_file "bomb_40.png" pl
 let draw_left_panel st =
   draw_bkg ();
   draw_board ();
-  draw_heart_3 ();
+  draw_heart_on_board (player_one st);
   draw_head st
 
-let draw_speedup xy = draw_file "speedup_40.png" xy
+let draw_tool_i xy i =
+  match i with
+  | 1 -> draw_file "speedup_40.png" xy
+  | 2 -> draw_file "tool_addheart.png" xy
+  | 3 -> draw_file "tool_addbomb.png" xy
+  | 4 -> draw_file "tool_twobomb.png" xy
+  | _ -> failwith "impossible"
 
-let rec draw_speedups (pos_lst : (int * int) list) =
+let rec draw_tools_i (pos_lst : Background.xy list) i =
   match pos_lst with
   | [] -> ()
   | h :: t ->
-      draw_speedup h;
-      draw_speedups t
-
-let draw_speedup xy = draw_file "speedup_40.png" xy
-
-let rec draw_speedups (pos_lst : (int * int) list) =
-  match pos_lst with
-  | [] -> ()
-  | h :: t ->
-      draw_speedup h;
-      draw_speedups t
-
-let draw_addheart xy = draw_file "tool_addheart.png" xy
-
-let rec draw_addhearts (pos_lst : (int * int) list) =
-  match pos_lst with
-  | [] -> ()
-  | h :: t ->
-      draw_addheart h;
-      draw_addhearts t
-
-let draw_addbomb xy = draw_file "tool_addbomb.png" xy
-
-let rec draw_addbombs (pos_lst : (int * int) list) =
-  match pos_lst with
-  | [] -> ()
-  | h :: t ->
-      draw_addbomb h;
-      draw_addbombs t
-
-let draw_twobomb xy = draw_file "tool_twobomb.png" xy
-
-let rec draw_twobombs (pos_lst : (int * int) list) =
-  match pos_lst with
-  | [] -> ()
-  | h :: t ->
-      draw_twobomb h;
-      draw_twobombs t
+      draw_tool_i h i;
+      draw_tools_i t i
 
 let clear_tool f1 f2 st =
   match f1 st with
@@ -431,22 +356,14 @@ let clear_tool f1 f2 st =
           draw_tile h;
           draw_plr1 st (curr_pos (player_one st)))
 
-let clear_speedup st = clear_tool get_tool1 get_tool1_xys st
-
-let clear_addheart st = clear_tool get_tool2 get_tool2_xys st
-
-let clear_addbomb st = clear_tool get_tool3 get_tool3_xys st
-
-let clear_twobomb st = clear_tool get_tool4 get_tool4_xys st
-
 let clear_tools st =
-  clear_addheart st;
-  clear_speedup st;
-  clear_addbomb st;
-  clear_twobomb st
+  clear_tool get_tool1 get_tool1_xys st;
+  clear_tool get_tool2 get_tool2_xys st;
+  clear_tool get_tool3 get_tool3_xys st;
+  clear_tool get_tool4 get_tool4_xys st
 
 let draw_tools st =
-  draw_speedups (show_tools (exploding st) (get_bkg st) 1);
-  draw_addhearts (show_tools (exploding st) (get_bkg st) 2);
-  draw_addbombs (show_tools (exploding st) (get_bkg st) 3);
-  draw_twobombs (show_tools (exploding st) (get_bkg st) 4)
+  draw_tools_i (show_tools (exploding st) (get_bkg st) 1) 1;
+  draw_tools_i (show_tools (exploding st) (get_bkg st) 2) 2;
+  draw_tools_i (show_tools (exploding st) (get_bkg st) 3) 3;
+  draw_tools_i (show_tools (exploding st) (get_bkg st) 4) 4

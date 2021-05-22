@@ -56,7 +56,6 @@ let in_blast_area b pos =
   in_cross (x, y) left right top bottom p1_x p1_y
 
 let in_blast_lst b_lst pl =
-  let _ = print_endline "blast_lst called" in
   let blasts = List.filter (fun x -> in_blast_area x pl) b_lst in
   if blasts = [] then false else true
 

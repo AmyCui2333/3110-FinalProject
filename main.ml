@@ -11,8 +11,12 @@ let read_bkg f = from_json (Yojson.Basic.from_file f)
 let rec move_state st pos1 =
   clear_tools st;
   draw_score st;
-  if check_dead st then draw_lose st
-  else if all_cleared st then draw_win st
+  if check_dead st then (
+    draw_ending st false;
+    print_endline "\n~ Game Over 🐫 Try Again ~")
+  else if all_cleared st then (
+    draw_ending st true;
+    print_endline "\n~ Game Completed 🐫 You Won ~")
   else
     match some_explosion st with
     | true ->
@@ -38,9 +42,8 @@ let rec move_state st pos1 =
         | Exit -> ())
 
 let play_game f =
-  print_endline "\n\nWelcome to CS3110 MS";
+  print_endline "\n~ Game has started ~";
   draw_canvas ();
-  print_endline "canvas";
   draw_instruction ();
   take_start ();
   draw_choose ();
@@ -55,12 +58,12 @@ let play_game f =
 (** [main] prompts for the game to play, then starts it. *)
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ]
-    "\n\nWelcome to the 3110 Game engine.\n";
+    "\n\nWelcome to the 🐫 3110 Game engine.\n";
   print_endline
-    "Please enter the name of the game file you want to load.\n";
+    "Please enter the name of the game file you want to load.";
   print_endline
-    "You can type either \"easy.json\" or \"hard.json\", and press \
-     \"enter\" to start the game!\n";
+    "You can type either \"easy.json\" (friendly for new players) or \
+     \"hard.json\", and press \"enter\" key to start the game!\n";
   print_string "> ";
   match read_line () with
   | exception End_of_file -> ()

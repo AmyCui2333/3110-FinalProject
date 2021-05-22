@@ -270,19 +270,11 @@ let test_state = init_state bkg (40, 40) "lama"
 
 let tool1_lst = new_speedups_fromxy (tool_xy bkg 1)
 
-let test_state_tool1 = change_tool1 test_state tool1_lst
-
 let tool2_lst = new_addhearts_fromxy (tool_xy bkg 2)
-
-let test_state_tool2 = change_tool2 test_state tool2_lst
 
 let tool3_lst = new_addbombs_fromxy (tool_xy bkg 3)
 
-let test_state_tool3 = change_tool3 test_state tool3_lst
-
 let tool4_lst = new_twobombs_fromxy (tool_xy bkg 4)
-
-let test_state_tool4 = change_tool4 test_state tool4_lst
 
 let test_get_bkg name st expected =
   name >:: fun _ -> assert_equal expected (get_bkg st)
@@ -360,14 +352,14 @@ let state_tests =
       test_state [ exploding_bomb ];
     test_get_enemy_pos "testing get_enemy_pos in state with no enemy"
       test_state None;
-    test_get_tools_xys "testing getting toolSpeedUp" test_state_tool1
-      get_tool1_xys [ (80, 120) ];
-    test_get_tools_xys "testing getting toolAddHeart" test_state_tool2
-      get_tool2_xys [ (80, 160) ];
-    test_get_tools_xys "testing getting toolAddBomb" test_state_tool3
-      get_tool3_xys [ (80, 200) ];
-    test_get_tools_xys "testing getting toolTwoBomb" test_state_tool4
-      get_tool4_xys [ (80, 240) ];
+    test_get_tools_xys "testing getting toolSpeedUp" test_state
+      get_tool1_xys [];
+    test_get_tools_xys "testing getting toolAddHeart" test_state
+      get_tool2_xys [];
+    test_get_tools_xys "testing getting toolAddBomb" test_state
+      get_tool3_xys [];
+    test_get_tools_xys "testing getting toolTwoBomb" test_state
+      get_tool4_xys [];
     test_get_score "testing get_score in initial state" test_state 0;
     test_clear_exploding "testing clear_exploding with initial state"
       test_state test_state;
@@ -391,9 +383,9 @@ let obs_portal_tests =
     get_portal_lower_xy_test "lower portal" test_portal (160, 80);
     get_portal_upper_xy_test "upper portal" test_portal (160, 240);
     portal_pos_test "transfer to upper portal from lower portal"
-      (160, 80) test_portal (160, 40);
+      test_portal (160, 80) (160, 40);
     portal_pos_test "transfer to lower portal from upper portal"
-      (160, 240) test_portal (160, 280);
+      test_portal (160, 240) (160, 280);
   ]
 
 let test_bombup_plr name plr expected =

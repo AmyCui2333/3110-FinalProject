@@ -1,4 +1,4 @@
-(** Representation of tool of type 4 "Double-Bombs". *)
+(** Representation of tool of type 4 "Two-Bombs". *)
 
 (** The abstract type of values representing the ToolTwoBomb. *)
 type t

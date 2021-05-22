@@ -26,41 +26,28 @@ val get_bkg : t -> Background.t
 (** [player_one t] returns the player_one object. *)
 val player_one : t -> Player.t
 
-(** [get_tool1 st] returns a list of tools of type 1 "speed-up". *)
+(** [get_tool1 st] returns a list of tools of type 1 "Speed-Up". *)
 val get_tool1 : t -> ToolSpeedUp.t list
 
-(** [get_tool2 st] returns a list of tools of type 2 "add heart". *)
+(** [get_tool2 st] returns a list of tools of type 2 "Add-Heart". *)
 val get_tool2 : t -> ToolAddHeart.t list
 
-(** [get_tool3 st] returns a list of tools of type 3 "bomb power-up". *)
+(** [get_tool3 st] returns a list of tools of type 3 "Add-Bomb-Power". *)
 val get_tool3 : t -> ToolAddBomb.t list
 
-(** [get_tool4 st] returns a list of tools of type 4 "double bombs". *)
+(** [get_tool4 st] returns a list of tools of type 4 "Two-Bombs". *)
 val get_tool4 : t -> ToolTwoBomb.t list
-
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
-val change_tool1 : t -> ToolSpeedUp.t list -> t
-
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
-val change_tool2 : t -> ToolAddHeart.t list -> t
-
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
-val change_tool3 : t -> ToolAddBomb.t list -> t
-
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
-val change_tool4 : t -> ToolTwoBomb.t list -> t
 
 (** [take_input st] takes in the input from the keyboard. *)
 val take_input : t -> input
 
-(** [take_mouse] *)
+(** [take_mouse] takes in the input from the mouse and returns either
+    "camel" or "lama" according to the player's choice. *)
 val take_mouse : unit -> string
 
-(** [take_start] *)
+(** [take_start] stops displaying the instruction page after taking in
+    any input from the player's mouse. *)
 val take_start : unit -> unit
-
-(** [change_bkg st b] returns the state with bkg [b]. *)
-val change_bkg : t -> Background.t -> t
 
 (** [add_bomb b st] adds one bomb into the st. *)
 val add_bomb : Bomb.t -> t -> t
@@ -77,20 +64,19 @@ val clear_exploding : t -> t
     the function is called. *)
 val exploding : t -> Bomb.t list
 
-(** [take_tool1 st] returns the new state if player takes in any tool1s
-    and change the state and the tool1 list of the state. *)
-val take_tool1 : t -> t
-
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+(** [get_tool1_xys st] returns a list of positions of tool_1 "Speed-Up". *)
 val get_tool1_xys : t -> (int * int) list
 
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+(** [get_tool2_xys st] returns a list of positions of tool_2
+    "Add-Heart". *)
 val get_tool2_xys : t -> (int * int) list
 
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+(** [get_tool3_xys st] returns a list of positions of tool_3
+    "Add-Bomb-Power". *)
 val get_tool3_xys : t -> (int * int) list
 
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+(** [get_tool4_xys st] returns a list of positions of tool_4
+    "Two-Bombs". *)
 val get_tool4_xys : t -> (int * int) list
 
 (** [check_dead st] returns true if the player's remaining number of

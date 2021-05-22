@@ -1,4 +1,4 @@
-(** Representation of tool of type 3 "Big-Bomb-Up". *)
+(** Representation of tool of type 3 "Add-Bomb-Power". *)
 
 (** The abstract type of values representing the ToolAddBomb. *)
 type t

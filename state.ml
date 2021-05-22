@@ -118,26 +118,26 @@ let speedback_plr p st =
   else st
 
 let add_bomb_limit st =
-  let odd_limit = st.bomb_limit in
-  { st with bomb_limit = odd_limit + 1 }
+  let old_limit = st.bomb_limit in
+  { st with bomb_limit = old_limit + 1 }
 
-let change_plr_tool2 st p tool = { (change_plr st p) with tool2 = tool }
-
-let change_bkg_tool1 st b tool_lst =
+let change_bkg_tool1 b tool_lst st =
   let new_st = change_bkg st b in
   { new_st with tool1 = tool_lst }
 
 let change_tool1 st tool_lst = { st with tool1 = tool_lst }
 
-let change_tool2 st tool_lst = { st with tool2 = tool_lst }
+let change_tool2 tool_lst st = { st with tool2 = tool_lst }
 
-let change_tool3 st tool_lst = { st with tool3 = tool_lst }
+let change_plr_tool2 st p tool = { (change_plr st p) with tool2 = tool }
+
+let change_tool3 tool_lst st = { st with tool3 = tool_lst }
 
 let change_plr_tool3 st p tool = { (change_plr st p) with tool3 = tool }
 
 let change_tool4 st tool_lst = { st with tool4 = tool_lst }
 
-let on_grid p =
+let on_tile p =
   fst (curr_pos p) mod tile_size = 0
   && snd (curr_pos p) mod tile_size = 0
 
@@ -172,7 +172,7 @@ let rec take_tool1 st =
       in
       let to_r3 = to_r <+> to_r2 in
       if fst to_r3 then new_t_c to_r3 st
-      else if on_grid st.player_one && fst st.t_c then
+      else if on_tile st.player_one && fst st.t_c then
         List.filter (fun x -> get_speedup_xy x <> snd st.t_c) st.tool1
         |> change_plr_tool1 st
              (speedup_plr
@@ -193,7 +193,7 @@ let rec take_tool2 st =
       in
       let to_r3 = to_r <+> to_r2 in
       if fst to_r3 then new_t_c2 to_r3 st
-      else if on_grid st.player_one && fst st.t_c2 then
+      else if on_tile st.player_one && fst st.t_c2 then
         List.filter (fun x -> get_addheart_xy x <> snd st.t_c2) st.tool2
         |> change_plr_tool2 st (add st.player_one)
         |> toggle_st2
@@ -210,10 +210,10 @@ let rec take_tool3 st =
         tools_collision_return (get_tool3_xys st) st.player_one
       in
       let to_r3 = to_r <+> to_r2 in
-      print_endline (string_of_bool (fst to_r3));
       if fst to_r3 then new_t_c3 to_r3 st
-      else if on_grid st.player_one && fst st.t_c3 then
-        List.filter (fun x -> get_bomb_xy x <> snd st.t_c3) st.tool3
+      else if on_tile st.player_one && fst st.t_c3 then
+        st.tool3
+        |> List.filter (fun x -> get_bomb_xy x <> snd st.t_c3)
         |> change_plr_tool3 st (bombup_plr st.player_one)
         |> toggle_st3
       else st
@@ -230,8 +230,9 @@ let rec take_tool4 st =
       in
       let to_r3 = to_r <+> to_r2 in
       if fst to_r3 then new_t_c4 to_r3 st
-      else if on_grid st.player_one && fst st.t_c4 then
-        List.filter (fun x -> get_twobomb_xy x <> snd st.t_c4) st.tool4
+      else if on_tile st.player_one && fst st.t_c4 then
+        st.tool4
+        |> List.filter (fun x -> get_twobomb_xy x <> snd st.t_c4)
         |> change_tool4 st |> add_bomb_limit |> toggle_st4
       else st
 
@@ -243,11 +244,11 @@ let take_portal st =
   let to_r2 = tools_collision_return p_lst st.player_one in
   let to_r3 = to_r <+> to_r2 in
   if fst to_r3 then
-    change_plr st
-      (transfer_pl st.player_one
-         (portal_pos
-            (List.hd (List.filter (fun x -> x <> snd to_r3) p_lst))
-            st.obsPortal))
+    p_lst
+    |> List.filter (fun x -> x <> snd to_r3)
+    |> List.hd |> portal_pos st.obsPortal
+    |> transfer_pl st.player_one
+    |> change_plr st
   else st
 
 let take_tools st =
@@ -267,7 +268,6 @@ let rec bombed_obs bomb_lst obs_lst =
   match obs_lst with
   | [] -> []
   | h :: t ->
-      print_endline (string_of_bool (in_blast_lst bomb_lst h));
       if in_blast_lst bomb_lst h then h :: bombed_obs bomb_lst t
       else bombed_obs bomb_lst t
 
@@ -347,20 +347,16 @@ let change_exploding_state
     tool2_lst
     tool3_lst
     tool4_lst =
-  change_tool3
-    (change_tool2
-       (change_bkg_tool1
-          {
-            st with
-            bombs = bombs_left;
-            player_one = new_ply;
-            enemy = new_enemy;
-            score = new_score + new_score2;
-            tool4 = tool4_lst;
-          }
-          new_bkg tool1_lst)
-       tool2_lst)
-    tool3_lst
+  {
+    st with
+    bombs = bombs_left;
+    player_one = new_ply;
+    enemy = new_enemy;
+    score = new_score + new_score2;
+    tool4 = tool4_lst;
+  }
+  |> change_bkg_tool1 new_bkg tool1_lst
+  |> change_tool2 tool2_lst |> change_tool3 tool3_lst
 
 let clear_exploding st =
   let exploding = List.filter check_explode st.bombs in
