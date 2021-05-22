@@ -25,7 +25,7 @@ finalcheck:
 	@bash check.sh final
 
 zip:
-	zip MS1.zip *.ml* *.json *.md *.png *.sh _tags .merlin .ocamlformat .ocamlinit Makefile	
+	zip MS3.zip *.ml* *.json *.md *.png *.sh _tags .merlin .ocamlformat .ocamlinit Makefile	
 	
 docs: build
 	mkdir -p _docs
