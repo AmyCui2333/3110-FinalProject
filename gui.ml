@@ -280,6 +280,7 @@ let draw_heart_on_board pl =
       draw_file_no_displace "heart_26.png" (82, 40)
   | 2 -> draw_file_no_displace "tile_green_left.png" (82, 40)
   | 1 -> draw_file_no_displace "tile_green_left.png" (56, 40)
+  | 0 -> draw_file_no_displace "tile_green_left.png" (30, 40)
   | _ -> failwith "impossible"
 
 let in_blast_lst_op b_lst st =
