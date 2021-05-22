@@ -401,7 +401,7 @@ let enemy_ply_collision st =
 let all_cleared st =
   if
     obs_one_xy st.bkg = []
-    && st.tool1 = [] && st.tool2 = [] && st.tool3 = []
+    && st.tool1 = [] && st.tool2 = [] && st.tool3 = [] && st.tool4 = []
     && st.enemy = None
   then true
   else false
