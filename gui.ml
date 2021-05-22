@@ -272,15 +272,32 @@ let tiles_to_clean pos_lst st =
       && List.mem x (get_tool2_xys st) = false)
     pos_lst
 
+let draw_heart_3 () =
+  draw_file_no_displace "heart_26.png" (30, 40);
+  draw_file_no_displace "heart_26.png" (56, 40);
+  draw_file_no_displace "heart_26.png" (82, 40)
+
+let draw_heart_2 () =
+  draw_file_no_displace "heart_26.png" (30, 40);
+  draw_file_no_displace "heart_26.png" (56, 40);
+  draw_file_no_displace "tile_green_left.png" (82, 40)
+
+let draw_heart_1 () =
+  draw_file_no_displace "heart_26.png" (30, 40);
+  draw_file_no_displace "tile_green_left.png" (56, 40);
+  draw_file_no_displace "tile_green_left.png" (82, 40)
+
+let draw_heart_0 () =
+  draw_file_no_displace "tile_green_left.png" (30, 40);
+  draw_file_no_displace "tile_green_left.png" (56, 40);
+  draw_file_no_displace "tile_green_left.png" (82, 40)
+  
 let draw_heart_on_board pl =
   match lives pl with
-  | 3 ->
-      draw_file_no_displace "heart_26.png" (30, 40);
-      draw_file_no_displace "heart_26.png" (56, 40);
-      draw_file_no_displace "heart_26.png" (82, 40)
-  | 2 -> draw_file_no_displace "tile_green_left.png" (82, 40)
-  | 1 -> draw_file_no_displace "tile_green_left.png" (56, 40)
-  | 0 -> draw_file_no_displace "tile_green_left.png" (30, 40)
+  | 0 -> draw_heart_0 ()
+  | 1 -> draw_heart_1 ()
+  | 2 -> draw_heart_2 ()
+  | 3 -> draw_heart_3 ()
   | _ -> failwith "impossible"
 
 let in_blast_lst_op b_lst st =
