@@ -13,7 +13,7 @@ let rec move_state st pos1 =
   draw_score st;
   if check_dead st then (
     draw_ending st false;
-    print_endline "\n~ Game Over 🐫 Try Again ~")
+    print_endline "\n~ Game Over 🐫 Try Again ~\n\n")
   else if all_cleared st then (
     draw_ending st true;
     print_endline "\n~ Game Completed 🐫 You Won ~\n\n")
@@ -53,17 +53,9 @@ let play_game f =
 
 (** [main] prompts for the game to play, then starts it. *)
 let main () =
-  ANSITerminal.print_string [ ANSITerminal.red ]
+  ANSITerminal.print_string [ ANSITerminal.green ]
     "\n\nWelcome to the 🐫 3110 Game engine.\n";
-  print_endline
-    "Please enter the name of the game file you want to load.";
-  print_endline
-    "You can type \"easy.json\" (friendly for new players), \
-     \"normal.json\", or \"hard.json\", and press \"enter\" key to \
-     start the game!\n";
-
-  (* print_string "> "; *)
-  print_endline "\n~ Game has started ~";
+  print_endline "\n~ Game has started ~\n";
   draw_canvas ();
   draw_instruction ();
   take_start ();
