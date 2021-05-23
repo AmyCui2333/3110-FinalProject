@@ -70,26 +70,28 @@ export DISPLAY=<your-ip-address>:0.0
 4. In your **UBUNTU** command prompt, change directory into the place you downloaded the game.
 5. Run the command "`make play`" in your **UBUNTU** command prompt to start the game. You will see the following lines displayed in the **UBUNTU** command prompt:
 ```
-Welcome to the 3110 Game engine.
-Please enter the name of the game file you want to load.
-You can type either "easy.json" (friendly for new players), "normal.json", or "hard.json", and press "enter" to start the game!
+Welcome to the 🐫 3110 Game engine.
 
->
+~ Game has started ~
+
 ```
-6. Load the json file by typing "`easy.json`", "`normal.json`", or "`hard.json`" into the **UBUNTU** command prompt and pressing the `enter` button. Then, our game will immediately start! (Tips: if you are new to our game, you may want to choose the "`easy.json`" map to start with :D )
+6. Our game will immediately start! Read the instruction page, Choose from three maps, Pick your favorite character (🦙lama? 🐫camel?), and Begin Your Adventure~
+
+( Tips: if you are new to our game, you may want to choose the "`easy`" map to start with :D )
 
 ## **MacOS**:
 1. NOTE: we assume that MacOS has `XQuartz` installed in the local machine. If it is not the case, you can follow the instructions [here](https://www.xquartz.org/) for guidance.
 2. In your **UBUNTU** command prompt, change directory into the place you downloaded the game.
 3. Run the command "`make play`" in your **UBUNTU** command prompt to start the game. You will see the following lines displayed in the **UBUNTU** command prompt:
 ```
-Welcome to the 3110 Game engine.
-Please enter the name of the game file you want to load.
-You can type either "easy.json" (friendly for new players), "normal.json", or "hard.json", and press "enter" to start the game!
+Welcome to the 🐫 3110 Game engine.
 
->
+~ Game has started ~
+
 ```
-4. Load the json file by typing "`easy.json`", "`normal.json`", or "`hard.json`" into the **UBUNTU** command prompt and pressing the `enter` button. Then, our game will immediately start! (Tips: if you are new to our game, you may want to choose the "`easy.json`" map to start with :D )
+4. Our game will immediately start! Read the instruction page, Choose from three maps, Pick your favorite character (🦙lama? 🐫camel?), and Begin Your Adventure~
+
+( Tips: if you are new to our game, you may want to choose the "`easy`" map to start with :D )
 
 
 
