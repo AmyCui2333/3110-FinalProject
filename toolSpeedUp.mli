@@ -1,6 +1,6 @@
-(** Representation of tool of type 1 "Speed-up". *)
+(** Representation of tool of type 1 "Speed-up". *)
 
-(** The abstract type of values representing the ToolSpeedUp. *)
+(** The abstract type of values representing the ToolSpeedUp. *)
 type t
 
 (** [get_speedup_xy tool] returns the position of ToolSpeedUp [tool]. *)

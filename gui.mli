@@ -46,6 +46,8 @@ val draw_choose : unit -> unit
     displaying instructions for the player. *)
 val draw_instruction : unit -> unit
 
+val draw_choose_map : unit -> unit
+
 (** [draw_left_panel] draws a panel at the left side of game gui,
     displaying the player's score, health (hearts), and a profile
     picture of either "camel" or "lama" according to the player's

@@ -16,7 +16,7 @@ let rec move_state st pos1 =
     print_endline "\n~ Game Over 🐫 Try Again ~")
   else if all_cleared st then (
     draw_ending st true;
-    print_endline "\n~ Game Completed 🐫 You Won ~")
+    print_endline "\n~ Game Completed 🐫 You Won ~\n\n")
   else
     match some_explosion st with
     | true ->
@@ -42,10 +42,6 @@ let rec move_state st pos1 =
         | Exit -> ())
 
 let play_game f =
-  print_endline "\n~ Game has started ~";
-  draw_canvas ();
-  draw_instruction ();
-  take_start ();
   draw_choose ();
   let bkg = read_bkg f in
   let plr_pos = start_tile_one bkg in
@@ -62,12 +58,18 @@ let main () =
   print_endline
     "Please enter the name of the game file you want to load.";
   print_endline
-    "You can type either \"easy.json\" (friendly for new players) or \
-     \"hard.json\", and press \"enter\" key to start the game!\n";
-  print_string "> ";
-  match read_line () with
-  | exception End_of_file -> ()
-  | file_name -> play_game file_name
+    "You can type \"easy.json\" (friendly for new players), \
+     \"normal.json\", or \"hard.json\", and press \"enter\" key to \
+     start the game!\n";
+
+  (* print_string "> "; *)
+  print_endline "\n~ Game has started ~";
+  draw_canvas ();
+  draw_instruction ();
+  take_start ();
+  draw_choose_map ();
+  let file_name = take_map () in
+  play_game file_name
 
 (* Execute the game engine. *)
 let () = main ()

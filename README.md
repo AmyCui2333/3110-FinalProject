@@ -23,11 +23,11 @@ export DISPLAY=<your-ip-address>:0.0
 ```
 Welcome to the 3110 Game engine.
 Please enter the name of the game file you want to load.
-You can type either "easy.json" (friendly for new players) or "hard.json", and press "enter" to start the game!
+You can type either "easy.json" (friendly for new players), "normal.json", or "hard.json", and press "enter" to start the game!
 
 >
 ```
-6. Load the json file by typing either "`easy.json`" or "`hard.json`" into the **UBUNTU** command prompt and pressing the `enter` button. Then, our game will immediately start! (Tips: if you are new to our game, you may want to choose the "`easy.json`" map to start with :D )
+6. Load the json file by typing "`easy.json`", "`normal.json`", or "`hard.json`" into the **UBUNTU** command prompt and pressing the `enter` button. Then, our game will immediately start! (Tips: if you are new to our game, you may want to choose the "`easy.json`" map to start with :D )
 
 ## **MacOS**:
 1. NOTE: we assume that MacOS has `XQuartz` installed in the local machine. If it is not the case, you can follow the instructions [here](https://www.xquartz.org/) for guidance.
@@ -36,11 +36,11 @@ You can type either "easy.json" (friendly for new players) or "hard.json", and p
 ```
 Welcome to the 3110 Game engine.
 Please enter the name of the game file you want to load.
-You can type either "easy.json" (friendly for new players) or "hard.json", and press "enter" to start the game!
+You can type either "easy.json" (friendly for new players), "normal.json", or "hard.json", and press "enter" to start the game!
 
 >
 ```
-4. Load the json file by typing either "`easy.json`" or "`hard.json`" into the **UBUNTU** command prompt and pressing the `enter` button. Then, our game will immediately start! (Tips: if you are new to our game, you may want to choose the "`easy.json`" map to start with :D )
+4. Load the json file by typing "`easy.json`", "`normal.json`", or "`hard.json`" into the **UBUNTU** command prompt and pressing the `enter` button. Then, our game will immediately start! (Tips: if you are new to our game, you may want to choose the "`easy.json`" map to start with :D )
 
 
 

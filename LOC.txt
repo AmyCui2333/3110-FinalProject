@@ -1,0 +1,25 @@
+20 points: system size. 
+
+As explained in the project handout, I will measure your system size by 
+physical LOC. You are welcome to add a file named LOC.txt to your submission 
+to explain anything you think I should know about the measurement of your 
+system or how you think it should be interpreted. Please do not tell me to 
+exclude .ml files because the contain data: you should not be putting data 
+into code files. Instead, factor those out into some data file format with a 
+different extension such as .csv or .json.
+
+measurement of your system or 
+how you think it should be interpreted
+
+We us
+
+Helper functions for testing lists are equal to those in A2.
+       Reference:
+       Professor Michael Clarkson (mrc26@cornell.edu) and
+       CS 3110 course staff at Cornell University.
+
+From Libpng package[1], Graphics module[2], and CamlImages library[3].
+    Reference:
+    [1] https://opam.ocaml.org/packages/conf-libpng/
+    [2] https://ocaml.org/releases/4.08/htmlman/libref/Graphics.html
+    [3] https://opam.ocaml.org/packages/camlimages/

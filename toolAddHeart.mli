@@ -1,6 +1,6 @@
-(** Representation of tool of type 2 "Add-Heart". *)
+(** Representation of tool of type 2 "Add-Heart". *)
 
-(** The abstract type of values representing the ToolAddHeart. *)
+(** The abstract type of values representing the ToolAddHeart. *)
 type t
 
 (** [get_speedup_xy tool] returns the position of ToolSpeedUp [tool]. *)

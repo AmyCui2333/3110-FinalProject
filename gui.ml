@@ -137,7 +137,7 @@ let draw_bkg () =
   let g = of_image img in
   for i = 0 to tile_number - 1 do
     for k = 0 to tile_number - 1 do
-      Graphics.draw_image g (tile_size * k + 140) (tile_size * i)
+      Graphics.draw_image g ((tile_size * k) + 140) (tile_size * i)
     done
   done
 
@@ -166,12 +166,20 @@ let draw_ending st win =
   Unix.sleepf 7.0;
   ()
 
+let draw_choose_map () =
+  draw_bkg ();
+  draw_board ();
+  draw_file_no_displace "choose_map.png" (191, 417);
+  draw_file_no_displace "easy_c.png" (160, 238);
+  draw_file_no_displace "normal_c.png" (325, 238);
+  draw_file_no_displace "hard_c.png" (535, 238)
+
 let draw_choose () =
   draw_bkg ();
   draw_board ();
-  draw_choose_text ();
-  draw_lama ();
-  draw_camel ()
+  draw_file_no_displace "choose_player.png" (135, 417);
+  draw_file_no_displace "headshot_lama_choose.png" (135, 207);
+  draw_file_no_displace "headshot_camel_choose.png" (456, 207)
 
 let draw_all_obs bkg obs_num draw =
   let obs_lst = obs_num bkg in
@@ -291,7 +299,7 @@ let draw_heart_0 () =
   draw_file_no_displace "tile_green_left.png" (30, 40);
   draw_file_no_displace "tile_green_left.png" (56, 40);
   draw_file_no_displace "tile_green_left.png" (82, 40)
-  
+
 let draw_heart_on_board pl =
   match lives pl with
   | 0 -> draw_heart_0 ()

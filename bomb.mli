@@ -1,7 +1,7 @@
 (** Representation of bombs planted by the player. *)
 
-(** The abstract type of values representing the bomb with
-   position, power, and start time. *)
+(** The abstract type of values representing the bomb with position,
+    power, and start time. *)
 type t
 
 (** [make_bomb p ] makes the bomb at the player's current position with

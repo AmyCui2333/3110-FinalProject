@@ -1,6 +1,6 @@
-(** Representation of tool of type 3 "Add-Bomb-Power". *)
+(** Representation of tool of type 3 "Add-Bomb-Power". *)
 
-(** The abstract type of values representing the ToolAddBomb. *)
+(** The abstract type of values representing the ToolAddBomb. *)
 type t
 
 (** [get_bomb_xy tool] returns the position of ToolAddBomb [tool]. *)

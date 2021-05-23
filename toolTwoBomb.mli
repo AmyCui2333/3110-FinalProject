@@ -1,6 +1,6 @@
-(** Representation of tool of type 4 "Two-Bombs". *)
+(** Representation of tool of type 4 "Two-Bombs". *)
 
-(** The abstract type of values representing the ToolTwoBomb. *)
+(** The abstract type of values representing the ToolTwoBomb. *)
 type t
 
 (** [get_twobomb_xy tool] returns the position of ToolTwoBomb [tool]. *)

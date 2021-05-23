@@ -26,6 +26,7 @@ type t = {
   t_c3 : bool * (int * int);
   t_c4 : bool * (int * int);
   last_enemy : float * string;
+  last_enemy_death : float;
   enemy : Enemy.t option;
   score : int;
 }
@@ -53,6 +54,7 @@ let init_state bkg pos1 plr_type =
     t_c3 = (false, (0, 0));
     t_c4 = (false, (0, 0));
     last_enemy = (Unix.time (), "fast");
+    last_enemy_death = Unix.time ();
     enemy = None;
     score = 0;
   }
@@ -307,7 +309,11 @@ let make_enemy st =
   else (build_enemy new_enemy_pos (tools @ portals) "fast", "fast")
 
 let generate_enemy st =
-  if Unix.time () -. fst st.last_enemy >= 15.0 && st.enemy = None then
+  if
+    Unix.time () -. fst st.last_enemy >= 15.0
+    && st.enemy = None
+    && Unix.time () -. st.last_enemy_death >= 5.0
+  then
     let new_enemy = make_enemy st in
     {
       st with
@@ -320,9 +326,9 @@ let bombed_enemy st bomb_lst =
   match st.enemy with
   | Some enemy ->
       if in_blast_lst bomb_lst (enemy_pos enemy) then
-        (None, st.score + 200)
-      else (st.enemy, st.score)
-  | None -> (None, st.score)
+        (None, st.score + 200, Unix.time ())
+      else (st.enemy, st.score, Unix.time () -. 1000.)
+  | None -> (None, st.score, Unix.time () -. 1000.)
 
 let get_enemy_pos st =
   match st.enemy with Some e -> Some (enemy_pos e) | None -> None
@@ -342,6 +348,7 @@ let change_exploding_state
     new_ply
     new_enemy
     new_score
+    enemy_death
     new_score2
     tool1_lst
     tool2_lst
@@ -354,6 +361,7 @@ let change_exploding_state
     enemy = new_enemy;
     score = new_score + new_score2;
     tool4 = tool4_lst;
+    last_enemy_death = enemy_death;
   }
   |> change_bkg_tool1 new_bkg tool1_lst
   |> change_tool2 tool2_lst |> change_tool3 tool3_lst
@@ -365,7 +373,7 @@ let clear_exploding st =
   in
   let new_bkg = explode st.bkg exploding in
   let new_ply = bombed_player exploding st.player_one in
-  let new_enemy, new_score = bombed_enemy st exploding in
+  let new_enemy, new_score, last_death = bombed_enemy st exploding in
   let tool1_xy_lst = show_tools exploding st.bkg 1 in
   let tool2_xy_lst = show_tools exploding st.bkg 2 in
   let tool3_xy_lst = show_tools exploding st.bkg 3 in
@@ -376,7 +384,8 @@ let clear_exploding st =
   let tool4_lst = new_twobombs_fromxy tool4_xy_lst @ st.tool4 in
   let new_score2 = score_obs exploding st in
   change_exploding_state st bombs_left new_bkg new_ply new_enemy
-    new_score new_score2 tool1_lst tool2_lst tool3_lst tool4_lst
+    new_score last_death new_score2 tool1_lst tool2_lst tool3_lst
+    tool4_lst
 
 let check_dead st = lives (player_one st) = 0
 
@@ -413,12 +422,26 @@ let update_state st collision_dir =
     |> update_state_enemy |> take_tools
     |> speedback_plr st.player_one)
 
-let in_plr (mouse_x, mouse_y) a b c d =
+let in_area (mouse_x, mouse_y) a b c d =
   a < mouse_x && mouse_x < a + c && b < mouse_y && mouse_y < b + d
 
-let in_plr_1 (x, y) = in_plr (x, y) 135 207 189 189
+let in_plr_1 (x, y) = in_area (x, y) 135 207 189 189
 
-let in_plr_2 (x, y) = in_plr (x, y) 456 207 189 189
+let in_plr_2 (x, y) = in_area (x, y) 456 207 189 189
+
+let in_easy (x, y) = in_area (x, y) 160 282 92 60
+
+let in_normal (x, y) = in_area (x, y) 325 282 136 60
+
+let in_hard (x, y) = in_area (x, y) 535 282 100 60
+
+let rec take_map () =
+  let input = wait_next_event [ Button_down ] in
+  let x, y = (input.mouse_x, input.mouse_y) in
+  if in_easy (x, y) then "easy.json"
+  else if in_normal (x, y) then "normal.json"
+  else if in_hard (x, y) then "hard.json"
+  else take_map ()
 
 let rec take_start () =
   let _ = wait_next_event [ Button_down ] in

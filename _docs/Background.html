@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Player.html">
+<link rel="next" href="Bomb.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Gui" rel="Chapter" href="Gui.html">
+<link title="State" rel="Chapter" href="State.html">
+<link title="Main" rel="Chapter" href="Main.html">
+<link title="Author" rel="Chapter" href="Author.html">
+<link title="Player" rel="Chapter" href="Player.html">
+<link title="Background" rel="Chapter" href="Background.html">
+<link title="Bomb" rel="Chapter" href="Bomb.html">
+<link title="Enemy" rel="Chapter" href="Enemy.html">
+<link title="ToolAddBomb" rel="Chapter" href="ToolAddBomb.html">
+<link title="ToolAddHeart" rel="Chapter" href="ToolAddHeart.html">
+<link title="ToolSpeedUp" rel="Chapter" href="ToolSpeedUp.html">
+<link title="ToolTwoBomb" rel="Chapter" href="ToolTwoBomb.html"><title>Background</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Player.html" title="Player">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Bomb.html" title="Bomb">Next</a>
+</div>
+<h1>Module <a href="type_Background.html">Background</a></h1>
+
+<pre><span id="MODULEBackground"><span class="keyword">module</span> Background</span>: <code class="code">sig</code> <a href="Background.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p>Representation of static background type.</p>
+
+<p>This module represents the data used to represent backgrounds. It
+    loads json files that contain information about obstacles and tiles
+    and stores them in a background.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info ">
+<div class="info-desc">
+<p>The abstract type of values representing backgrounds.</p>
+</div>
+</div>
+
+
+<pre><span id="TYPExy"><span class="keyword">type</span> <code class="type"></code>xy</span> = <code class="type">int * int</code> </pre>
+<div class="info ">
+<div class="info-desc">
+<p>The type of coordinates of tiles</p>
+</div>
+</div>
+
+
+<pre><span id="VALtile_size"><span class="keyword">val</span> tile_size</span> : <code class="type">int</code></pre><div class="info ">
+<div class="info-desc">
+<p>The size of one piece of tile in our map. This is the size of all
+    tools, obstacles, bombs, player, and enemies.</p>
+</div>
+</div>
+
+<pre><span id="VALtile_number"><span class="keyword">val</span> tile_number</span> : <code class="type">int</code></pre><div class="info ">
+<div class="info-desc">
+<p>The numer of tiles in one row/column of our square map.</p>
+</div>
+</div>
+
+<pre><span id="VALmove_number"><span class="keyword">val</span> move_number</span> : <code class="type">int</code></pre><div class="info ">
+<div class="info-desc">
+<p>The numer of pixels the player can move across with one movement.</p>
+</div>
+</div>
+
+<pre><span id="VALfrom_json"><span class="keyword">val</span> from_json</span> : <code class="type">Yojson.Basic.t -> <a href="Background.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">from_json j</code> is the background that <code class="code">j</code> represents. Requires: <code class="code">j</code>
+    is a valid JSON background representation.</p>
+</div>
+</div>
+
+<pre><span id="VALstart_tile_one"><span class="keyword">val</span> start_tile_one</span> : <code class="type"><a href="Background.html#TYPEt">t</a> -> <a href="Background.html#TYPExy">xy</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">start_tile_one bkg</code> is the identifier of the starting tile of
+    player one in background <code class="code">bkg</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALobs_one_xy"><span class="keyword">val</span> obs_one_xy</span> : <code class="type"><a href="Background.html#TYPEt">t</a> -> <a href="Background.html#TYPExy">xy</a> list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">obs_one_xy bkg</code> is a list of all of the type one obstacle
+    coordinates in background <code class="code">bkg</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALobs_two_xy"><span class="keyword">val</span> obs_two_xy</span> : <code class="type"><a href="Background.html#TYPEt">t</a> -> <a href="Background.html#TYPExy">xy</a> list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">obs_two_xy bkg</code> is a list of all of the type two obstacle
+    coordinates in background <code class="code">bkg</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALobs_three_xy"><span class="keyword">val</span> obs_three_xy</span> : <code class="type"><a href="Background.html#TYPEt">t</a> -> <a href="Background.html#TYPExy">xy</a> list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">obs_three_xy bkg</code> is a list of all of the type two obstacle
+    (portal) identifiers in background <code class="code">bkg</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALobs_on_x"><span class="keyword">val</span> obs_on_x</span> : <code class="type"><a href="Background.html#TYPEt">t</a> -> int -> int list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">obs_on_x bkg x</code> is a list of all obstacles on row <code class="code">x</code> in background
+    map <code class="code">bkg</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALobs_on_y"><span class="keyword">val</span> obs_on_y</span> : <code class="type"><a href="Background.html#TYPEt">t</a> -> int -> int list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">obs_on_y bkg y</code> is a list of all obstacles on column <code class="code">y</code> in
+    background map <code class="code">bkg</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALclear_obstacles"><span class="keyword">val</span> clear_obstacles</span> : <code class="type"><a href="Background.html#TYPExy">xy</a> list -> <a href="Background.html#TYPEt">t</a> -> <a href="Background.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">clear_obstacles xy bkg</code> returns an updated background <code class="code">bkg</code> where
+    obstacles located in positions <code class="code">xy</code> are cleared by bombs.</p>
+</div>
+</div>
+
+<pre><span id="VALtool_xy"><span class="keyword">val</span> tool_xy</span> : <code class="type"><a href="Background.html#TYPEt">t</a> -> int -> <a href="Background.html#TYPExy">xy</a> list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">tool_xy bkg i</code> returns a list of tool_<code class="code">i</code> in background map <code class="code">bkg</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALall_tools"><span class="keyword">val</span> all_tools</span> : <code class="type"><a href="Background.html#TYPEt">t</a> -> <a href="Background.html#TYPExy">xy</a> list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">all_tools bkg</code> returns a list of all tools' positions in background
+    map <code class="code">bkg</code>.</p>
+</div>
+</div>
+</body></html>

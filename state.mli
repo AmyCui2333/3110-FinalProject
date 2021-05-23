@@ -5,7 +5,7 @@
     player, bomb, tools, enemy, score, and functions that cause the
     state to change. *)
 
-(** The abstract type of values representing the game state. *)
+(** The abstract type of values representing the game state. *)
 type t
 
 (** The type representing the result of an attempted command. Legal:
@@ -16,14 +16,14 @@ type input =
   | Make_bomb of t
   | Exit
 
-(** [init_state bkg pos plr_type] initiates a state with player at
-    [pos], background [bkg], and player type of [plr_type] *)
+(** [init_state bkg pos plr_type] initiates a state with player at
+    [pos], background [bkg], and player type of [plr_type] *)
 val init_state : Background.t -> Player.xy -> string -> t
 
 (** [get_bkg st] returns the background the player is playing in. *)
 val get_bkg : t -> Background.t
 
-(** [player_one t] returns the player_one object. *)
+(** [player_one t] returns the player_one object. *)
 val player_one : t -> Player.t
 
 (** [get_tool1 st] returns a list of tools of type 1 "Speed-Up". *)
@@ -48,6 +48,9 @@ val take_mouse : unit -> string
 (** [take_start] stops displaying the instruction page after taking in
     any input from the player's mouse. *)
 val take_start : unit -> unit
+
+(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+val take_map : unit -> string
 
 (** [add_bomb b st] adds one bomb into the st. *)
 val add_bomb : Bomb.t -> t -> t

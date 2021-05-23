@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Enemy.html">
+<link rel="next" href="ToolAddHeart.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Gui" rel="Chapter" href="Gui.html">
+<link title="State" rel="Chapter" href="State.html">
+<link title="Main" rel="Chapter" href="Main.html">
+<link title="Author" rel="Chapter" href="Author.html">
+<link title="Player" rel="Chapter" href="Player.html">
+<link title="Background" rel="Chapter" href="Background.html">
+<link title="Bomb" rel="Chapter" href="Bomb.html">
+<link title="Enemy" rel="Chapter" href="Enemy.html">
+<link title="ToolAddBomb" rel="Chapter" href="ToolAddBomb.html">
+<link title="ToolAddHeart" rel="Chapter" href="ToolAddHeart.html">
+<link title="ToolSpeedUp" rel="Chapter" href="ToolSpeedUp.html">
+<link title="ToolTwoBomb" rel="Chapter" href="ToolTwoBomb.html"><title>ToolAddBomb</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Enemy.html" title="Enemy">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="ToolAddHeart.html" title="ToolAddHeart">Next</a>
+</div>
+<h1>Module <a href="type_ToolAddBomb.html">ToolAddBomb</a></h1>
+
+<pre><span id="MODULEToolAddBomb"><span class="keyword">module</span> ToolAddBomb</span>: <code class="code">sig</code> <a href="ToolAddBomb.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p>Representation of tool of type 3 "Add-Bomb-Power".</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info ">
+<div class="info-desc">
+<p>The abstract type of values representing the ToolAddBomb.</p>
+</div>
+</div>
+
+
+<pre><span id="VALget_bomb_xy"><span class="keyword">val</span> get_bomb_xy</span> : <code class="type"><a href="ToolAddBomb.html#TYPEt">t</a> -> int * int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">get_bomb_xy tool</code> returns the position of ToolAddBomb <code class="code">tool</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALnew_addbombs_fromxy"><span class="keyword">val</span> new_addbombs_fromxy</span> : <code class="type">(int * int) list -> <a href="ToolAddBomb.html#TYPEt">t</a> list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">new_addbombs_fromxy pos_lst</code> returns a list of ToolAddBomb from the
+    position list <code class="code">pos_lst</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALbombup_plr"><span class="keyword">val</span> bombup_plr</span> : <code class="type"><a href="Player.html#TYPEt">Player.t</a> -> <a href="Player.html#TYPEt">Player.t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">bombup_plr plr</code> returns a player <code class="code">plr</code> whose bomb power is
+    increased by ToolAddBomb.</p>
+</div>
+</div>
+</body></html>

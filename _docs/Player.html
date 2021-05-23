@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Author.html">
+<link rel="next" href="Background.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Gui" rel="Chapter" href="Gui.html">
+<link title="State" rel="Chapter" href="State.html">
+<link title="Main" rel="Chapter" href="Main.html">
+<link title="Author" rel="Chapter" href="Author.html">
+<link title="Player" rel="Chapter" href="Player.html">
+<link title="Background" rel="Chapter" href="Background.html">
+<link title="Bomb" rel="Chapter" href="Bomb.html">
+<link title="Enemy" rel="Chapter" href="Enemy.html">
+<link title="ToolAddBomb" rel="Chapter" href="ToolAddBomb.html">
+<link title="ToolAddHeart" rel="Chapter" href="ToolAddHeart.html">
+<link title="ToolSpeedUp" rel="Chapter" href="ToolSpeedUp.html">
+<link title="ToolTwoBomb" rel="Chapter" href="ToolTwoBomb.html"><title>Player</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Author.html" title="Author">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Background.html" title="Background">Next</a>
+</div>
+<h1>Module <a href="type_Player.html">Player</a></h1>
+
+<pre><span id="MODULEPlayer"><span class="keyword">module</span> Player</span>: <code class="code">sig</code> <a href="Player.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p>Representation of static background type.</p>
+
+<p>This module represents the data used to represent players.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info ">
+<div class="info-desc">
+<p>The abstract type of values representing the player.</p>
+</div>
+</div>
+
+
+<pre><span id="TYPEplayer_type"><span class="keyword">type</span> <code class="type"></code>player_type</span> = <code class="type">string</code> </pre>
+<div class="info ">
+<div class="info-desc">
+<p>The type of player ids.</p>
+</div>
+</div>
+
+
+<pre><span id="TYPExy"><span class="keyword">type</span> <code class="type"></code>xy</span> = <code class="type">int * int</code> </pre>
+<div class="info ">
+<div class="info-desc">
+<p>The type of coordinates of player</p>
+</div>
+</div>
+
+
+<pre><span id="VALbuild_player"><span class="keyword">val</span> build_player</span> : <code class="type"><a href="Player.html#TYPEplayer_type">player_type</a> -> <a href="Player.html#TYPExy">xy</a> -> <a href="Player.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">build_player ply_type curr_pos</code> initializes a player according to
+    the player's type <code class="code">ply_type</code> and position <code class="code">curr_pos</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALget_plr_type"><span class="keyword">val</span> get_plr_type</span> : <code class="type"><a href="Player.html#TYPEt">t</a> -> <a href="Player.html#TYPEplayer_type">player_type</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">get_plr_type plr</code> returns the player's type as either lama or camel</p>
+</div>
+</div>
+
+<pre><span id="VALcurr_pos"><span class="keyword">val</span> curr_pos</span> : <code class="type"><a href="Player.html#TYPEt">t</a> -> <a href="Player.html#TYPExy">xy</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">start_tile</code> is the identifier of the starting tile in the game.</p>
+</div>
+</div>
+
+<pre><span id="VALget_speed"><span class="keyword">val</span> get_speed</span> : <code class="type"><a href="Player.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">get_speed p</code> gets the current speed of player p.</p>
+</div>
+</div>
+
+<pre><span id="VALget_power"><span class="keyword">val</span> get_power</span> : <code class="type"><a href="Player.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">get_power p</code> returns the player <code class="code">p</code>'s bomb power (explosion range).</p>
+</div>
+</div>
+
+<pre><span id="VALchange_bomb"><span class="keyword">val</span> change_bomb</span> : <code class="type"><a href="Player.html#TYPEt">t</a> -> int -> <a href="Player.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">change_bomb p b</code> returns an updated player <code class="code">p</code> whose bomb power is
+    <code class="code">b</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALchange_speed"><span class="keyword">val</span> change_speed</span> : <code class="type"><a href="Player.html#TYPEt">t</a> -> int -> <a href="Player.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">change_speed p s</code> returns an updated player <code class="code">p</code> whose speed of
+    movement is <code class="code">s</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALchange_pl_pos"><span class="keyword">val</span> change_pl_pos</span> : <code class="type"><a href="Player.html#TYPEt">t</a> -> <a href="Player.html#TYPExy">xy</a> -> <a href="Player.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">change_pl_pos plr pos</code> returns an updated player <code class="code">plr</code> whose
+    position is <code class="code">pos</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALlives"><span class="keyword">val</span> lives</span> : <code class="type"><a href="Player.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">lives p</code> gets the current remaining lives (hearts) of player <code class="code">p</code>.</p>
+</div>
+</div>
+
+<pre><span id="VALkill"><span class="keyword">val</span> kill</span> : <code class="type"><a href="Player.html#TYPEt">t</a> -> <a href="Player.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">kill p</code> decreases the remaining lives (hearts) of player <code class="code">p</code> by 1
+    and returns the new player.</p>
+</div>
+</div>
+
+<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type"><a href="Player.html#TYPEt">t</a> -> <a href="Player.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">add p</code> increases the lives of player <code class="code">p</code> by 1 if the player has
+    less than 3 hearts, and returns the updated player.</p>
+</div>
+</div>
+
+<pre><span id="VALno_collision_up"><span class="keyword">val</span> no_collision_up</span> : <code class="type"><a href="Background.html#TYPEt">Background.t</a> -> <a href="Player.html#TYPEt">t</a> -> <a href="Player.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">no_collision_up bkg p</code> moves the player <code class="code">p</code> up by one unit if there
+    is nothing blocking the player in the background <code class="code">bkg</code>, and returns
+    the updated player.</p>
+</div>
+</div>
+
+<pre><span id="VALno_collision_down"><span class="keyword">val</span> no_collision_down</span> : <code class="type"><a href="Background.html#TYPEt">Background.t</a> -> <a href="Player.html#TYPEt">t</a> -> <a href="Player.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">no_collision_down bkg p</code> moves the player <code class="code">p</code> down by one unit if
+    there is nothing blocking the player in the background <code class="code">bkg</code>, and
+    returns the updated player.</p>
+</div>
+</div>
+
+<pre><span id="VALno_collision_left"><span class="keyword">val</span> no_collision_left</span> : <code class="type"><a href="Background.html#TYPEt">Background.t</a> -> <a href="Player.html#TYPEt">t</a> -> <a href="Player.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">no_collision_left bkg p</code> moves the player <code class="code">p</code> left by one unit if
+    there is nothing blocking the player in the background <code class="code">bkg</code>, and
+    returns the updated player.</p>
+</div>
+</div>
+
+<pre><span id="VALno_collision_right"><span class="keyword">val</span> no_collision_right</span> : <code class="type"><a href="Background.html#TYPEt">Background.t</a> -> <a href="Player.html#TYPEt">t</a> -> <a href="Player.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">no_collision_right bkg p</code> moves the player <code class="code">p</code> right by one unit if
+    there is nothing blocking the player in the background <code class="code">bkg</code>, and
+    returns the updated player.</p>
+</div>
+</div>
+
+<pre><span id="VALtools_collision_return"><span class="keyword">val</span> tools_collision_return</span> : <code class="type"><a href="Player.html#TYPExy">xy</a> list -> <a href="Player.html#TYPEt">t</a> -> bool * <a href="Player.html#TYPExy">xy</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">tools_collision_return xy_list player</code> returns (true, the postion
+    of the tool) if there is collison of the palyer and the tools at
+    posions in xy_list, else reture (false, the postion of last instance
+    of tool collison). The collision is true when the player ocupies the
+    half of the grid of the tool's position</p>
+</div>
+</div>
+
+<pre><span id="VALtools_collision_gui_return"><span class="keyword">val</span> tools_collision_gui_return</span> : <code class="type"><a href="Player.html#TYPExy">xy</a> list -> <a href="Player.html#TYPEt">t</a> -> bool * <a href="Player.html#TYPExy">xy</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">tools_collision_gui_return xy_list player</code>returns (true, the
+    postion of the tool) if there is collison of the palyer and the
+    tools at posions in xy_list, else reture (false, the postion of last
+    instance of tool collison). The collision is true when the player
+    ocupies any of the grid of the tool's position</p>
+</div>
+</div>
+
+<pre><span id="VAL(<+>)"><span class="keyword">val</span> (&lt;+&gt;)</span> : <code class="type">bool * <a href="Player.html#TYPExy">xy</a> -> bool * <a href="Player.html#TYPExy">xy</a> -> bool * <a href="Player.html#TYPExy">xy</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">(bool1, xy1) &lt;+&gt; (bool2, xy2)</code> returns (true, xy1) if bool1 is
+    true, else (bool2, xy2).</p>
+</div>
+</div>
+</body></html>
