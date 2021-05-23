@@ -1,25 +1,44 @@
-20 points: system size. 
+"20 points: system size."
 
-As explained in the project handout, I will measure your system size by 
+"As explained in the project handout, I will measure your system size by 
 physical LOC. You are welcome to add a file named LOC.txt to your submission 
 to explain anything you think I should know about the measurement of your 
 system or how you think it should be interpreted. Please do not tell me to 
 exclude .ml files because the contain data: you should not be putting data 
 into code files. Instead, factor those out into some data file format with a 
-different extension such as .csv or .json.
+different extension such as .csv or .json."
 
-measurement of your system or 
-how you think it should be interpreted
+1. measurement of your system or 
+2. how you think it should be interpreted
 
-We us
+===========================================================================
 
-Helper functions for testing lists are equal to those in A2.
-       Reference:
-       Professor Michael Clarkson (mrc26@cornell.edu) and
-       CS 3110 course staff at Cornell University.
+
+
+In "gui.ml", we (* TODO *)
 
 From Libpng package[1], Graphics module[2], and CamlImages library[3].
     Reference:
     [1] https://opam.ocaml.org/packages/conf-libpng/
     [2] https://ocaml.org/releases/4.08/htmlman/libref/Graphics.html
     [3] https://opam.ocaml.org/packages/camlimages/
+    
+    
+In "test.ml", we used helper functions from A2 to unit test set-like lists.
+This block of helper functions at the begining of "test.ml" is written by
+Professor Michael Clarkson (mrc26@cornell.edu) and CS 3110 course staff 
+at Cornell University, so these lines should not be counted into the total 
+LOC for our final project.
+
+We wrote more than 80 test cases in 400 lines of codes and thus test.ml 
+made up of a huge part of our project, because we believed that constructing 
+a stable, maintainable game required careful consideration of different 
+components' reciprocal influence. Bugs (actually, "Errors" made by ourselves) 
+could always occur at the corners where the least attention was drawn, so we 
+must check these corner cases as conscientiously as we could. If you had 
+played Cyberpunk 2077 and had been fascinated by memes about its countless 
+bugs, then you would have agreed that testing is definitely one of the most 
+important processes in game development. Unit testing told us more than what
+the gui could, given that many state changes are not directly displayed on
+the screen. Therefore, the effort put into testing was not neglectable, even
+though what we were developing is a relatively small-scale 2D game.
