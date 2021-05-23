@@ -46,6 +46,9 @@ val draw_choose : unit -> unit
     displaying instructions for the player. *)
 val draw_instruction : unit -> unit
 
+(** [draw_choose_map] draws the page at the begining of the game, 
+    asking the player to choose one map to play in. Three map names 
+    are displayed: "easy", "normal", and "hard". *)
 val draw_choose_map : unit -> unit
 
 (** [draw_left_panel] draws a panel at the left side of game gui,
