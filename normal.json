@@ -24,14 +24,14 @@
         "x": 2,
         "y": 3
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
         "x": 2,
         "y": 5
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
@@ -45,7 +45,7 @@
         "x": 2,
         "y": 8
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
@@ -66,21 +66,21 @@
         "x": 2,
         "y": 13
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
         "x": 3,
         "y": 2
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
         "x": 3,
         "y": 6
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
@@ -108,7 +108,7 @@
         "x": 4,
         "y": 11
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
@@ -175,7 +175,7 @@
         "x": 6,
         "y": 12
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
@@ -272,7 +272,7 @@
         "x": 9,
         "y": 3
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
@@ -339,7 +339,7 @@
         "x": 11,
         "y": 4
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
@@ -367,21 +367,21 @@
         "x": 12,
         "y": 9
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
         "x": 12,
         "y": 13
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
         "x": 13,
         "y": 2
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
@@ -402,7 +402,7 @@
         "x": 13,
         "y": 7
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
@@ -416,14 +416,14 @@
         "x": 13,
         "y": 10
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
         "x": 13,
         "y": 12
       },
-      "type": 1
+      "type": 2
     },
     {
       "coordinates": {
