@@ -49,14 +49,17 @@ val take_mouse : unit -> string
     any input from the player's mouse. *)
 val take_start : unit -> unit
 
-(** TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO *)
+(** [take_map] takes in the input from the mouse and returns a string
+    that is "easy.json", "normal.json", or "hard.json", according to
+    the player's choice. The returned string represents the background
+    json file that the game engine will load. *)
 val take_map : unit -> string
 
 (** [add_bomb b st] adds one bomb into the st. *)
 val add_bomb : Bomb.t -> t -> t
 
-(**[some explosion st] returns true if at lease one bomb is about to
-   explode, false otherwise*)
+(** [some explosion st] returns true if at lease one bomb is about to
+   explode, false otherwise. *)
 val some_explosion : t -> bool
 
 (** [clear_explode st] updates the [st] with the new background after
@@ -86,21 +89,21 @@ val get_tool4_xys : t -> (int * int) list
     lives becomes 0; false is the player has more than 3 hearts. *)
 val check_dead : t -> bool
 
-(**[speedback_plr p st] changes the speed of player [p] back to original
+(** [speedback_plr p st] changes the speed of player [p] back to original
    in state [st]. *)
 val speedback_plr : Player.t -> t -> t
 
-(**[get_enemy_pos st] returns Some postion if there is an enemy in [st],
+(** [get_enemy_pos st] returns Some postion if there is an enemy in [st],
    None if there isn't. *)
 val get_enemy_pos : t -> (int * int) option
 
-(**[get_score st] gets current score from the state [st]. *)
+(** [get_score st] gets current score from the state [st]. *)
 val get_score : t -> int
 
 (** [check_dead st] returns true if the player's remaining number of
     lives becomes 0; false is the player has more than 3 hearts. *)
 val get_portal_pos : t -> (int * int) list
 
-(**[all_cleared st] returns true if there are no more tools or obstacles
+(** [all_cleared st] returns true if there are no more tools or obstacles
    or enemies in [st], false otherwise. *)
 val all_cleared : t -> bool
