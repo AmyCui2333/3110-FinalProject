@@ -87,32 +87,6 @@ let no_collision_right bkg p = no_collisionx bkg p ( + ) move_right
 
 let check_tool_collision f xy p = f xy == f (curr_pos p)
 
-let tool_collision_right xy p =
-  if check_tool_collision snd xy p then
-    fst xy - fst (curr_pos p) = tile_size / 2
-  else false
-
-let tool_collision_left xy p =
-  if check_tool_collision snd xy p then
-    fst (curr_pos p) - fst xy = tile_size / 2
-  else false
-
-let tool_collision_up xy p =
-  if check_tool_collision fst xy p then
-    snd xy - snd (curr_pos p) = tile_size / 2
-  else false
-
-let tool_collision_down xy p =
-  if check_tool_collision fst xy p then
-    snd (curr_pos p) - snd xy = tile_size / 2
-  else false
-
-let rec tool_collision xy p =
-  tool_collision_right xy p
-  || tool_collision_left xy p
-  || tool_collision_up xy p
-  || tool_collision_down xy p
-
 let tool_collision_right_return xy p num =
   if check_tool_collision snd xy p then
     (fst xy - fst (curr_pos p) = num, xy)
@@ -146,6 +120,8 @@ let tool_collison_return xy p =
 
 let tool_collison_gui_return xy p = tool_collison_return_aux xy p 30
 
+let tool_collison_on_grid_return xy p = tool_collison_return_aux xy p 0
+
 let rec tools_collision_return_aux xy_lst p f =
   match xy_lst with
   | [] -> (false, (0, 0))
@@ -161,35 +137,7 @@ let rec tools_collision_return xy_lst p =
 let rec tools_collision_gui_return xy_lst p =
   tools_collision_return_aux xy_lst p tool_collison_gui_return
 
+let rec tools_collision_on_grid_return xy_lst p =
+  tools_collision_return_aux xy_lst p tool_collison_on_grid_return
+
 let ( <+> ) (a : bool * (int * int)) b = if fst a = true then a else b
-
-let rec tools_collision xy_lst p =
-  match xy_lst with
-  | [] -> false
-  | h :: t -> tool_collision h p || tools_collision t p
-
-let tool_collision_right_gui xy p =
-  if check_tool_collision snd xy p then
-    fst xy - fst (curr_pos p) = 30 || snd (curr_pos p) - snd xy = 20
-  else false
-
-let tool_collision_left_gui xy p =
-  if check_tool_collision snd xy p then
-    fst (curr_pos p) - fst xy = 30 || snd (curr_pos p) - snd xy = 20
-  else false
-
-let tool_collision_up_gui xy p =
-  if check_tool_collision fst xy p then
-    snd xy - snd (curr_pos p) = 30 || snd (curr_pos p) - snd xy = 20
-  else false
-
-let tool_collision_down_gui xy p =
-  if check_tool_collision fst xy p then
-    snd (curr_pos p) - snd xy = 30 || snd (curr_pos p) - snd xy = 20
-  else false
-
-let rec tool_collision_gui xy p =
-  tool_collision_right_gui xy p
-  || tool_collision_left_gui xy p
-  || tool_collision_up_gui xy p
-  || tool_collision_down_gui xy p

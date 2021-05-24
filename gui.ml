@@ -277,7 +277,9 @@ let tiles_to_clean pos_lst st =
       List.mem x (obs_two_xy (get_bkg st)) = false
       && List.mem x (obs_three_xy (get_bkg st)) = false
       && List.mem x (get_tool1_xys st) = false
-      && List.mem x (get_tool2_xys st) = false)
+      && List.mem x (get_tool2_xys st) = false
+      && List.mem x (get_tool3_xys st) = false
+      && List.mem x (get_tool4_xys st) = false)
     pos_lst
 
 let draw_heart_3 () =

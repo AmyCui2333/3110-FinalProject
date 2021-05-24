@@ -193,8 +193,11 @@ let rec take_tool2 st =
       let to_r2 =
         tools_collision_return (get_tool2_xys st) st.player_one
       in
-      let to_r3 = to_r <+> to_r2 in
-      if fst to_r3 then new_t_c2 to_r3 st
+      let to_r3 =
+        tools_collision_on_grid_return (get_tool2_xys st) st.player_one
+      in
+      let to_r4 = to_r <+> to_r2 <+> to_r3 in
+      if fst to_r4 then new_t_c2 to_r4 st
       else if on_tile st.player_one && fst st.t_c2 then
         List.filter (fun x -> get_addheart_xy x <> snd st.t_c2) st.tool2
         |> change_plr_tool2 st (add st.player_one)
@@ -211,8 +214,11 @@ let rec take_tool3 st =
       let to_r2 =
         tools_collision_return (get_tool3_xys st) st.player_one
       in
-      let to_r3 = to_r <+> to_r2 in
-      if fst to_r3 then new_t_c3 to_r3 st
+      let to_r3 =
+        tools_collision_on_grid_return (get_tool3_xys st) st.player_one
+      in
+      let to_r4 = to_r <+> to_r2 <+> to_r3 in
+      if fst to_r4 then new_t_c3 to_r4 st
       else if on_tile st.player_one && fst st.t_c3 then
         st.tool3
         |> List.filter (fun x -> get_bomb_xy x <> snd st.t_c3)
@@ -230,8 +236,11 @@ let rec take_tool4 st =
       let to_r2 =
         tools_collision_return (get_tool4_xys st) st.player_one
       in
-      let to_r3 = to_r <+> to_r2 in
-      if fst to_r3 then new_t_c4 to_r3 st
+      let to_r3 =
+        tools_collision_on_grid_return (get_tool4_xys st) st.player_one
+      in
+      let to_r4 = to_r <+> to_r2 <+> to_r3 in
+      if fst to_r4 then new_t_c4 to_r4 st
       else if on_tile st.player_one && fst st.t_c4 then
         st.tool4
         |> List.filter (fun x -> get_twobomb_xy x <> snd st.t_c4)

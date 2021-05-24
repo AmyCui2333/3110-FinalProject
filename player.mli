@@ -84,6 +84,8 @@ val tools_collision_return : xy list -> t -> bool * xy
     ocupies any of the grid of the tool's position *)
 val tools_collision_gui_return : xy list -> t -> bool * xy
 
+val tools_collision_on_grid_return : xy list -> t -> bool * xy
+
 (** [(bool1, xy1) <+> (bool2, xy2)] returns (true, xy1) if bool1 is
     true, else (bool2, xy2). *)
 val ( <+> ) : bool * xy -> bool * xy -> bool * xy
