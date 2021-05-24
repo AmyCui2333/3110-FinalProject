@@ -172,8 +172,13 @@ let rec take_tool1 st =
       let to_r2 =
         tools_collision_return (get_tool1_xys st) st.player_one
       in
-      let to_r3 = to_r <+> to_r2 in
-      if fst to_r3 then new_t_c to_r3 st
+      let to_r3 =
+        tools_collision_on_grid_return (get_tool1_xys st) st.player_one
+      in
+      let to_r4 = to_r <+> to_r2 <+> to_r3 in
+      if fst to_r4 then
+        let _ = print_endline "take speedup" in
+        new_t_c to_r4 st
       else if on_tile st.player_one && fst st.t_c then
         List.filter (fun x -> get_speedup_xy x <> snd st.t_c) st.tool1
         |> change_plr_tool1 st
@@ -197,7 +202,9 @@ let rec take_tool2 st =
         tools_collision_on_grid_return (get_tool2_xys st) st.player_one
       in
       let to_r4 = to_r <+> to_r2 <+> to_r3 in
-      if fst to_r4 then new_t_c2 to_r4 st
+      if fst to_r4 then
+        let _ = print_endline "take heart" in
+        new_t_c2 to_r4 st
       else if on_tile st.player_one && fst st.t_c2 then
         List.filter (fun x -> get_addheart_xy x <> snd st.t_c2) st.tool2
         |> change_plr_tool2 st (add st.player_one)
@@ -253,10 +260,11 @@ let take_portal st =
   let p_lst = [ p1; p2 ] in
   let to_r = tools_collision_gui_return p_lst st.player_one in
   let to_r2 = tools_collision_return p_lst st.player_one in
-  let to_r3 = to_r <+> to_r2 in
-  if fst to_r3 then
+  let to_r3 = tools_collision_on_grid_return p_lst st.player_one in
+  let to_r4 = to_r <+> to_r2 <+> to_r3 in
+  if fst to_r4 then
     p_lst
-    |> List.filter (fun x -> x <> snd to_r3)
+    |> List.filter (fun x -> x <> snd to_r4)
     |> List.hd |> portal_pos st.obsPortal
     |> transfer_pl st.player_one
     |> change_plr st
@@ -336,8 +344,8 @@ let bombed_enemy st bomb_lst =
   | Some enemy ->
       if in_blast_lst bomb_lst (enemy_pos enemy) then
         (None, st.score + 200, Unix.time ())
-      else (st.enemy, st.score, Unix.time () -. 1000.)
-  | None -> (None, st.score, Unix.time () -. 1000.)
+      else (st.enemy, st.score, st.last_enemy_death)
+  | None -> (None, st.score, st.last_enemy_death)
 
 let get_enemy_pos st =
   match st.enemy with Some e -> Some (enemy_pos e) | None -> None
@@ -415,12 +423,7 @@ let enemy_ply_collision st =
   | None -> st
 
 let all_cleared st =
-  if
-    obs_one_xy st.bkg = []
-    && st.tool1 = [] && st.tool2 = [] && st.tool3 = [] && st.tool4 = []
-    && st.enemy = None
-  then true
-  else false
+  if obs_one_xy st.bkg = [] && st.enemy = None then true else false
 
 let update_state_enemy st =
   st |> generate_enemy |> update_enemy_pos |> enemy_ply_collision

@@ -1,6 +1,4 @@
-(** Representation of static background type.
-
-    This module represents the data used to represent players. *)
+(** This module represents the data used to represent players. *)
 
 (** The abstract type of values representing the player. *)
 type t
@@ -84,6 +82,11 @@ val tools_collision_return : xy list -> t -> bool * xy
     ocupies any of the grid of the tool's position *)
 val tools_collision_gui_return : xy list -> t -> bool * xy
 
+(** [tools_collision_on_gui_return xy_list player]returns (true, the
+    postion of the tool) if there is collison of the palyer and the
+    tools at posions in xy_list, else reture (false, the postion of last
+    instance of tool collison). The collision is true when the player
+    ocupies exactly on the grid of the tool's position *)
 val tools_collision_on_grid_return : xy list -> t -> bool * xy
 
 (** [(bool1, xy1) <+> (bool2, xy2)] returns (true, xy1) if bool1 is

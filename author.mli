@@ -17,6 +17,7 @@
    list of other students with whom I collaborated, and a brief summary of that
    collaboration:
 
+
    - none
 
    Here are any deviations from the policies that I want to document, with the

@@ -12,11 +12,14 @@ open ToolTwoBomb
 let read_bkg f = from_json (Yojson.Basic.from_file f)
 
 (**************************************************************************
-    From Libpng package[1], Graphics module[2], and CamlImages library[3].
-    Reference:
-    [1] https://opam.ocaml.org/packages/conf-libpng/
-    [2] https://ocaml.org/releases/4.08/htmlman/libref/Graphics.html
-    [3] https://opam.ocaml.org/packages/camlimages/
+    From camlimages package source code: Graphic_image module
+
+    We can't find this module in camlimages so we used the source code directly.
+
+    [ array_of_image image ] convert Images.t to Graphics.color arrary array to
+     be used in Graphics
+
+    Function Source: https://searchcode.com/codesearch/view/11867708/
  **************************************************************************)
 let array_of_image img =
   match img with

@@ -56,6 +56,7 @@ let main () =
   ANSITerminal.print_string [ ANSITerminal.green ]
     "\n\nWelcome to the 🐫 3110 Game engine.\n";
   print_endline "\n~ Game has started ~\n";
+  print_endline "\n~ Bomb Enemy and all green Bushes to Win ~\n";
   draw_canvas ();
   draw_instruction ();
   take_start ();

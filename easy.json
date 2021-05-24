@@ -87,8 +87,7 @@
         "x": 4,
         "y": 9
       },
-      "type": 1,
-      "tool": 2
+      "type": 1
     },
     {
       "coordinates": {
@@ -297,8 +296,7 @@
         "x": 11,
         "y": 9
       },
-      "type": 1,
-      "tool": 2
+      "type": 1
     },
     {
       "coordinates": {

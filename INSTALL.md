@@ -74,6 +74,8 @@ Welcome to the 🐫 3110 Game engine.
 
 ~ Game has started ~
 
+~ Bomb Enemy and all green Bushes to Win ~
+
 ```
 6. Our game will immediately start! Read the instruction page, Choose from three maps, Pick your favorite character (🦙lama? 🐫camel?), and Begin Your Adventure~
 
@@ -87,6 +89,8 @@ Welcome to the 🐫 3110 Game engine.
 Welcome to the 🐫 3110 Game engine.
 
 ~ Game has started ~
+
+~ Bomb Enemy and all green Bushes to Win ~
 
 ```
 4. Our game will immediately start! Read the instruction page, Choose from three maps, Pick your favorite character (🦙lama? 🐫camel?), and Begin Your Adventure~

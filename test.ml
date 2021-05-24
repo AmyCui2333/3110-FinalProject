@@ -366,12 +366,6 @@ let test_some_explosion_true name st (expected : bool) =
   let _ = Unix.sleep 6 in
   assert_equal expected (some_explosion new_st)
 
-let test_exploding name st (expected : Bomb.t list) =
-  name >:: fun _ ->
-  let new_st = add_bomb (exploding_bomb (player_one st)) st in
-  let _ = Unix.sleep 6 in
-  assert_equal expected (exploding new_st)
-
 let test_get_tools_xys
     name
     st
@@ -407,12 +401,6 @@ let state_tests =
       test_state_2 false;
     test_some_explosion_true "some_explosion, has exploding bomb 2"
       test_state_2 true;
-    test_exploding "exploding, has [exploding bomb] about to explode"
-      test_state
-      [ exploding_bomb ply_test ];
-    test_exploding "exploding, has [exploding bomb] about to explode 2"
-      test_state_2
-      [ exploding_bomb ply_test_2 ];
     test_get_enemy_pos "get_enemy_pos, no enemy" test_state None;
     test_get_enemy_pos "get_enemy_pos, no enemy 2" test_state_2 None;
     test_get_score "get_score in initial state" test_state 0;
@@ -453,9 +441,9 @@ let obs_portal_tests =
     get_portal_lower_xy_test "lower portal 2" test_portal_2 (320, 240);
     get_portal_upper_xy_test "upper portal 2" test_portal_2 (320, 400);
     portal_pos_test "transfer to upper portal from lower portal 2"
-      test_portal (320, 240) (320, 200);
+      test_portal_2 (320, 240) (320, 200);
     portal_pos_test "transfer to lower portal from upper portal 2"
-      test_portal (320, 400) (320, 440);
+      test_portal_2 (320, 400) (320, 440);
   ]
 
 (* let test_speedup = new_speedups_fromxy (tool_xy bkg 1) *)
