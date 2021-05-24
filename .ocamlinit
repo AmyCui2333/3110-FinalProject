@@ -4,7 +4,9 @@
 (* #require "camlimages.all";; *)
 #require "camlimages";;
 #require "camlimages.png";;
+#require "camlimages.graphic";;
 #require "graphics";;
+#require "graphic_image";;
 #load "background.cmo";;
 #load "state.cmo";;
 #load "player.cmo";;
